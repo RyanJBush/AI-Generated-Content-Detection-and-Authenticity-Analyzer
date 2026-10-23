@@ -1,0 +1,15 @@
+[project]
+name = "litmus"
+version = "0.1.0"
+description = "AI-Text Likelihood + Slop-Pattern Analyzer"
+dependencies = [
+    "torch",
+    "transformers",
+    "numpy",
+    "scipy",
+    "gradio",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
