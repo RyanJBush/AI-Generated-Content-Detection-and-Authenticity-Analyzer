@@ -1,0 +1,33 @@
+# Litmus lexicon: stock phrases
+# source: author-written for Litmus (no scraped or copyrighted lists)
+# version: 1
+# format: one entry per line; matched case-insensitively at word boundaries (SPEC §3.2); SHA-256 recorded in the freeze file (SPEC §7.2)
+delve into
+delves into
+in today's fast-paced world
+in today's digital age
+it is worth noting
+it's worth noting
+it is important to note
+it's important to note
+plays a crucial role
+plays a pivotal role
+a testament to
+rich tapestry
+ever-evolving landscape
+navigate the complexities
+unlock the potential
+harness the power
+in the realm of
+a myriad of
+seamlessly integrate
+cutting-edge
+game-changer
+at the end of the day
+first and foremost
+in conclusion
+in summary
+needless to say
+serves as a reminder
+embark on a journey
+foster a sense of

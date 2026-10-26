@@ -1,0 +1,24 @@
+# Litmus lexicon: hedges
+# source: author-written for Litmus (no scraped or copyrighted lists)
+# version: 1
+# format: one entry per line; matched case-insensitively at word boundaries (SPEC §3.2); SHA-256 recorded in the freeze file (SPEC §7.2)
+arguably
+perhaps
+possibly
+presumably
+seemingly
+somewhat
+to some extent
+to a certain extent
+it seems
+it appears
+it could be argued
+could potentially
+may potentially
+might
+generally speaking
+in some cases
+more or less
+relatively
+tends to
+it is possible that
