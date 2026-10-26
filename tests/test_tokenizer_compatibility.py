@@ -1,11 +1,10 @@
-import torch
+import pytest
 from transformers import AutoTokenizer
-import json
-import hashlib
 
-def get_sha256(file_path):
-    with open(file_path, "rb") as f:
-        return hashlib.sha256(f.read()).hexdigest()
+from litmus.config import MODEL_REVISIONS
+
+# Downloads tokenizers; excluded from default collection. Run with: pytest -m slow
+pytestmark = pytest.mark.slow
 
 def test_tokenizer_identical():
     pairs = [
@@ -15,8 +14,8 @@ def test_tokenizer_identical():
     
     for obs_name, perf_name in pairs:
         print(f"\nChecking pair: {obs_name} / {perf_name}")
-        obs_tok = AutoTokenizer.from_pretrained(obs_name)
-        perf_tok = AutoTokenizer.from_pretrained(perf_name)
+        obs_tok = AutoTokenizer.from_pretrained(obs_name, revision=MODEL_REVISIONS[obs_name])
+        perf_tok = AutoTokenizer.from_pretrained(perf_name, revision=MODEL_REVISIONS[perf_name])
         
         # 1. Check tokenizer.json identity (if available)
         # Note: AutoTokenizer doesn't provide the local path easily, we'd need to find it in cache.

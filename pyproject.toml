@@ -13,3 +13,9 @@ dependencies = [
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = ["slow: downloads tokenizers or models from the HF Hub; local only, excluded by default"]
+addopts = "-m 'not slow'"

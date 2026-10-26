@@ -1,0 +1,858 @@
+{
+  "Qwen/Qwen2.5-0.5B@main": {
+    "config": {
+      "vocab_size": 151665,
+      "special_tokens": {
+        "eos_token": "<|endoftext|>",
+        "pad_token": "<|endoftext|>"
+      },
+      "all_special_ids": [
+        151643,
+        151644,
+        151645,
+        151646,
+        151647,
+        151648,
+        151649,
+        151650,
+        151651,
+        151652,
+        151653,
+        151654,
+        151655,
+        151656
+      ]
+    },
+    "probes": {
+      "ordinary": {
+        "text": "The quick brown fox.",
+        "ids_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "tokens_false": [
+          "The",
+          "\u0120quick",
+          "\u0120brown",
+          "\u0120fox",
+          "."
+        ]
+      },
+      "unicode": {
+        "text": "Hello \ud83c\udf0d!",
+        "ids_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "tokens_false": [
+          "Hello",
+          "\u0120\u00f0\u0141",
+          "\u012e",
+          "\u012f",
+          "!"
+        ]
+      },
+      "zero_width": {
+        "text": "A\u200b B",
+        "ids_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_true": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_true": [
+          32,
+          15692,
+          425
+        ],
+        "tokens_false": [
+          "A",
+          "\u00e2\u0122\u012d",
+          "\u0120B"
+        ]
+      },
+      "homoglyph": {
+        "text": "T\u0435st",
+        "ids_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_true": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_true": [
+          51,
+          1504,
+          267
+        ],
+        "tokens_false": [
+          "T",
+          "\u00d0\u00b5",
+          "st"
+        ]
+      },
+      "special_strings": {
+        "text": "Text with <|endoftext|> and <|im_end|>",
+        "ids_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_true": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_true": [
+          1178,
+          448,
+          82639,
+          8691,
+          723,
+          427,
+          91,
+          29,
+          323,
+          82639,
+          318,
+          6213,
+          91,
+          29
+        ],
+        "tokens_false": [
+          "Text",
+          "\u0120with",
+          "\u0120",
+          "<|endoftext|>",
+          "\u0120and",
+          "\u0120",
+          "<|im_end|>"
+        ]
+      }
+    }
+  },
+  "Qwen/Qwen2.5-0.5B-Instruct@main": {
+    "config": {
+      "vocab_size": 151665,
+      "special_tokens": {
+        "eos_token": "<|im_end|>",
+        "pad_token": "<|endoftext|>"
+      },
+      "all_special_ids": [
+        151645,
+        151643,
+        151644,
+        151646,
+        151647,
+        151648,
+        151649,
+        151650,
+        151651,
+        151652,
+        151653,
+        151654,
+        151655,
+        151656
+      ]
+    },
+    "probes": {
+      "ordinary": {
+        "text": "The quick brown fox.",
+        "ids_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "tokens_false": [
+          "The",
+          "\u0120quick",
+          "\u0120brown",
+          "\u0120fox",
+          "."
+        ]
+      },
+      "unicode": {
+        "text": "Hello \ud83c\udf0d!",
+        "ids_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "tokens_false": [
+          "Hello",
+          "\u0120\u00f0\u0141",
+          "\u012e",
+          "\u012f",
+          "!"
+        ]
+      },
+      "zero_width": {
+        "text": "A\u200b B",
+        "ids_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_true": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_true": [
+          32,
+          15692,
+          425
+        ],
+        "tokens_false": [
+          "A",
+          "\u00e2\u0122\u012d",
+          "\u0120B"
+        ]
+      },
+      "homoglyph": {
+        "text": "T\u0435st",
+        "ids_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_true": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_true": [
+          51,
+          1504,
+          267
+        ],
+        "tokens_false": [
+          "T",
+          "\u00d0\u00b5",
+          "st"
+        ]
+      },
+      "special_strings": {
+        "text": "Text with <|endoftext|> and <|im_end|>",
+        "ids_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_true": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_true": [
+          1178,
+          448,
+          82639,
+          8691,
+          723,
+          427,
+          91,
+          29,
+          323,
+          82639,
+          318,
+          6213,
+          91,
+          29
+        ],
+        "tokens_false": [
+          "Text",
+          "\u0120with",
+          "\u0120",
+          "<|endoftext|>",
+          "\u0120and",
+          "\u0120",
+          "<|im_end|>"
+        ]
+      }
+    }
+  },
+  "Qwen/Qwen2.5-1.5B@main": {
+    "config": {
+      "vocab_size": 151665,
+      "special_tokens": {
+        "eos_token": "<|endoftext|>",
+        "pad_token": "<|endoftext|>"
+      },
+      "all_special_ids": [
+        151643,
+        151644,
+        151645,
+        151646,
+        151647,
+        151648,
+        151649,
+        151650,
+        151651,
+        151652,
+        151653,
+        151654,
+        151655,
+        151656
+      ]
+    },
+    "probes": {
+      "ordinary": {
+        "text": "The quick brown fox.",
+        "ids_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "tokens_false": [
+          "The",
+          "\u0120quick",
+          "\u0120brown",
+          "\u0120fox",
+          "."
+        ]
+      },
+      "unicode": {
+        "text": "Hello \ud83c\udf0d!",
+        "ids_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "tokens_false": [
+          "Hello",
+          "\u0120\u00f0\u0141",
+          "\u012e",
+          "\u012f",
+          "!"
+        ]
+      },
+      "zero_width": {
+        "text": "A\u200b B",
+        "ids_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_true": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_true": [
+          32,
+          15692,
+          425
+        ],
+        "tokens_false": [
+          "A",
+          "\u00e2\u0122\u012d",
+          "\u0120B"
+        ]
+      },
+      "homoglyph": {
+        "text": "T\u0435st",
+        "ids_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_true": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_true": [
+          51,
+          1504,
+          267
+        ],
+        "tokens_false": [
+          "T",
+          "\u00d0\u00b5",
+          "st"
+        ]
+      },
+      "special_strings": {
+        "text": "Text with <|endoftext|> and <|im_end|>",
+        "ids_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_true": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_true": [
+          1178,
+          448,
+          82639,
+          8691,
+          723,
+          427,
+          91,
+          29,
+          323,
+          82639,
+          318,
+          6213,
+          91,
+          29
+        ],
+        "tokens_false": [
+          "Text",
+          "\u0120with",
+          "\u0120",
+          "<|endoftext|>",
+          "\u0120and",
+          "\u0120",
+          "<|im_end|>"
+        ]
+      }
+    }
+  },
+  "Qwen/Qwen2.5-1.5B-Instruct@main": {
+    "config": {
+      "vocab_size": 151665,
+      "special_tokens": {
+        "eos_token": "<|im_end|>",
+        "pad_token": "<|endoftext|>"
+      },
+      "all_special_ids": [
+        151645,
+        151643,
+        151644,
+        151646,
+        151647,
+        151648,
+        151649,
+        151650,
+        151651,
+        151652,
+        151653,
+        151654,
+        151655,
+        151656
+      ]
+    },
+    "probes": {
+      "ordinary": {
+        "text": "The quick brown fox.",
+        "ids_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_false": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "ids_split_true": [
+          785,
+          3974,
+          13876,
+          38835,
+          13
+        ],
+        "tokens_false": [
+          "The",
+          "\u0120quick",
+          "\u0120brown",
+          "\u0120fox",
+          "."
+        ]
+      },
+      "unicode": {
+        "text": "Hello \ud83c\udf0d!",
+        "ids_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_false": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "ids_split_true": [
+          9707,
+          11162,
+          234,
+          235,
+          0
+        ],
+        "tokens_false": [
+          "Hello",
+          "\u0120\u00f0\u0141",
+          "\u012e",
+          "\u012f",
+          "!"
+        ]
+      },
+      "zero_width": {
+        "text": "A\u200b B",
+        "ids_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_true": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_false": [
+          32,
+          15692,
+          425
+        ],
+        "ids_split_true": [
+          32,
+          15692,
+          425
+        ],
+        "tokens_false": [
+          "A",
+          "\u00e2\u0122\u012d",
+          "\u0120B"
+        ]
+      },
+      "homoglyph": {
+        "text": "T\u0435st",
+        "ids_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_true": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_false": [
+          51,
+          1504,
+          267
+        ],
+        "ids_split_true": [
+          51,
+          1504,
+          267
+        ],
+        "tokens_false": [
+          "T",
+          "\u00d0\u00b5",
+          "st"
+        ]
+      },
+      "special_strings": {
+        "text": "Text with <|endoftext|> and <|im_end|>",
+        "ids_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_true": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_false": [
+          1178,
+          448,
+          220,
+          151643,
+          323,
+          220,
+          151645
+        ],
+        "ids_split_true": [
+          1178,
+          448,
+          82639,
+          8691,
+          723,
+          427,
+          91,
+          29,
+          323,
+          82639,
+          318,
+          6213,
+          91,
+          29
+        ],
+        "tokens_false": [
+          "Text",
+          "\u0120with",
+          "\u0120",
+          "<|endoftext|>",
+          "\u0120and",
+          "\u0120",
+          "<|im_end|>"
+        ]
+      }
+    }
+  }
+}
