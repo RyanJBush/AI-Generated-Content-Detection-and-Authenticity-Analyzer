@@ -2,6 +2,8 @@
 import hashlib
 import json
 import platform
+import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -18,6 +20,8 @@ SCORER_SOURCE_FILES = ["binoculars.py", "scoring.py", "config.py", "identity.py"
 POSITIONAL_RULE = ("numerator: logits at t score x_{t+1}, m_t = a_t * a_{t+1}; "
                    "denominator: all real input positions t incl. final")
 MASKING_RULE = "attention_mask only; right padding; no pad_token_id comparison"
+NVIDIA_SMI_TIMEOUT_SECONDS = 5
+DRIVER_VERSION_RE = re.compile(r"\d+(\.\d+)+")
 
 
 def canonical_json(obj):
@@ -34,6 +38,26 @@ def _normalized_file_sha256(path):
     if not path.is_file():
         raise FileNotFoundError(f"required identity file missing: {path}")
     return sha256_hex(path.read_bytes().replace(b"\r\n", b"\n"))
+
+
+def nvidia_driver_version(timeout=NVIDIA_SMI_TIMEOUT_SECONDS):
+    """Optional metadata: (version, None) from nvidia-smi, or (None, reason). Never raises."""
+    command = ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"]
+    try:
+        proc = subprocess.run(command, check=False, capture_output=True, text=True, timeout=timeout)
+    except FileNotFoundError:
+        return None, "nvidia-smi not found"
+    except subprocess.TimeoutExpired:
+        return None, f"nvidia-smi timed out after {timeout} s"
+    except OSError as e:
+        return None, f"nvidia-smi could not be run: {e}"
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or "").strip().splitlines()
+        return None, f"nvidia-smi exited with code {proc.returncode}" + (f": {detail[0]}" if detail else "")
+    versions = sorted({line.strip() for line in proc.stdout.splitlines() if line.strip()})
+    if not versions or not all(DRIVER_VERSION_RE.fullmatch(v) for v in versions):
+        return None, f"unparseable nvidia-smi output: {proc.stdout.strip()[:80]!r}"
+    return ", ".join(versions), None
 
 
 def compute_identity(pair):
@@ -74,6 +98,10 @@ def compute_identity(pair):
     }
     identity_hash = sha256_hex(canonical_json(scoring_identity))
     profile_hash = sha256_hex(canonical_json(execution_profile))
+    if pair.device == "cuda":
+        driver_version, driver_reason = nvidia_driver_version()
+    else:
+        driver_version, driver_reason = None, "not queried: device is cpu"
     return {
         "scoring_identity": scoring_identity,
         "scoring_identity_hash": identity_hash,
@@ -86,7 +114,10 @@ def compute_identity(pair):
             "platform": platform.platform(),
             "python": sys.version.split()[0],
             "gpu": torch.cuda.get_device_name(0) if pair.device == "cuda" else None,
-            "cuda_driver_version": torch._C._cuda_getDriverVersion() if pair.device == "cuda" else None,
+            # Recorded, never hashed: a driver change does not change the calibration key (docs/interfaces.md §3).
+            "nvidia_driver_version": driver_version,
+            "nvidia_driver_version_reason": driver_reason,
+            "torch_cuda_runtime": torch.version.cuda,  # CUDA runtime PyTorch was built with (also hashed as torch_cuda)
             "cpu_threads": torch.get_num_threads(),
         },
     }

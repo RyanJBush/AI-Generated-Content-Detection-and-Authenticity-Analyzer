@@ -6,8 +6,8 @@ repository now; items marked *planned* are additions this task will implement ex
 changing anything existing. A planned item that turns out to need a different shape is a change and goes back to
 Ryan before it is made.
 
-Open question for Ryan: the task message names the calibration file `calibration/<pair_id>.json`; SPEC §3.1/§4 key
-it by `calibration/<scoring_config_hash>.json`. This document follows SPEC until Ryan decides (§4 below).
+Calibration naming is closed (Ryan, 2026-10-26): calibration files are `calibration/<scoring_config_hash>.json`, as in
+SPEC §3.1/§4 and the current reader. No other naming key is used.
 
 ## 1. Scorer API — `src/litmus/binoculars.py` (*existing*, frozen)
 
@@ -93,12 +93,21 @@ compute_identity(pair: ModelPair) -> dict
   `float32_matmul_precision`; SHA-256 of `requirements.lock` (CRLF→LF).
 - `*_hash` = `sha256_hex(canonical_json(section))`; `scoring_config_hash` =
   `sha256_hex(canonical_json({"scoring_identity_hash": ..., "execution_profile_hash": ...}))`.
-- `environment` (recorded, **not** hashed): OS/platform, Python version, GPU name, driver-reported CUDA, CPU threads.
+- `environment` (recorded, **not** hashed): `platform`, `python`, `gpu` (name, CUDA only), `cpu_threads`,
+  `nvidia_driver_version` (from `nvidia-smi --query-gpu=driver_version --format=csv,noheader`, 5 s timeout; CUDA
+  device only), `nvidia_driver_version_reason` (`null` on success; otherwise why the version is `null`: not found,
+  timeout, nonzero exit, unparseable output, or "not queried: device is cpu"), and `torch_cuda_runtime`
+  (`torch.version.cuda`, the CUDA runtime PyTorch was built with; it is also hashed in `execution_profile` as
+  `torch_cuda`). Driver lookup is optional metadata: its failure never raises and never changes any hash.
+- Driver policy: because the NVIDIA driver is not part of `execution_profile_hash`, a driver change does not change the
+  calibration key. A driver update must therefore be recorded (with the old and new `nvidia_driver_version`) and
+  followed by a numerical smoke check against the calibrated configuration before that calibration is reused for
+  published results. The CLI/app do not block or warn on driver changes at runtime.
   Timestamps and absolute paths are never included in hashed sections.
 
 ## 4. Calibration file — `calibration/<scoring_config_hash>.json` (*planned*; Codex writes, CLI/app read)
 
-No calibration file exists yet. Path per SPEC §3.1/§4 (see the open question at the top).
+No calibration file exists yet. Path per SPEC §3.1/§4.
 
 ```json
 {
@@ -166,3 +175,34 @@ marker `slow`, `addopts = "-m 'not slow'"`. `requirements.lock`: 69 pinned packa
 *Planned* addition to `pyproject.toml`: `[project.scripts] litmus = "litmus.cli:main"`. No dependency changes;
 `requirements.lock` unchanged. Tests that download or load models carry `@pytest.mark.slow`; Codex's tests follow
 the same rule.
+
+## 8. Line endings and file hashing
+
+`git config core.autocrlf` is `true` on the builder machine, so git converts text files to CRLF on Windows checkout and
+stores LF. Hashes therefore follow one of two rules:
+
+**CRLF→LF normalized** (bytes hashed after replacing `
+` with `
+`; identical on Windows and Linux checkouts),
+implemented in `litmus.identity._normalized_file_sha256`:
+
+- `src/litmus/binoculars.py`, `src/litmus/scoring.py`, `src/litmus/config.py`, `src/litmus/identity.py`
+  (`scoring_identity.source_sha256`)
+- `requirements.lock` (`execution_profile.requirements_lock_sha256`)
+
+These stay ordinary git text files.
+
+**Exact bytes** (SHA-256 of the bytes as they are; never normalized):
+
+- Raw input text: the CLI reads files as UTF-8 with `newline=""`, so `
+` is preserved and offsets index the file's
+  characters. Any input-text hash (e.g. the SPEC §9 cache key) is over the exact text, `text.encode("utf-8")`, with
+  no newline translation or normalization.
+- Tokenizer files (`tokenizer.json` etc.): exact bytes of the files downloaded from the HF Hub at the pinned revision
+  (not stored in this repository).
+- Calibration artifacts `calibration/*.json`: `artifact_sha256` is over the raw file bytes.
+- Committed files whose SHA-256 is recorded in docs or results: `eval/fixtures/**`, `eval/results/**`,
+  `data/lexicons/*.txt`, `samples/*.txt`.
+
+Every exact-byte path that is committed is marked `-text` in `.gitattributes`, so git stores and checks out its bytes
+unchanged on every platform.
