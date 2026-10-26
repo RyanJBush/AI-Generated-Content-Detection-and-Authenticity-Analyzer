@@ -1,6 +1,0 @@
-command: .venv\Scripts\python.exe -I eval\drift.py
-cwd: C:\Users\Ryano\Projects\litmus
-shell: PowerShell 7.6.9
-start_local: 2026-10-26T14:32:53.6387389-04:00
-end_local: 2026-10-26T14:37:29.2468741-04:00
-exit_code: 0

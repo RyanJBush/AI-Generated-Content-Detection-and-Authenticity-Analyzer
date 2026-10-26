@@ -1,6 +1,0 @@
-command: .venv/Scripts/python.exe -I eval/tokenizer_checks.py
-cwd: C:/Users/Ryano/Projects/litmus
-shell: git-bash
-start_utc: 2026-10-26T17:45:42Z
-end_utc: 2026-10-26T17:46:00Z
-exit_code: 0

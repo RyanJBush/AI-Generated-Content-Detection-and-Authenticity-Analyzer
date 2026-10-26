@@ -1,7 +1,0 @@
-# Exact-byte files (docs/interfaces.md §8): their SHA-256 is computed over raw bytes, so git must never
-# convert their line endings on add or checkout, on any platform or core.autocrlf setting.
-calibration/*.json -text
-data/lexicons/*.txt -text
-samples/*.txt -text
-eval/fixtures/** -text
-eval/results/** -text
