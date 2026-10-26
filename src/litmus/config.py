@@ -25,3 +25,16 @@ MAX_LENGTH = 512
 
 # Numerical Settings
 REDUCTION_DTYPE = "float32"
+
+# Scorer identity (docs/interfaces.md §3)
+SCORER_VERSION = "1"  # bump on any change to scoring math, tokenization or masking
+PREPROCESSING_VERSION = "none-1"  # no text-altering normalization (SPEC §3.4)
+SPLIT_SPECIAL_TOKENS = False
+MIN_INPUT_TOKENS = 64
+
+# Candidate pairs: (observer = base, performer = instruct)
+PAIRS = {
+    "0.5b": ("Qwen/Qwen2.5-0.5B", "Qwen/Qwen2.5-0.5B-Instruct"),
+    "1.5b": ("Qwen/Qwen2.5-1.5B", "Qwen/Qwen2.5-1.5B-Instruct"),
+}
+DEFAULT_PAIR = "0.5b"  # provisional: the only pair measured so far; Ryan's selection (D4/D11) overrides
