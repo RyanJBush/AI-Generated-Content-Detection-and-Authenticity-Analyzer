@@ -1,0 +1,214 @@
+{
+  "status": "provisional Task 1 measurement (synthetic pilot text; not calibration or evaluation data)",
+  "started": "2026-10-26T13:56:25.706126-04:00",
+  "finished": "2026-10-26T13:56:35.900400-04:00",
+  "pair": "0.5b",
+  "weight_dtype": "float32",
+  "device": "cuda",
+  "batch_size": 1,
+  "tokenization": {
+    "add_special_tokens": false,
+    "truncation": "right",
+    "chat_template": false,
+    "pilot_text_tokens": 779
+  },
+  "timed_region": "host-to-device transfer of input tensors, observer and performer forward passes (use_cache=False), litmus.binoculars.binoculars_statistics incl. validation; tokenization excluded",
+  "memory_methods": {
+    "max_memory_allocated_bytes": "torch.cuda.max_memory_allocated, reset per length; includes resident weights",
+    "max_memory_reserved_bytes": "torch.cuda.max_memory_reserved, after empty_cache and reset per length",
+    "device_used_bytes": "torch.cuda.mem_get_info total - free (whole device, all processes)",
+    "host_peak_working_set_bytes": "Windows GetProcessMemoryInfo PeakWorkingSetSize, whole run"
+  },
+  "environment": {
+    "argv": [
+      "eval\\benchmark.py",
+      "--pair",
+      "0.5b",
+      "--dtype",
+      "float32"
+    ],
+    "python": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "executable": "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe",
+    "platform": "Windows-11-10.0.26100-SP0",
+    "torch": "2.6.0+cu124",
+    "torch_cuda": "12.4",
+    "transformers": "5.20.2",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_capability": [
+      8,
+      9
+    ],
+    "tf32_matmul": false,
+    "tf32_cudnn": true,
+    "autocast": false,
+    "cpu_threads": 16
+  },
+  "snapshot_seconds": {
+    "Qwen/Qwen2.5-0.5B": 0.016954799997620285,
+    "Qwen/Qwen2.5-0.5B-Instruct": 0.008781299984548241
+  },
+  "device_memory_before_load": {
+    "device_used_bytes": 1141374976,
+    "device_total_bytes": 8585216000
+  },
+  "models": {
+    "observer": {
+      "name": "Qwen/Qwen2.5-0.5B",
+      "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+      "load_seconds": 2.1164435999817215,
+      "param_dtype": "torch.float32",
+      "param_device": "cuda:0",
+      "attn_implementation": "sdpa",
+      "config_vocab_size": 151936
+    },
+    "performer": {
+      "name": "Qwen/Qwen2.5-0.5B-Instruct",
+      "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+      "load_seconds": 1.4957608999684453,
+      "param_dtype": "torch.float32",
+      "param_device": "cuda:0",
+      "attn_implementation": "sdpa",
+      "config_vocab_size": 151936
+    }
+  },
+  "memory_after_load": {
+    "framework_allocated_bytes": 3953705984,
+    "device_used_bytes": 5335678976,
+    "device_total_bytes": 8585216000
+  },
+  "configurations": [
+    {
+      "n_input_tokens": 64,
+      "n_scored_tokens": 63,
+      "logit_dim": 151936,
+      "warmup_runs": 3,
+      "warmup_seconds_total": 0.6374014999601059,
+      "repeats": 10,
+      "steady_seconds": [
+        0.049216700019314885,
+        0.044678499980363995,
+        0.04707619996042922,
+        0.0441078000003472,
+        0.04681749996962026,
+        0.04873749997932464,
+        0.044724299979861826,
+        0.0479120000381954,
+        0.04572639998514205,
+        0.04908569995313883
+      ],
+      "steady_seconds_median": 0.04694684996502474,
+      "steady_seconds_min": 0.0441078000003472,
+      "steady_seconds_max": 0.049216700019314885,
+      "max_memory_allocated_bytes": 4201307648,
+      "max_memory_reserved_bytes": 4456448000,
+      "device_used_bytes": 5620891648,
+      "device_total_bytes": 8585216000,
+      "pilot_statistics": {
+        "nll_performer": 3.7034316062927246,
+        "nll_observer": 3.744540214538574,
+        "xent": 3.189150333404541,
+        "score": 1.161259651184082
+      }
+    },
+    {
+      "n_input_tokens": 128,
+      "n_scored_tokens": 127,
+      "logit_dim": 151936,
+      "warmup_runs": 3,
+      "warmup_seconds_total": 0.17453960003331304,
+      "repeats": 10,
+      "steady_seconds": [
+        0.05630890000611544,
+        0.05821029999060556,
+        0.057642599975224584,
+        0.056732999975793064,
+        0.05793989996891469,
+        0.05703250004444271,
+        0.05779280001297593,
+        0.05741649999981746,
+        0.058602600009180605,
+        0.05799589998787269
+      ],
+      "steady_seconds_median": 0.05771769999410026,
+      "steady_seconds_min": 0.05630890000611544,
+      "steady_seconds_max": 0.058602600009180605,
+      "max_memory_allocated_bytes": 4428980736,
+      "max_memory_reserved_bytes": 4699717632,
+      "device_used_bytes": 5864161280,
+      "device_total_bytes": 8585216000,
+      "pilot_statistics": {
+        "nll_performer": 3.3785548210144043,
+        "nll_observer": 3.4008302688598633,
+        "xent": 3.24064040184021,
+        "score": 1.042557716369629
+      }
+    },
+    {
+      "n_input_tokens": 256,
+      "n_scored_tokens": 255,
+      "logit_dim": 151936,
+      "warmup_runs": 3,
+      "warmup_seconds_total": 0.32296479999786243,
+      "repeats": 10,
+      "steady_seconds": [
+        0.10453990002861246,
+        0.10348769999109209,
+        0.10270310001214966,
+        0.1024362999596633,
+        0.10449449997395277,
+        0.10454499995103106,
+        0.10348799999337643,
+        0.1054407000192441,
+        0.10358600004110485,
+        0.10417279996909201
+      ],
+      "steady_seconds_median": 0.10387940000509843,
+      "steady_seconds_min": 0.1024362999596633,
+      "steady_seconds_max": 0.1054407000192441,
+      "max_memory_allocated_bytes": 4895731200,
+      "max_memory_reserved_bytes": 5188354048,
+      "device_used_bytes": 6352797696,
+      "device_total_bytes": 8585216000,
+      "pilot_statistics": {
+        "nll_performer": 3.060304641723633,
+        "nll_observer": 3.0491509437561035,
+        "xent": 3.1403746604919434,
+        "score": 0.9745030403137207
+      }
+    },
+    {
+      "n_input_tokens": 512,
+      "n_scored_tokens": 511,
+      "logit_dim": 151936,
+      "warmup_runs": 3,
+      "warmup_seconds_total": 0.6402368999551982,
+      "repeats": 10,
+      "steady_seconds": [
+        0.20853329997044057,
+        0.21310409996658564,
+        0.21034439996583387,
+        0.21698510000715032,
+        0.20767229999182746,
+        0.2098928999621421,
+        0.20560759998625144,
+        0.20579529996030033,
+        0.2091006999835372,
+        0.20914250001078472
+      ],
+      "steady_seconds_median": 0.20912159999716096,
+      "steady_seconds_min": 0.20560759998625144,
+      "steady_seconds_max": 0.21698510000715032,
+      "max_memory_allocated_bytes": 5829232128,
+      "max_memory_reserved_bytes": 6142558208,
+      "device_used_bytes": 7307001856,
+      "device_total_bytes": 8585216000,
+      "pilot_statistics": {
+        "nll_performer": 3.046875476837158,
+        "nll_observer": 3.00475811958313,
+        "xent": 3.073944091796875,
+        "score": 0.9911941885948181
+      }
+    }
+  ],
+  "host_peak_working_set_bytes": 3850752000
+}

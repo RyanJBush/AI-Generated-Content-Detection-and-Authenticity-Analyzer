@@ -30,16 +30,17 @@ The SHA-256 values below are unchanged by the move.
 | Claim | Status |
 |---|---|
 | 1.5B pair runtime/memory | **Not run** (weights never downloaded; no artifacts) |
-| 0.5B fp32 runtime/memory | **Not run** (the existing benchmark ran bf16) |
-| Observer (base) model forward pass | **Not run** |
 | Deployment (HF Space) feasibility | **Not run** |
 | CPU vs GPU drift | **Not run** |
+| Any drift probe through the production scorer | **Not run** |
+| 0.5B bf16/fp16 runtime/memory | **Not run** |
 
 ## Current outputs
 
 | Artifact | Script | Status |
 |---|---|---|
 | `eval/results/tokenizer_checks.json` + `logs/tokenizer_checks*.log` | `eval/tokenizer_checks.py` | Provisional Task 1 measurement at pinned revisions; command and exit code in the meta log. Not yet reviewed. |
+| `eval/results/benchmark_0.5b_float32.json` + `logs/benchmark_0.5b_float32*.log` | `eval/benchmark.py` | Provisional Task 1 measurement: pinned 0.5B observer + performer, fp32 weights, production scorer, batch 1, 64–512 tokens. Not yet reviewed. A first run with two measurement defects is preserved in `eval/results/superseded/benchmark_0.5b_float32_run1/`. |
 
-Benchmark and drift replacements will be produced only through `litmus.binoculars.binoculars_statistics`
-after its math is reviewed; `eval/benchmark_0_5b.py` and `eval/drift_probe.py` will then be retired.
+`eval/benchmark_0_5b.py` and `eval/drift_probe.py` are retired (removed; in history at `277397d`). Drift
+replacements will be produced only through `litmus.binoculars.binoculars_statistics`.

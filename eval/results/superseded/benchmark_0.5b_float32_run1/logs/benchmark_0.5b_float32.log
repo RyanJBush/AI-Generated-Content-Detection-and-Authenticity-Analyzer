@@ -1,0 +1,38 @@
+start 2026-10-26T13:55:07.295300-04:00 pair=0.5b dtype=float32
+
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Fetching 10 files:  90%|######### | 9/10 [00:00<00:00, 86.72it/s]
+Fetching 10 files: 100%|##########| 10/10 [00:15<00:00,  1.56s/it]
+snapshot Qwen/Qwen2.5-0.5B: 15.68 s
+
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+snapshot Qwen/Qwen2.5-0.5B-Instruct: 0.13 s
+Fetching 10 files: 100%|##########| 10/10 [00:00<00:00, 118.84it/s]
+device memory before load: {'device_used_bytes': 1141374976, 'device_total_bytes': 8585216000}
+
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]
+Loading weights:  28%|##7       | 81/290 [00:00<00:00, 739.54it/s]
+Loading weights:  53%|#####3    | 155/290 [00:00<00:00, 438.30it/s]
+Loading weights:  71%|#######1  | 206/290 [00:00<00:00, 366.23it/s]
+Loading weights:  85%|########5 | 247/290 [00:00<00:00, 324.97it/s]
+Loading weights:  97%|#########7| 282/290 [00:00<00:00, 278.49it/s]
+Loading weights: 100%|##########| 290/290 [00:00<00:00, 341.43it/s]
+loaded observer: {'name': 'Qwen/Qwen2.5-0.5B', 'revision': '060db6499f32faf8b98477b0a26969ef7d8b9987', 'load_seconds': 2.73725220002234, 'param_dtype': 'torch.float32', 'param_device': 'cuda:0', 'attn_implementation': 'sdpa', 'config_vocab_size': 151936}
+
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]
+Loading weights:  11%|#1        | 32/290 [00:00<00:00, 258.15it/s]
+Loading weights:  26%|##5       | 74/290 [00:00<00:00, 340.43it/s]
+Loading weights:  41%|####      | 118/290 [00:00<00:00, 362.05it/s]
+Loading weights:  56%|#####5    | 161/290 [00:00<00:00, 236.11it/s]
+Loading weights:  69%|######8   | 200/290 [00:00<00:00, 266.13it/s]
+Loading weights:  80%|#######9  | 231/290 [00:00<00:00, 231.21it/s]
+Loading weights: 100%|##########| 290/290 [00:01<00:00, 289.94it/s]
+loaded performer: {'name': 'Qwen/Qwen2.5-0.5B-Instruct', 'revision': '7ae557604adf67be50417f59c2c2f167def9a775', 'load_seconds': 1.886398200003896, 'param_dtype': 'torch.float32', 'param_device': 'cuda:0', 'attn_implementation': 'sdpa', 'config_vocab_size': 151936}
+memory after load: {'framework_allocated_bytes': 3953705984, 'device_used_bytes': 5335678976, 'device_total_bytes': 8585216000}
+len=64 scored=63 logit_dim=151936 median=0.0497s min=0.0465s max=0.0563s warmup_total=0.773s peak_alloc=4201307648 peak_reserved=4456448000 device_used=5620891648 stats={'nll_performer': 3.7034316062927246, 'nll_observer': 3.744540214538574, 'xent': 3.189150333404541, 'score': 1.161259651184082}
+len=128 scored=127 logit_dim=151936 median=0.0582s min=0.0569s max=0.0632s warmup_total=0.233s peak_alloc=4428980736 peak_reserved=4938792960 device_used=6103236608 stats={'nll_performer': 3.3785548210144043, 'nll_observer': 3.4008302688598633, 'xent': 3.24064040184021, 'score': 1.042557716369629}
+len=256 scored=255 logit_dim=151936 median=0.1005s min=0.0988s max=0.1057s warmup_total=0.321s peak_alloc=4895731200 peak_reserved=5884608512 device_used=7049052160 stats={'nll_performer': 3.060304641723633, 'nll_observer': 3.0491509437561035, 'xent': 3.1403746604919434, 'score': 0.9745030403137207}
+len=512 scored=511 logit_dim=151936 median=0.2034s min=0.2025s max=0.2099s warmup_total=0.626s peak_alloc=5829232128 peak_reserved=7759462400 device_used=8585216000 stats={'nll_performer': 3.046875476837158, 'nll_observer': 3.00475811958313, 'xent': 3.073944091796875, 'score': 0.9911941885948181}
+host_peak_working_set_bytes=None
+finish 2026-10-26T13:55:34.387804-04:00 wrote C:\Users\Ryano\Projects\litmus\eval\results\benchmark_0.5b_float32.json

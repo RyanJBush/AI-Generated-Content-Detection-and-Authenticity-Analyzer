@@ -1,0 +1,35 @@
+start 2026-10-26T13:56:25.706126-04:00 pair=0.5b dtype=float32
+
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Fetching 10 files: 100%|##########| 10/10 [00:00<00:00, 1071.21it/s]
+snapshot Qwen/Qwen2.5-0.5B: 0.02 s
+
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]
+Fetching 10 files: 100%|##########| 10/10 [00:00<00:00, 2828.45it/s]
+snapshot Qwen/Qwen2.5-0.5B-Instruct: 0.01 s
+device memory before load: {'device_used_bytes': 1141374976, 'device_total_bytes': 8585216000}
+
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]
+Loading weights:  24%|##4       | 70/290 [00:00<00:00, 671.34it/s]
+Loading weights:  48%|####7     | 138/290 [00:00<00:00, 455.71it/s]
+Loading weights:  65%|######4   | 188/290 [00:00<00:00, 470.37it/s]
+Loading weights:  82%|########2 | 238/290 [00:00<00:00, 396.35it/s]
+Loading weights: 100%|##########| 290/290 [00:00<00:00, 448.50it/s]
+loaded observer: {'name': 'Qwen/Qwen2.5-0.5B', 'revision': '060db6499f32faf8b98477b0a26969ef7d8b9987', 'load_seconds': 2.1164435999817215, 'param_dtype': 'torch.float32', 'param_device': 'cuda:0', 'attn_implementation': 'sdpa', 'config_vocab_size': 151936}
+
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]
+Loading weights:  10%|#         | 30/290 [00:00<00:00, 289.79it/s]
+Loading weights:  24%|##3       | 69/290 [00:00<00:00, 326.29it/s]
+Loading weights:  40%|####      | 117/290 [00:00<00:00, 368.53it/s]
+Loading weights:  54%|#####4    | 157/290 [00:00<00:00, 365.60it/s]
+Loading weights:  69%|######8   | 199/290 [00:00<00:00, 357.12it/s]
+Loading weights:  84%|########4 | 244/290 [00:00<00:00, 379.95it/s]
+Loading weights: 100%|##########| 290/290 [00:00<00:00, 384.21it/s]
+loaded performer: {'name': 'Qwen/Qwen2.5-0.5B-Instruct', 'revision': '7ae557604adf67be50417f59c2c2f167def9a775', 'load_seconds': 1.4957608999684453, 'param_dtype': 'torch.float32', 'param_device': 'cuda:0', 'attn_implementation': 'sdpa', 'config_vocab_size': 151936}
+memory after load: {'framework_allocated_bytes': 3953705984, 'device_used_bytes': 5335678976, 'device_total_bytes': 8585216000}
+len=64 scored=63 logit_dim=151936 median=0.0469s min=0.0441s max=0.0492s warmup_total=0.637s peak_alloc=4201307648 peak_reserved=4456448000 device_used=5620891648 stats={'nll_performer': 3.7034316062927246, 'nll_observer': 3.744540214538574, 'xent': 3.189150333404541, 'score': 1.161259651184082}
+len=128 scored=127 logit_dim=151936 median=0.0577s min=0.0563s max=0.0586s warmup_total=0.175s peak_alloc=4428980736 peak_reserved=4699717632 device_used=5864161280 stats={'nll_performer': 3.3785548210144043, 'nll_observer': 3.4008302688598633, 'xent': 3.24064040184021, 'score': 1.042557716369629}
+len=256 scored=255 logit_dim=151936 median=0.1039s min=0.1024s max=0.1054s warmup_total=0.323s peak_alloc=4895731200 peak_reserved=5188354048 device_used=6352797696 stats={'nll_performer': 3.060304641723633, 'nll_observer': 3.0491509437561035, 'xent': 3.1403746604919434, 'score': 0.9745030403137207}
+len=512 scored=511 logit_dim=151936 median=0.2091s min=0.2056s max=0.2170s warmup_total=0.640s peak_alloc=5829232128 peak_reserved=6142558208 device_used=7307001856 stats={'nll_performer': 3.046875476837158, 'nll_observer': 3.00475811958313, 'xent': 3.073944091796875, 'score': 0.9911941885948181}
+host_peak_working_set_bytes=3850752000
+finish 2026-10-26T13:56:35.900400-04:00 wrote C:\Users\Ryano\Projects\litmus\eval\results\benchmark_0.5b_float32.json
