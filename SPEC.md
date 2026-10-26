@@ -196,7 +196,8 @@ litmus/
 | Role | Who | Scope |
 |---|---|---|
 | Spec owner / tiebreaker | Ryan | Decides open items, including D11/D12; records approvals and final choices. |
-| Primary builder | Claude Code interface, using the backend recorded in docs/decisions.md | All blocks, including Block 4 evaluation. Use scoped commits; no mandatory branch/PR per block. |
+| Primary builder | Claude Code interface, using the backend recorded in docs/decisions.md | Blocks 1–3, 5 and 6 (scorer, model loading, CLI/report, slop analyzer, Gradio app, docs). Use scoped commits; no mandatory branch/PR per block. |
+| Block 4 builder | Codex, in a separate git worktree | RAID sampling, calibration, leakage controls, and evaluation (Block 4). Role split approved by Ryan 2026-10-26; shared interfaces are listed in `docs/interfaces.md` and change only with Ryan's coordination. |
 | Planner / reviewer | ChatGPT / Codex | Planning and evidence-based review at checkpoints A (feasibility), B (scorer), C (pre-test evaluation), and final. |
 | Optional second reviewer | Claude, separate chat | Independent second opinions when actually requested/performed; not an implementation dependency. |
 
