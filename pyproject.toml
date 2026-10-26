@@ -10,6 +10,9 @@ dependencies = [
     "gradio",
 ]
 
+[project.scripts]
+litmus = "litmus.cli:main"
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
