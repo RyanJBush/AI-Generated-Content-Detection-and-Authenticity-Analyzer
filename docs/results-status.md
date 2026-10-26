@@ -31,9 +31,8 @@ The SHA-256 values below are unchanged by the move.
 |---|---|
 | 1.5B pair runtime/memory | **Not run** (weights never downloaded; no artifacts) |
 | Deployment (HF Space) feasibility | **Not run** |
-| CPU vs GPU drift | **Not run** |
-| Any drift probe through the production scorer | **Not run** |
-| 0.5B bf16/fp16 runtime/memory | **Not run** |
+| 0.5B bf16/fp16 runtime/memory (benchmark) | **Not run** (bf16/fp16 appear only in drift probes) |
+| CPU bf16/fp16 drift | **Not run** (not requested) |
 
 ## Current outputs
 
@@ -41,6 +40,6 @@ The SHA-256 values below are unchanged by the move.
 |---|---|---|
 | `eval/results/tokenizer_checks.json` + `logs/tokenizer_checks*.log` | `eval/tokenizer_checks.py` | Provisional Task 1 measurement at pinned revisions; command and exit code in the meta log. Not yet reviewed. |
 | `eval/results/benchmark_0.5b_float32.json` + `logs/benchmark_0.5b_float32*.log` | `eval/benchmark.py` | Provisional Task 1 measurement: pinned 0.5B observer + performer, fp32 weights, production scorer, batch 1, 64–512 tokens. Not yet reviewed. A first run with two measurement defects is preserved in `eval/results/superseded/benchmark_0.5b_float32_run1/`. |
+| `eval/results/runtime_drift.json` + `logs/runtime_drift*.log` | `eval/drift.py` | Provisional D11 drift screening: 20 fixture texts (`eval/fixtures/drift_texts.json`, SHA-256 `d00442ca9bb69b9f3b2e5905438bf8e9dac10a1dca8704f31d4e5141905f4cfc`), pinned 0.5B pair, GPU fp32 (reference) / bf16 / fp16 and CPU fp32, 2 repeats each, production scorer. Not calibration or threshold-portability evidence. Known labelling artifact: when every difference is 0, `max_at_text` reports the last text ID (`d20`) from tie-breaking; it carries no information. Not yet reviewed. |
 
-`eval/benchmark_0_5b.py` and `eval/drift_probe.py` are retired (removed; in history at `277397d`). Drift
-replacements will be produced only through `litmus.binoculars.binoculars_statistics`.
+`eval/benchmark_0_5b.py` and `eval/drift_probe.py` are retired (removed; in history at `277397d`).
