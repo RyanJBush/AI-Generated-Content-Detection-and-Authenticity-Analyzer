@@ -43,3 +43,12 @@ The SHA-256 values below are unchanged by the move.
 | `eval/results/runtime_drift.json` + `logs/runtime_drift*.log` | `eval/drift.py` | Provisional D11 drift screening: 20 fixture texts (`eval/fixtures/drift_texts.json`, SHA-256 `d00442ca9bb69b9f3b2e5905438bf8e9dac10a1dca8704f31d4e5141905f4cfc`), pinned 0.5B pair, GPU fp32 (reference) / bf16 / fp16 and CPU fp32, 2 repeats each, production scorer. Not calibration or threshold-portability evidence. Known labelling artifact: when every difference is 0, `max_at_text` reports the last text ID (`d20`) from tie-breaking; it carries no information. Not yet reviewed. |
 
 `eval/benchmark_0_5b.py` and `eval/drift_probe.py` are retired (removed; in history at `277397d`).
+
+## Line-ending note (2026-10-26)
+
+Files under `eval/fixtures/**` and `eval/results/**` are now `-text` (`.gitattributes`, docs/interfaces.md §8): the
+stored blobs are the exact working bytes, so every recorded SHA-256 above reproduces on any checkout. Contents are
+unchanged apart from line endings in the stored blobs, but their git blob IDs changed. In particular
+`runtime_drift.json` records `git_blob` `3305f490134ce1d20703fbf7ab2ea57643d81107` for `eval/fixtures/drift_texts.json`
+(the LF blob at `023bfac`); from `f607360` on, the blob is `80234e8e4f358481c41621f8c1b8a2dc001ef66b`. The recorded SHA-256
+`d00442ca9bb69b9f3b2e5905438bf8e9dac10a1dca8704f31d4e5141905f4cfc` is unchanged and is the identity to check.
