@@ -8,7 +8,7 @@ import math
 import pytest
 import torch
 
-from litmus.binoculars import binoculars_statistics
+from litmus.binoculars import NumericalScoringError, binoculars_statistics, validate_statistics
 
 LN2 = math.log(2)
 
@@ -198,3 +198,59 @@ def test_invalid_inputs_raise(case):
         mask = torch.tensor([[1, 1, 2, 1]])
     with pytest.raises(ValueError):
         binoculars_statistics(obs, perf, ids, mask)
+
+
+def test_nan_logits_at_real_position_raise():
+    # Padding-only NaN is covered above; here the NaN is at a real (scored) position.
+    obs, perf, ids, mask = main_fixture()
+    perf[0, 1, 2] = float("nan")
+    with pytest.raises(NumericalScoringError, match=r"nll_performer is not finite .* document 0"):
+        binoculars_statistics(obs, perf, ids, mask)
+
+
+def test_zero_xent_raises():
+    # Finite logits [0, -200, -200, -200]: in float32 exp(-200) underflows to 0, so log_softmax is
+    # exactly [0, -200, -200, -200] and the observer puts all its mass where the performer has log-prob 0.
+    # Per-position XENT = 1 * 0 + 0 * 200 * 3 = 0 at every position, so XENT = 0.
+    row = [0.0, -200.0, -200.0, -200.0]
+    obs = torch.tensor([[row] * 4])
+    perf = torch.tensor([[row] * 4])
+    ids = torch.tensor([[0, 0, 0, 0]])
+    mask = torch.tensor([[1, 1, 1, 1]])
+    with pytest.raises(NumericalScoringError, match=r"xent must be > 0, got 0.0 for document 0"):
+        binoculars_statistics(obs, perf, ids, mask)
+
+
+def test_error_names_failing_document():
+    obs, perf, ids, mask = batch((OBSERVER, PERFORMER, IDS, [1, 1, 1, 1]), (OBSERVER, PERFORMER, IDS, [1, 1, 1, 1]))
+    obs[1, 3, 0] = float("inf")
+    with pytest.raises(NumericalScoringError, match=r"document 1"):
+        binoculars_statistics(obs, perf, ids, mask)
+
+
+def _stats(**overrides):
+    stats = {name: torch.tensor([1.0]) for name in ["nll_performer", "nll_observer", "xent", "score"]}
+    stats.update({k: torch.tensor([v]) for k, v in overrides.items()})
+    return stats
+
+
+# Negative NLL cannot be built from valid logits: log_softmax <= 0 holds in float32 because
+# logsumexp is computed as max + log(sum >= 1). So the validator is tested directly.
+@pytest.mark.parametrize(
+    "overrides, message",
+    [
+        ({"nll_performer": -1e-3}, r"nll_performer must be >= 0"),
+        ({"nll_observer": -1e-3}, r"nll_observer must be >= 0"),
+        ({"xent": 0.0}, r"xent must be > 0"),
+        ({"xent": -0.5}, r"xent must be > 0"),
+        ({"nll_performer": float("inf")}, r"nll_performer is not finite"),
+        ({"score": float("nan")}, r"score is not finite"),
+    ],
+)
+def test_validator_rejects(overrides, message):
+    with pytest.raises(NumericalScoringError, match=message):
+        validate_statistics(_stats(**overrides))
+
+
+def test_validator_accepts_valid_statistics():
+    validate_statistics(_stats(nll_performer=0.0, nll_observer=0.0))

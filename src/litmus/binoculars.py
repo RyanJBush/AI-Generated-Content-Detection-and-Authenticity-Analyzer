@@ -2,6 +2,8 @@
 
 Pure tensor math; no model loading. Roles: observer = base model, performer = instruct model.
 """
+import math
+
 import torch
 
 
@@ -23,6 +25,8 @@ def binoculars_statistics(observer_logits, performer_logits, input_ids, attentio
         n_input_tokens: sum_t a_t (denominator count).
         n_scored_tokens: sum_t m_t (numerator count).
     All floating outputs are float32, as are the log-softmax and reductions, regardless of logit dtype.
+
+    Raises NumericalScoringError if any document's statistics fail validate_statistics.
     """
     if observer_logits.dim() != 3 or observer_logits.shape != performer_logits.shape:
         raise ValueError(
@@ -65,7 +69,7 @@ def binoculars_statistics(observer_logits, performer_logits, input_ids, attentio
     nll_performer = perf_target_nll.sum(dim=-1) / n_scored
     nll_observer = obs_target_nll.sum(dim=-1) / n_scored
     xent = position_xent.sum(dim=-1) / n_input
-    return {
+    stats = {
         "nll_performer": nll_performer,
         "nll_observer": nll_observer,
         "xent": xent,
@@ -73,3 +77,26 @@ def binoculars_statistics(observer_logits, performer_logits, input_ids, attentio
         "n_input_tokens": n_input,
         "n_scored_tokens": n_scored,
     }
+    validate_statistics(stats)
+    return stats
+
+
+class NumericalScoringError(ValueError):
+    """A computed statistic is invalid; no score is returned."""
+
+
+def validate_statistics(stats):
+    """Raise NumericalScoringError unless, for every document, NLL_perf and NLL_obs are finite and >= 0,
+    XENT is finite and > 0, and B is finite."""
+    checks = [
+        ("nll_performer", lambda v: v >= 0, ">= 0"),
+        ("nll_observer", lambda v: v >= 0, ">= 0"),
+        ("xent", lambda v: v > 0, "> 0"),
+        ("score", lambda v: True, None),
+    ]
+    for name, ok, requirement in checks:
+        for i, value in enumerate(stats[name].tolist()):
+            if not math.isfinite(value):
+                raise NumericalScoringError(f"{name} is not finite ({value}) for document {i}")
+            if not ok(value):
+                raise NumericalScoringError(f"{name} must be {requirement}, got {value} for document {i}")
