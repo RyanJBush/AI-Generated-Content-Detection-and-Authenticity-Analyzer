@@ -1,0 +1,39 @@
+{
+  "report_schema": "litmus-report/r0",
+  "tool": {
+    "name": "litmus",
+    "version": "0.0.0"
+  },
+  "input": {
+    "file_name": "bom_only.txt",
+    "size_bytes": 3,
+    "sha256": "f1945cd6c19e56b3c1c78943ef5ec18116907a4ca1efc40a57d48ab1db7adfc5",
+    "detected_type": null,
+    "ingestion": {
+      "result": "not_supported",
+      "reason": "empty_after_decoding"
+    }
+  },
+  "segments": [],
+  "extraction_coverage": {
+    "segments_created": 0,
+    "skipped": [
+      {
+        "item": "input",
+        "reason": "empty_after_decoding"
+      }
+    ],
+    "unit": null,
+    "total": null,
+    "in_segments": null,
+    "ratio": null
+  },
+  "limitations": [
+    "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
+    "no result in this report is a probability or a verdict"
+  ],
+  "offline": {
+    "socket_guard": "loopback_only",
+    "subprocess_guard": "blocked"
+  }
+}

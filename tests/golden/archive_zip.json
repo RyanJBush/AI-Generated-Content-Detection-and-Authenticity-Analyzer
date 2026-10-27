@@ -1,0 +1,39 @@
+{
+  "report_schema": "litmus-report/r0",
+  "tool": {
+    "name": "litmus",
+    "version": "0.0.0"
+  },
+  "input": {
+    "file_name": "archive.zip",
+    "size_bytes": 118,
+    "sha256": "ec42960b32ff5999a6a014185dd971a25f9ee6096625848c45f4efdbc3ad095f",
+    "detected_type": "application/zip",
+    "ingestion": {
+      "result": "not_supported",
+      "reason": "documents arrive in R2"
+    }
+  },
+  "segments": [],
+  "extraction_coverage": {
+    "segments_created": 0,
+    "skipped": [
+      {
+        "item": "input",
+        "reason": "documents arrive in R2"
+      }
+    ],
+    "unit": null,
+    "total": null,
+    "in_segments": null,
+    "ratio": null
+  },
+  "limitations": [
+    "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
+    "no result in this report is a probability or a verdict"
+  ],
+  "offline": {
+    "socket_guard": "loopback_only",
+    "subprocess_guard": "blocked"
+  }
+}

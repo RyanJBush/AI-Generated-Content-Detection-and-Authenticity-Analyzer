@@ -1,0 +1,75 @@
+{
+  "report_schema": "litmus-report/r0",
+  "tool": {
+    "name": "litmus",
+    "version": "0.0.0"
+  },
+  "input": {
+    "file_name": "whitespace.txt",
+    "size_bytes": 8,
+    "sha256": "fec9491e03ad541bf84a7ca65aad9eeb0efec34da28c43850a03f9347dbe22f7",
+    "detected_type": "text/plain",
+    "ingestion": {
+      "result": "supported",
+      "reason": null
+    }
+  },
+  "segments": [
+    {
+      "segment_id": "s0",
+      "parent_id": null,
+      "modality": "text",
+      "derivation": [
+        "utf8_decode"
+      ],
+      "coords_in_parent": null,
+      "local_frame": {
+        "type": "text_codepoints",
+        "length": 8
+      },
+      "content_sha256": "fec9491e03ad541bf84a7ca65aad9eeb0efec34da28c43850a03f9347dbe22f7",
+      "extraction": {
+        "status": "complete",
+        "notes": []
+      },
+      "origin": [
+        {
+          "method_id": "text_origin_placeholder",
+          "method_version": "r0-placeholder",
+          "result": "inconclusive",
+          "raw_score": null,
+          "score_direction": null,
+          "calibration": null,
+          "provenance": null,
+          "reasons": [
+            "no_nonwhitespace_content"
+          ],
+          "limitations": [
+            "R0 placeholder analyzer: no analysis was performed",
+            "absence of evidence is not evidence of human origin"
+          ],
+          "details": {
+            "scored_window": null
+          }
+        }
+      ],
+      "quality": []
+    }
+  ],
+  "extraction_coverage": {
+    "segments_created": 1,
+    "skipped": [],
+    "unit": "text_codepoints",
+    "total": 8,
+    "in_segments": 8,
+    "ratio": 1.0
+  },
+  "limitations": [
+    "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
+    "no result in this report is a probability or a verdict"
+  ],
+  "offline": {
+    "socket_guard": "loopback_only",
+    "subprocess_guard": "blocked"
+  }
+}

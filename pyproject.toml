@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "litmus"
-version = "0.0.0"
+dynamic = ["version"]
 description = "Offline evidence-reporting tool for AI-generation signals (R0 skeleton)"
 requires-python = ">=3.13"
 dependencies = [
@@ -17,6 +17,9 @@ litmus = "litmus.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "litmus.__version__" }
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

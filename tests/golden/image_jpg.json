@@ -1,0 +1,75 @@
+{
+  "report_schema": "litmus-report/r0",
+  "tool": {
+    "name": "litmus",
+    "version": "0.0.0"
+  },
+  "input": {
+    "file_name": "image.jpg",
+    "size_bytes": 633,
+    "sha256": "f2660917be8838f4148d5d6572c85ae9b41e98297500f4e3f8928030ccf00246",
+    "detected_type": "image/jpeg",
+    "ingestion": {
+      "result": "supported",
+      "reason": null
+    }
+  },
+  "segments": [
+    {
+      "segment_id": "s0",
+      "parent_id": null,
+      "modality": "image",
+      "derivation": [
+        "image_decode"
+      ],
+      "coords_in_parent": null,
+      "local_frame": {
+        "type": "pixels",
+        "width": 8,
+        "height": 6
+      },
+      "content_sha256": "f2660917be8838f4148d5d6572c85ae9b41e98297500f4e3f8928030ccf00246",
+      "extraction": {
+        "status": "complete",
+        "notes": []
+      },
+      "origin": [
+        {
+          "method_id": "image_origin_placeholder",
+          "method_version": "r0-placeholder",
+          "result": "not_supported",
+          "raw_score": null,
+          "score_direction": null,
+          "calibration": null,
+          "provenance": null,
+          "reasons": [
+            "c2pa_analyzer_disabled_in_r0",
+            "no_image_detector_in_r0"
+          ],
+          "limitations": [
+            "R0 placeholder analyzer: no analysis was performed",
+            "absence of evidence is not evidence of human origin"
+          ],
+          "details": {}
+        }
+      ],
+      "quality": []
+    }
+  ],
+  "extraction_coverage": {
+    "segments_created": 1,
+    "skipped": [],
+    "unit": "pixels",
+    "total": 48,
+    "in_segments": 48,
+    "ratio": 1.0
+  },
+  "limitations": [
+    "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
+    "no result in this report is a probability or a verdict"
+  ],
+  "offline": {
+    "socket_guard": "loopback_only",
+    "subprocess_guard": "blocked"
+  }
+}
