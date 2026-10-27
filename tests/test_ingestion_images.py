@@ -1,6 +1,5 @@
-import pytest
 from src.litmus.ingestion import analyze_ingestion
-import os
+
 
 def create_file(dir, name, content=b""):
     path = dir / name
@@ -9,7 +8,9 @@ def create_file(dir, name, content=b""):
 
 def test_ingestion_image_decode_error(tmp_path):
     # Valid signature, but invalid image data
-    path = create_file(tmp_path, "corrupt.jpg", b"\xff\xd8\xff\xe0\x00\x10JFIF" + b"not a real image")
+    path = create_file(
+        tmp_path, "corrupt.jpg", b"\xff\xd8\xff\xe0\x00\x10JFIF" + b"not a real image"
+    )
     res = analyze_ingestion(path)
     assert res["result"] == "error"
     assert "decode failed" in res["reason"]
