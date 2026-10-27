@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-from src.litmus.schemas import Segment
+from litmus.schemas import Segment
 
 
 class SegmentTree:

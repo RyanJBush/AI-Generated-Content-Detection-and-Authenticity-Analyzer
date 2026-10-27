@@ -3,7 +3,7 @@ import io
 import pytest
 from PIL import Image
 
-from src.litmus.ingestion import analyze_ingestion
+from litmus.ingestion import analyze_ingestion
 
 
 @pytest.fixture

@@ -1,4 +1,4 @@
-from src.litmus.ingestion import analyze_ingestion
+from litmus.ingestion import analyze_ingestion
 
 
 def create_file(dir, name, content=b""):

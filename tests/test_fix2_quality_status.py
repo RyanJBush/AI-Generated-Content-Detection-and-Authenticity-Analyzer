@@ -1,6 +1,6 @@
 import pytest
 
-from src.litmus.schemas import QualityObservation, QualityStatus, from_json, to_json
+from litmus.schemas import QualityObservation, QualityStatus, from_json, to_json
 
 
 def test_quality_observation_accepts_valid_statuses():

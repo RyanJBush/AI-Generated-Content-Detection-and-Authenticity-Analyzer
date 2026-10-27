@@ -1,3 +1,26 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "litmus"
+version = "0.0.0"
+description = "Offline evidence-reporting tool for AI-generation signals (R0 skeleton)"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow==13.0.0",
+    "c2pa-python==0.38.0",
+]
+
+[project.scripts]
+litmus = "litmus.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
 [tool.ruff]
 target-version = "py313"
 

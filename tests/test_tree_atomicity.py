@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from src.litmus.schemas import Modality, Segment, to_json
-from src.litmus.tree import SegmentTree
+from litmus.schemas import Modality, Segment, to_json
+from litmus.tree import SegmentTree
 
 
 def test_tree_mutation_atomicity():

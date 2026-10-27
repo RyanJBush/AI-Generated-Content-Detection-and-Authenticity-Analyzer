@@ -1,7 +1,7 @@
 import builtins
 
-from src.litmus import ingestion
-from src.litmus.ingestion import analyze_ingestion
+from litmus import ingestion
+from litmus.ingestion import analyze_ingestion
 
 
 class CountingBytes(bytes):

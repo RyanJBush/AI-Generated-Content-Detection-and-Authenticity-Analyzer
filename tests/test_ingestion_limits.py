@@ -1,4 +1,4 @@
-from src.litmus.ingestion import MAX_FILE_SIZE, MAX_IMAGE_PIXELS, analyze_ingestion
+from litmus.ingestion import MAX_FILE_SIZE, MAX_IMAGE_PIXELS, analyze_ingestion
 
 
 def create_file(dir, name, content=b""):

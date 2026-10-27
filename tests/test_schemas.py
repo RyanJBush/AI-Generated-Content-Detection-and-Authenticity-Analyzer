@@ -1,7 +1,7 @@
 
 import pytest
 
-from src.litmus.schemas import (
+from litmus.schemas import (
     Calibration,
     Modality,
     OriginEvidence,

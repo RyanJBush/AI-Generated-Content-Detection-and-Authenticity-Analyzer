@@ -1,5 +1,5 @@
-from src.litmus.schemas import Modality, Segment
-from src.litmus.tree import SegmentTree
+from litmus.schemas import Modality, Segment
+from litmus.tree import SegmentTree
 
 
 def test_tree_validate_rejects_dangling_parent():
