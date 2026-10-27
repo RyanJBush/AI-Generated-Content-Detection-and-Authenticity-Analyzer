@@ -1,19 +1,39 @@
+# torch is installed from the PyTorch CUDA 12.4 index:
+#   pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+--extra-index-url https://download.pytorch.org/whl/cu124
 c2pa-python==0.38.0
 certifi==2026.10.23
 cffi==2.1.1
 charset-normalizer==3.5.2
 colorama==0.4.6
 cryptography==50.0.2
+filelock==3.32.3  # via huggingface_hub, torch, transformers
+fsspec==2026.7.0  # via huggingface_hub, torch
+huggingface_hub==0.36.2  # via tokenizers, transformers
 idna==3.20
 iniconfig==2.3.1
+Jinja2==3.1.6  # via torch
+MarkupSafe==3.0.3  # via Jinja2 (torch)
+mpmath==1.3.0  # via sympy (torch)
+networkx==3.6.1  # via torch
+numpy==2.5.4  # via transformers
 packaging==26.3
 pillow==13.0.0
 pluggy==1.7.0
 pycparser==3.12
 Pygments==2.21.0
 pytest==9.1.1
+PyYAML==6.0.3  # via huggingface_hub, transformers
+regex==2026.9.29  # via transformers
 requests==2.34.2
 ruff==0.17.2
+safetensors==0.8.0  # via transformers
 setuptools==84.2.1
+sympy==1.13.1  # via torch
+tokenizers==0.22.2  # via transformers
 toml==0.10.2
+torch==2.6.0+cu124  # top-level (R1-A), cu124 index
+tqdm==4.70.1  # via huggingface_hub, transformers
+transformers==4.57.6  # top-level (R1-A)
+typing_extensions==4.16.0  # via huggingface_hub, torch
 urllib3==2.8.0

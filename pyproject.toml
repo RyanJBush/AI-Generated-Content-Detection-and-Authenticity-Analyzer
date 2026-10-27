@@ -12,6 +12,13 @@ dependencies = [
     "c2pa-python==0.38.0",
 ]
 
+[project.optional-dependencies]
+# Model stack (R1-A); torch comes from the cu124 index, see requirements.lock
+models = [
+    "torch==2.6.0",
+    "transformers==4.57.6",
+]
+
 [project.scripts]
 litmus = "litmus.cli:main"
 
