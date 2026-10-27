@@ -206,3 +206,66 @@ and `Reader(format, stream, context=...)`. The deprecated `load_settings` was no
   consulted in R1-A.
 - **Not authorized:** R1-B and later, and RAID acquisition.
 - Precedence: R1-PLAN-CORRECTIONS-A.md > R1-PLAN.md > Addendum B > Addendum A > SPEC.md.
+
+## 2026-10-27 — Checkpoint R1-A outcomes
+
+Commits checked with `git cat-file -t` (all `commit`): `3b0db47` (planning),
+`2041bc5` (dependencies), `7680d20` (model setup).
+
+### Dependencies (`2041bc5`)
+
+- `torch==2.6.0+cu124` from `https://download.pytorch.org/whl/cu124`, and
+  `transformers==4.57.6` with no extras.
+- **Why 4.57.6:** its metadata declares `torch>=2.2` (via the `torch` extra),
+  whereas 5.21.0 declares `torch>=2.6`, putting torch 2.6.0 at its floor. A
+  `--dry-run` showed 4.57.6 adds 8 packages and 5.21.0 adds 20.
+- The `transformers[torch]` extra was not installed, because it would add
+  `accelerate`, a separate top-level package under CA3.
+- 17 new packages: 2 top-level (torch, transformers) and 15 transitive. Each
+  `Required-by` chain was checked with `pip show` and recorded in
+  `requirements.lock`. `pip check`: `No broken requirements found.`
+
+### Models (`7680d20`)
+
+- `model.safetensors` SHA-256 matched the published values for both pinned
+  revisions. The hashes of all downloaded files are in `models.manifest.json`.
+  The weights are in git-ignored `models/`.
+
+### Tokenizer checks (`eval/results/r1a_tokenizer_checks.json`)
+
+- **Equality:** `tokenizer.json` is identical in both repos (SHA-256
+  `c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539`). The full
+  vocabularies (151,665 entries) and the added-token tables are equal. The
+  `special_tokens_map` differs (`eos_token`: `<|endoftext|>` in the base model,
+  `<|im_end|>` in Instruct).
+- **Agreement:** token IDs are identical between the two models for every
+  probe. `add_special_tokens` (omitted / True / False) never changed IDs on
+  these fixtures.
+- **split_special_tokens:** it changed IDs only for the literal-special-token
+  fixture. With `False`, `<|endoftext|>`, `<|im_end|>` and `<|im_start|>`
+  became control IDs 151643, 151645 and 151644; with `True` they were tokenized
+  as text.
+- **PROPOSED, not final:** `split_special_tokens = True`, `add_special_tokens = False`.
+
+### Offline load (A1.4.2 + B4): claim type 2 only
+
+- **Zero attempted connections observed, with a passing positive control.**
+  - With `HF_HUB_OFFLINE=1`, `TRANSFORMERS_OFFLINE=1` and `HF_ENDPOINT` set to
+    the loopback trap, both tokenizers and both models loaded from `models/`
+    with `local_files_only=True`. The trap recorded 0 connections.
+  - Control: with offline mode off and the same `HF_ENDPOINT`, one `model_info`
+    call reached the trap: 1 connection, `GET /api/models/Qwen/Qwen2.5-0.5B`.
+  - This covers this load path and the HF endpoint only.
+- **Claim type 1 (network isolation): NOT RUN.** Docker isolation stays not run.
+
+### Compatibility smoke (`eval/results/r1a_smoke.json`; not the scorer)
+
+- **Run:** CUDA, fp32, batch size 1, 200 tokens. Logits were finite for both
+  models; vocabulary dimension 151936 for both; dtype `torch.float32` on
+  `cuda:0`. Peak `torch.cuda.max_memory_allocated` was 4298951680 bytes with
+  both models loaded.
+- **Execution profile:** RTX 4060 Laptop GPU, driver 572.60, CUDA runtime 12.4,
+  torch 2.6.0+cu124, transformers 4.57.6, `matmul.allow_tf32=False`,
+  `cudnn.allow_tf32=True`, float32 matmul precision `highest`, deterministic
+  algorithms off, Windows. Profile complete.
+- No Binoculars score was computed.

@@ -1,0 +1,68 @@
+{
+  "check": "r1a_compatibility_smoke",
+  "note": "Not the scorer. No Binoculars score computed.",
+  "input": {
+    "n_tokens": 200,
+    "tokenizer_vocab_size": 151665,
+    "add_special_tokens": false,
+    "split_special_tokens": true
+  },
+  "models": {
+    "Qwen2.5-0.5B": {
+      "param_dtype": "torch.float32",
+      "param_device": "cuda:0",
+      "logits_dtype": "torch.float32",
+      "logits_device": "cuda:0",
+      "logits_shape": [
+        1,
+        200,
+        151936
+      ],
+      "logits_all_finite": true,
+      "config_vocab_size": 151936,
+      "attn_implementation": "sdpa",
+      "peak_allocated_bytes_after_forward": 2319805440
+    },
+    "Qwen2.5-0.5B-Instruct": {
+      "param_dtype": "torch.float32",
+      "param_device": "cuda:0",
+      "logits_dtype": "torch.float32",
+      "logits_device": "cuda:0",
+      "logits_shape": [
+        1,
+        200,
+        151936
+      ],
+      "logits_all_finite": true,
+      "config_vocab_size": 151936,
+      "attn_implementation": "sdpa",
+      "peak_allocated_bytes_after_forward": 4298951680
+    }
+  },
+  "peak_gpu_memory_allocated_bytes": 4298951680,
+  "checks": {
+    "logits_finite": true,
+    "vocab_dims_equal": true,
+    "dtype_float32": true,
+    "device_cuda": true,
+    "batch1_seq200": true
+  },
+  "all_checks_pass": true,
+  "execution_profile": {
+    "device_type": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "nvidia_driver_version": "572.60",
+    "cuda_runtime_torch": "12.4",
+    "cudnn_version": 90100,
+    "torch_version": "2.6.0+cu124",
+    "transformers_version": "4.57.6",
+    "matmul_allow_tf32": false,
+    "cudnn_allow_tf32": true,
+    "float32_matmul_precision": "highest",
+    "deterministic_algorithms": false,
+    "os_family": "Windows",
+    "os_platform": "Windows-11-10.0.26100-SP0",
+    "python_version": "3.13.7",
+    "complete": true
+  }
+}

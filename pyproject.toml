@@ -30,6 +30,10 @@ version = { attr = "litmus.__version__" }
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+# Model-dependent tests need models/ (scripts/download_models.py) and CUDA;
+# run them with: pytest -m slow
+markers = ["slow: needs downloaded models and/or CUDA; excluded by default"]
+addopts = '-m "not slow"'
 
 [tool.ruff]
 target-version = "py313"
