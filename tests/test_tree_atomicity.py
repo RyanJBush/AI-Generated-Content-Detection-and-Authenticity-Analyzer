@@ -62,10 +62,18 @@ def test_tree_cycle_atomicity():
 
     state_before = json.dumps(to_json(tree.segments), sort_keys=True)
 
-    # To create a cycle with add_segment, we'd need a parent that doesn't exist yet.
-    # But our current logic prevents that.
-    # However, we can test the cycle logic by trying to add a segment that
-    # would create a cycle if we had a way to add it.
-    # Actually, with parent-before-child, cycles are impossible.
-    # I'll just verify that the current logic is sound.
-    pass
+    # Re-adding s0 under s1 would close the loop s0 -> s1 -> s0
+    cycle_seg = Segment("s0", "s1", Modality.TEXT, ["cycle"])
+    with pytest.raises(ValueError, match="already exists"):
+        tree.add_segment(cycle_seg)
+
+    # A self-parented segment would be a one-node cycle
+    self_loop = Segment("s2", "s2", Modality.TEXT, ["cycle"])
+    with pytest.raises(ValueError, match="Parent s2 must be added"):
+        tree.add_segment(self_loop)
+
+    state_after = json.dumps(to_json(tree.segments), sort_keys=True)
+    assert state_before == state_after
+    assert tree.root_id == "s0"
+    assert tree.segments["s0"].parent_id is None
+    assert tree.validate() is True

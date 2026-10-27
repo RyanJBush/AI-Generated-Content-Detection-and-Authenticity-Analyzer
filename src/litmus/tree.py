@@ -29,7 +29,8 @@ class SegmentTree:
         # Unknown parent
         if segment.parent_id is not None and segment.parent_id not in self.segments:
             raise ValueError(
-                f"Parent {segment.parent_id} must be added before child {segment.segment_id}"
+                f"Parent {segment.parent_id} must be added before "
+                f"child {segment.segment_id}"
             )
 
         # Cycle detection
@@ -52,6 +53,13 @@ class SegmentTree:
             return False
         if self.root_id is None:
             return False
+        if self.root_id not in self.segments:
+            return False
+
+        # Parent existence check
+        for sid, segment in self.segments.items():
+            if segment.parent_id is not None and segment.parent_id not in self.segments:
+                return False
 
         # Cycle detection
         for sid in self.segments:

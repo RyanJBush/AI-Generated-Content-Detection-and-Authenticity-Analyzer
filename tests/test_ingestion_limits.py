@@ -1,5 +1,5 @@
-import pytest
-from src.litmus.ingestion import analyze_ingestion, MAX_FILE_SIZE, MAX_IMAGE_PIXELS
+from src.litmus.ingestion import MAX_FILE_SIZE, MAX_IMAGE_PIXELS, analyze_ingestion
+
 
 def create_file(dir, name, content=b""):
     path = dir / name
@@ -21,7 +21,9 @@ def test_ingestion_encoding_and_bom(tmp_path):
 
     # BOM-only files
     path = create_file(tmp_path, "bomonly.txt", b"\xef\xbb\xbf")
-    assert analyze_ingestion(path) == {"result": "not_supported", "reason": "empty_after_decoding"}
+    assert analyze_ingestion(path) == {
+        "result": "not_supported", "reason": "empty_after_decoding"
+    }
 
     # Invalid byte sequences
     path = create_file(tmp_path, "invalid.txt", b"Hello \xff World")

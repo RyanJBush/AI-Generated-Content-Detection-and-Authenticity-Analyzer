@@ -45,15 +45,29 @@ class OriginEvidence:
     limitations: List[str] = field(default_factory=list)
     details: Dict[str, Any] = field(default_factory=dict)
 
+class QualityStatus(Enum):
+    OBSERVED = "observed"
+    NONE_FOUND = "none_found"
+    NOT_SUPPORTED = "not_supported"
+    ERROR = "error"
+
+
 @dataclass
 class QualityObservation:
     observer_id: str
     observer_version: str
-    status: str # "observed" | "none_found" | "not_supported" | "error"
+    status: QualityStatus
     count: Optional[int] = None
     rate_per_100_words: Optional[float] = None
     spans: List[List[int]] = field(default_factory=list)
     notes: List[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        if not isinstance(self.status, QualityStatus):
+            try:
+                self.status = QualityStatus(self.status)
+            except ValueError:
+                raise ValueError(f"Invalid status: {self.status}")
 
 @dataclass
 class Segment:
@@ -123,7 +137,8 @@ def from_json(cls, data):
                     init_args[name] = type_hint(val)
                 except ValueError:
                     raise ValueError(
-                        f"Invalid enum value '{val}' for {name} (expected {type_hint.__name__})"
+                        f"Invalid enum value '{val}' for {name} "
+                        f"(expected {type_hint.__name__})"
                     )
                 continue
 

@@ -66,27 +66,38 @@ def test_schema_rejection_missing_fields():
     with pytest.raises(KeyError, match="Missing required field 'alpha'"):
         from_json(
             Calibration,
-            {"scoring_config_hash": "h", "dev_set_id": "d", "threshold_c": 0.1, "n_dev_negatives": 10, "created": "date"}
+            {
+                "scoring_config_hash": "h",
+                "dev_set_id": "d",
+                "threshold_c": 0.1,
+                "n_dev_negatives": 10,
+                "created": "date",
+            }
         )
 
 def test_schema_rejection_invalid_enums():
     # Invalid Modality
     with pytest.raises(ValueError, match="Invalid enum value 'invalid' for modality"):
         from_json(
-            Segment, {"segment_id": "s1", "parent_id": None, "modality": "invalid", "derivation": []}
+            Segment,
+            {
+                "segment_id": "s1",
+                "parent_id": None,
+                "modality": "invalid",
+                "derivation": [],
+            }
         )
 
     # Invalid OriginResult
     with pytest.raises(ValueError, match="Invalid enum value 'invalid' for result"):
         from_json(
-            OriginEvidence, {"method_id": "m1", "method_version": "1.0", "result": "invalid"}
+            OriginEvidence,
+            {"method_id": "m1", "method_version": "1.0", "result": "invalid"}
         )
 
-    # QualityObservation.status is a string in the schema definition (not an Enum in current src/litmus/schemas.py)
-    # If we want to reject invalid status, we should make it an Enum.
-    # Current schema: status: str # "observed" | "none_found" | "not_supported" | "error"
-    # Since the prompt asks for invalid-enum tests for EVERY enum field,
-    # and QualityObservation.status is a string in the provided schema,
-    # I should check if it was intended to be an Enum.
-    # Looking at the provided schema again: "status: str # ..."
-    # I will implement the test and if it fails, it means the status is not an Enum yet.
+    # Invalid QualityStatus
+    with pytest.raises(ValueError, match="Invalid enum value 'invalid' for status"):
+        from_json(
+            QualityObservation,
+            {"observer_id": "o1", "observer_version": "1.0", "status": "invalid"}
+        )

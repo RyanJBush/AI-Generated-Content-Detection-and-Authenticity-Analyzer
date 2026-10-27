@@ -1,5 +1,7 @@
+import io
 
 import pytest
+from PIL import Image
 
 from src.litmus.ingestion import analyze_ingestion
 
@@ -62,19 +64,23 @@ def test_ingestion_zip_reject(temp_dir):
     res = analyze_ingestion(path)
     assert res == {"result": "not_supported", "reason": "documents arrive in R2"}
 
-def test_ingestion_image_signatures(temp_dir):
-    # These signatures are checked for presence, but not full decode
-    # in the simple detect_type function.
-    # However, analyze_ingestion calls Pillow.open.
-    # To avoid failures on dummy data, we'll use a real small image for the positive case
-    # or we can mock Pillow.
-    # For this specific test, we only care that it doesn't return 'not_supported'
-    # but 'supported' or 'error'.
-    # Since we have a separate image test file, we'll disable this one
-    # or make it a smoke test for signatures.
-    pytest.skip(
-        "Use tests/test_ingestion_images.py for real image tests"
-    )
+@pytest.mark.parametrize(
+    "fmt, ext, mime",
+    [("PNG", "png", "image/png"), ("JPEG", "jpg", "image/jpeg"),
+     ("WEBP", "webp", "image/webp")],
+)
+def test_ingestion_image_signatures(temp_dir, fmt, ext, mime):
+    # Real image bytes: signature recognized and Pillow decode succeeds
+    buf = io.BytesIO()
+    Image.new("RGB", (2, 2), (255, 0, 0)).save(buf, format=fmt)
+    path = create_file(temp_dir, f"real.{ext}", buf.getvalue())
+    assert analyze_ingestion(path) == {"result": "supported", "mime": mime}
+
+    # Same signature, truncated body: routed to image decode, never to text rules
+    path = create_file(temp_dir, f"trunc.{ext}", buf.getvalue()[:16])
+    res = analyze_ingestion(path)
+    assert res["result"] == "error"
+    assert res["reason"].startswith("decode failed")
 
 def test_ingestion_image_too_large(temp_dir):
     # We can't easily create a 50MP image without lots of memory,
