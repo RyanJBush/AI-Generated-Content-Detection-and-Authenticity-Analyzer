@@ -175,3 +175,34 @@ and `Reader(format, stream, context=...)`. The deprecated `load_settings` was no
 
 - Network-isolation run: not run (Docker engine not running at R0-B).
 - C2PA analysis: disabled (R0-PLAN).
+
+## 2026-10-27 — R1 planning and R1-A authorization
+
+`13f6a2d` (R0 closed) was checked with `git cat-file -t` and returned `commit`.
+
+### Backend
+
+- `/status` provider and model lines: **not recorded.** The R1-A prompt again
+  contained the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
+
+### Plan files
+
+- `R1-PLAN.md` SHA-256 `71214e83190398f9d3072ed163a83a053a674c1302d846c8ec3d566f3b317617`
+  and `R1-PLAN-CORRECTIONS-A.md` SHA-256
+  `65f3b6fdf84ead3c359dd01fdab3712bf5cdce1d681daaea0cff21249e33314a` both match
+  the values in the R1-A instruction. The files were supplied in `~/Downloads`
+  (not in the repository) and copied byte-for-byte. Both are marked `-text` in
+  `.gitattributes` so Git does not convert their line endings.
+
+### Authorization (Ryan, as stated in the R1-A instruction)
+
+- R1-PLAN v2 approved as the roadmap.
+- **R1-A authorized:** `torch` and `transformers` in the project `.venv`, with the
+  transitive dependencies they require recorded and pinned (CA3). Any additional
+  top-level package needs a separate decision.
+- The two specified Qwen revisions: `Qwen/Qwen2.5-0.5B @ 060db6499f32faf8b98477b0a26969ef7d8b9987`
+  and `Qwen/Qwen2.5-0.5B-Instruct @ 7ae557604adf67be50417f59c2c2f167def9a775`.
+- Retired-math option (a) is approved **for use in R1-B**. Retired files are not
+  consulted in R1-A.
+- **Not authorized:** R1-B and later, and RAID acquisition.
+- Precedence: R1-PLAN-CORRECTIONS-A.md > R1-PLAN.md > Addendum B > Addendum A > SPEC.md.

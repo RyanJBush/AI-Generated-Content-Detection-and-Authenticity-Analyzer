@@ -1,2 +1,5 @@
 # Golden-test inputs are hashed byte-for-byte: never convert line endings
 tests/fixtures/inputs/** -text
+# Plan files verified by SHA-256 against Ryan's published values
+R1-PLAN.md -text
+R1-PLAN-CORRECTIONS-A.md -text
