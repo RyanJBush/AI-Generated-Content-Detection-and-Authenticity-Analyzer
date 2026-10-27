@@ -3,7 +3,10 @@ import os
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
 
-from PIL import Image
+from PIL import Image, ImageFile
+
+# Never accept partially decoded images (R0-B correction)
+ImageFile.LOAD_TRUNCATED_IMAGES = False
 
 
 class IngestionError(Exception):
@@ -41,6 +44,18 @@ def _signature_mime(sig: bytes) -> Optional[str]:
     if sig.startswith(b'\x50\x4b\x03\x04'):
         return "application/zip"
     return None
+
+def _full_decode(img: Image.Image) -> Tuple[bool, Optional[str]]:
+    """Decode every pixel; truncated loading is forced off for the call."""
+    saved = ImageFile.LOAD_TRUNCATED_IMAGES
+    ImageFile.LOAD_TRUNCATED_IMAGES = False
+    try:
+        img.load()
+    except Exception as e:
+        return False, f"{type(e).__name__}: {e}"
+    finally:
+        ImageFile.LOAD_TRUNCATED_IMAGES = saved
+    return True, None
 
 def _detect_encoding(raw: bytes) -> Tuple[str, int]:
     """BOM detection: (codec, BOM length)."""
@@ -168,15 +183,22 @@ def ingest(
         if ext not in IMAGE_EXTENSIONS[mime]:
             notes.append(f"extension '{ext}' does not match content {mime}; "
                          "analyzed by content")
+        # Header only: Image.open reads dimensions without decoding pixels
         try:
-            with Image.open(io.BytesIO(raw)) as img:
-                width, height = img.size
-                if width * height > max_pixels:
-                    return Ingested("not_supported", "image too large",
-                                    mime=mime, size=size, raw=raw)
+            img = Image.open(io.BytesIO(raw))
         except Exception as e:
             return Ingested("error", f"decode failed: {str(e)}",
                             mime=mime, size=size, raw=raw)
+        with img:
+            width, height = img.size
+            # Pixel limit from the header, before any decoding
+            if width * height > max_pixels:
+                return Ingested("not_supported", "image too large",
+                                mime=mime, size=size, raw=raw)
+            ok, detail = _full_decode(img)
+        if not ok:
+            return Ingested("error", "corrupt_image", mime=mime, size=size,
+                            raw=raw, notes=notes + [f"full decode failed: {detail}"])
         return Ingested("supported", mime=mime, size=size, raw=raw,
                         image_size=(width, height), notes=notes)
 

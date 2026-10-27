@@ -132,3 +132,46 @@ and `Reader(format, stream, context=...)`. The deprecated `load_settings` was no
 
 - Network-isolation run (claim type 1): Docker engine not running (see above).
 - Loopback UI test (A1.4.6): deferred to R1 by R0-PLAN.
+
+## 2026-10-27 — R0-B corrections (on top of `b485cd7`)
+
+`b485cd7` was checked with `git cat-file -t` and returned `commit`.
+
+### Backend
+
+- `/status` provider and model lines: **not recorded.** The prompt again contained
+  the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
+
+### Fix 1: `-o` could overwrite the analyzed input
+
+- **Bug (verified):** at `b485cd7`, `litmus analyze F -o F` exited 0 and replaced
+  `F` with the report. The new tests in `tests/test_cli_output_safety.py` failed
+  on that code with `assert 0 != 0`.
+- **Fix:** before analysis, if the output path exists, the CLI rejects it when
+  `os.path.samefile(input, output)` is true. Otherwise it rejects when the
+  `normcase`d resolved paths are equal. Rejection exits 1, writes
+  `litmus: refusing to overwrite the input file: ...` to stderr, and writes or
+  modifies nothing.
+
+### Fix 2: corrupt supported images were accepted
+
+- **Bug (verified):** at `b485cd7`, ingestion only opened the header, so a
+  half-truncated PNG or JPEG returned `supported`.
+- **Fix:** the order is now (1) file-size limit, (2) header dimensions against
+  the 50,000,000-pixel limit, before decoding, (3) a full `img.load()` with
+  `ImageFile.LOAD_TRUNCATED_IMAGES` forced to `False` (also set `False` at
+  import).
+- **New reason code added in R0-B, PENDING REVIEW: `corrupt_image`.** It is
+  returned as `{"result": "error", "reason": "corrupt_image"}` when the header
+  parses but the full decode fails. The exception text goes into the ingestion
+  notes.
+- **Scope note:** a header that Pillow cannot open at all keeps the existing
+  reason `decode failed: <exception>`. Truncated WebP falls in this group:
+  Pillow 13.0.0's WebP plugin fails at open with `could not create decoder
+  object`, so it returns `error` / `decode failed: ...`, not `corrupt_image`.
+  Unifying the two codes is left for review.
+
+### Still not run / disabled
+
+- Network-isolation run: not run (Docker engine not running at R0-B).
+- C2PA analysis: disabled (R0-PLAN).
