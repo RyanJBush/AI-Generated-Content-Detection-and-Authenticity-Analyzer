@@ -269,3 +269,72 @@ Commits checked with `git cat-file -t` (all `commit`): `3b0db47` (planning),
   `cudnn.allow_tf32=True`, float32 matmul precision `highest`, deterministic
   algorithms off, Windows. Profile complete.
 - No Binoculars score was computed.
+
+## 2026-10-28 — Checkpoint R1-B1 (scorer, uncalibrated)
+
+`357ac92` (R1-A accepted) was checked with `git cat-file -t` and returned `commit`.
+
+### Backend routing: UNVERIFIED
+
+- The provider and model routing for this session is **unverified**. Ryan has
+  not supplied actual `/status` output. Nothing is inferred from the agent's
+  self-identification.
+
+### Authorization (Ryan, as stated in the R1-B1 instruction)
+
+- Preprocessing policy: `add_special_tokens=False`, `split_special_tokens=True`.
+  This finalizes the R1-A proposal.
+- Numerical settings: `attn_implementation="eager"`; TF32 off for matmul and
+  cuDNN; float32 matmul precision `"highest"`.
+- Retired-math option (a): read-only consultation via `git show`.
+
+### Retired files read (option a)
+
+- Read with `git show litmus-text-before-multimodal-2026-10-26:<path>`. The tag
+  resolves to commit `106a645`.
+  - `src/litmus/binoculars.py`
+  - `tests/test_binoculars_math.py`
+- **Ported:** the A4 statistics (shifted performer NLL, all-position XENT,
+  float32 log-softmax and reductions, validation guards), reduced to batch size
+  1 with no mask; and the hand-computed power-of-2 vectors (main fixture, role
+  swap, first/last token, final-position, zero-XENT, validator cases).
+- **Not ported:** batching, attention masks and padding (A4 fixes batch size 1);
+  `nll_observer` (not an A4 quantity). No file was restored or checked out.
+
+### Deterministic-algorithm choice
+
+- `torch.use_deterministic_algorithms(True)` with
+  `CUBLAS_WORKSPACE_CONFIG=":4096:8"` (set before CUDA initialization).
+- Read back as `True` and `":4096:8"`.
+- Two runs on the same text gave an identical `raw_score` in the slow suite.
+
+### Implementation choices for review
+
+- **NVIDIA driver:** read through NVML via `ctypes`, because analysis runs under
+  the subprocess guard and `nvidia-smi` would be blocked. Read back `572.60`,
+  the same value `nvidia-smi` reported in R1-A.
+- **Opt-in detector:** `litmus analyze` keeps the R0 placeholder by default. The
+  scorer is used with `--text-origin binoculars`, so the R0 golden files are
+  unchanged.
+- **Weights not re-hashed at load:** the loader checks that the model files
+  exist and that `tokenizer.json`'s SHA-256 matches. Weight hashes are verified
+  by the setup script and the R1-A slow test, not at every load.
+
+### Bug found and fixed before commit
+
+- In a draft report, `torch_version` serialized as `{}`. `torch.__version__` is
+  a `str` subclass with a `__dict__`, and `schemas.to_json` treated it as an
+  object. The hash input (via `json.dumps`) was not affected.
+- **Fix:** profile values are cast to `str`, and `to_json` keeps `str`
+  subclasses as text.
+- **Regression tests:** a default-suite test for `to_json`, and a slow test
+  checking that the reported `scoring_config` re-hashes to the reported
+  `scoring_config_hash`.
+
+### Not in R1-B1
+
+- No timing or memory measurement (R1-B2).
+- No calibration and no threshold application (R1-F).
+- No RAID data.
+- C2PA analysis stays disabled; quality observers are not implemented.
+- Docker isolation: not run.

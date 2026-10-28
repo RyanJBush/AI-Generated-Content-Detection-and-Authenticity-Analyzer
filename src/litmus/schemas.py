@@ -87,6 +87,9 @@ class Segment:
 def to_json(obj):
     if isinstance(obj, Enum):
         return obj.value
+    # str subclasses (e.g. torch's TorchVersion) carry a __dict__; keep the text
+    if isinstance(obj, str):
+        return str(obj)
     if isinstance(obj, list):
         return [to_json(i) for i in obj]
     if isinstance(obj, dict):

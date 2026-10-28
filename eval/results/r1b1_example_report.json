@@ -1,0 +1,132 @@
+{
+  "report_schema": "litmus-report/r0",
+  "tool": {
+    "name": "litmus",
+    "version": "0.0.0"
+  },
+  "input": {
+    "file_name": "r1b1_synthetic.txt",
+    "size_bytes": 1077,
+    "sha256": "ccde49f6452bfdca2fe9a12a7c5eb90452132544f4d2e6436f6b08a8f6d2116e",
+    "detected_type": "text/plain",
+    "ingestion": {
+      "result": "supported",
+      "reason": null
+    }
+  },
+  "segments": [
+    {
+      "segment_id": "s0",
+      "parent_id": null,
+      "modality": "text",
+      "derivation": [
+        "utf8_decode"
+      ],
+      "coords_in_parent": null,
+      "local_frame": {
+        "type": "text_codepoints",
+        "length": 1077
+      },
+      "content_sha256": "ccde49f6452bfdca2fe9a12a7c5eb90452132544f4d2e6436f6b08a8f6d2116e",
+      "extraction": {
+        "status": "complete",
+        "notes": []
+      },
+      "origin": [
+        {
+          "method_id": "binoculars",
+          "method_version": "r1b1-1",
+          "result": "inconclusive",
+          "raw_score": 0.9254686832427979,
+          "score_direction": "lower_means_more_machine",
+          "calibration": null,
+          "provenance": null,
+          "reasons": [
+            "no calibration for this configuration"
+          ],
+          "limitations": [
+            "raw_score is an uncalibrated score, not a probability",
+            "absence of evidence is not evidence of human origin"
+          ],
+          "details": {
+            "scored_window": {
+              "tokens_total": 202,
+              "tokens_scored": 202,
+              "truncated": false,
+              "scored_char_range": [
+                0,
+                1077
+              ]
+            },
+            "nll_performer": 1.865563988685608,
+            "xent": 2.0158045291900635,
+            "n_input_tokens": 202,
+            "n_target_tokens": 201,
+            "tokenizer_vocab_size": 151665,
+            "model_output_dim": 151936,
+            "scoring_config_hash": "08f90db6d59c705a7a48e8d2863ce1f809acd7c550c3991107491a0a99ec6a64",
+            "scoring_config": {
+              "scorer_version": "r1b1-1",
+              "formula_id": "binoculars_shiftednll_allposxent_v1",
+              "observer_repo": "Qwen/Qwen2.5-0.5B",
+              "observer_commit": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+              "performer_repo": "Qwen/Qwen2.5-0.5B-Instruct",
+              "performer_commit": "7ae557604adf67be50417f59c2c2f167def9a775",
+              "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+              "add_special_tokens": false,
+              "split_special_tokens": true,
+              "truncation_side": "right",
+              "max_tokens": 512,
+              "min_tokens": 64,
+              "weight_dtype": "float32",
+              "reduction_dtype": "float32",
+              "score_direction": "lower_means_more_machine",
+              "preprocessing_version": "r1-text-v1",
+              "device_type": "cuda",
+              "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+              "nvidia_driver_version": "572.60",
+              "cuda_runtime": "12.4",
+              "torch_version": "2.6.0+cu124",
+              "transformers_version": "4.57.6",
+              "tokenizers_version": "0.22.2",
+              "attn_implementation": "eager",
+              "batch_size": 1,
+              "matmul_allow_tf32": false,
+              "cudnn_allow_tf32": false,
+              "float32_matmul_precision": "highest",
+              "deterministic_algorithms": true,
+              "cublas_workspace_config": ":4096:8",
+              "os_family": "Windows",
+              "source_files": [
+                "src/litmus/config.py",
+                "src/litmus/ingestion.py",
+                "src/litmus/scorer/binoculars.py",
+                "src/litmus/scorer/loader.py",
+                "src/litmus/scorer/tokenize.py"
+              ],
+              "source_sha256": "365c4cca7e554b6baa2b1dfdb2065d195637e2b34ed633b74df439fe9a2a3000"
+            },
+            "execution_profile_complete": true
+          }
+        }
+      ],
+      "quality": []
+    }
+  ],
+  "extraction_coverage": {
+    "segments_created": 1,
+    "skipped": [],
+    "unit": "text_codepoints",
+    "total": 1077,
+    "in_segments": 1077,
+    "ratio": 1.0
+  },
+  "limitations": [
+    "text origin score is uncalibrated in R1-B1; image analyzers are placeholders and there is no C2PA analysis",
+    "no result in this report is a probability or a verdict"
+  ],
+  "offline": {
+    "socket_guard": "loopback_only",
+    "subprocess_guard": "blocked"
+  }
+}

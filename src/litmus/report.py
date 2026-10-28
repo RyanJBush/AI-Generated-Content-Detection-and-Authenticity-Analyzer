@@ -5,7 +5,7 @@ R0 analyzers never analyze anything: they return ``inconclusive`` or
 """
 import hashlib
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from litmus import __version__
 from litmus.ingestion import Ingested, ingest
@@ -24,6 +24,12 @@ REPORT_LIMITATIONS = [
     "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
     "no result in this report is a probability or a verdict",
 ]
+DETECTOR_REPORT_LIMITATIONS = [
+    "text origin score is uncalibrated in R1-B1; image analyzers are "
+    "placeholders and there is no C2PA analysis",
+    "no result in this report is a probability or a verdict",
+]
+TextOrigin = Callable[[str], OriginEvidence]
 _CODEC_STEP = {"utf-8": "utf8_decode", "utf-16-le": "utf16le_decode",
                "utf-16-be": "utf16be_decode"}
 
@@ -59,8 +65,10 @@ def image_origin_placeholder() -> OriginEvidence:
     )
 
 
-def _root_segment(ing: Ingested) -> Segment:
+def _root_segment(ing: Ingested, text_origin: Optional[TextOrigin]) -> Segment:
     if ing.text is not None:
+        # Resolved at call time so the placeholder stays the default
+        analyze_text = text_origin or text_origin_placeholder
         notes = ["byte order mark removed"] if ing.bom else []
         return Segment(
             segment_id="s0",
@@ -70,7 +78,7 @@ def _root_segment(ing: Ingested) -> Segment:
             local_frame={"type": "text_codepoints", "length": len(ing.text)},
             content_sha256=_sha256(ing.text.encode("utf-8")),
             extraction={"status": "complete", "notes": notes},
-            origin=[text_origin_placeholder(ing.text)],
+            origin=[analyze_text(ing.text)],
         )
     width, height = ing.image_size
     return Segment(
@@ -112,12 +120,14 @@ def _input_sha256(ing: Ingested) -> Optional[str]:
     return None  # not read (e.g. over the size limit)
 
 
-def build_report(path: str) -> Dict[str, Any]:
+def build_report(path: str, text_origin: Optional[TextOrigin] = None
+                 ) -> Dict[str, Any]:
+    """text_origin: analyzer for text segments; None uses the R0 placeholder."""
     ing = ingest(path)
 
     tree = SegmentTree()
     if ing.accepted:
-        tree.add_segment(_root_segment(ing))
+        tree.add_segment(_root_segment(ing, text_origin))
         if not tree.validate():
             raise RuntimeError("internal error: invalid segment tree")
     segments = list(tree.segments.values())
@@ -134,14 +144,16 @@ def build_report(path: str) -> Dict[str, Any]:
         },
         "segments": [to_json(s) for s in segments],
         "extraction_coverage": _coverage(ing, segments),
-        "limitations": list(REPORT_LIMITATIONS),
+        "limitations": list(REPORT_LIMITATIONS if text_origin is None
+                            else DETECTOR_REPORT_LIMITATIONS),
     }
 
 
-def run_analysis(path: str) -> Dict[str, Any]:
+def run_analysis(path: str, text_origin: Optional[TextOrigin] = None
+                 ) -> Dict[str, Any]:
     """Build a report with the offline guards active for the whole analysis."""
     with offline_guards():
-        report = build_report(path)
+        report = build_report(path, text_origin)
     report["offline"] = {
         "socket_guard": "loopback_only",
         "subprocess_guard": "blocked",

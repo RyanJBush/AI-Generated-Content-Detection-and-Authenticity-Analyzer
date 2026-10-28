@@ -16,6 +16,15 @@ def _parser() -> argparse.ArgumentParser:
         "-o", "--output", metavar="PATH",
         help="write the report to PATH instead of standard output",
     )
+    analyze.add_argument(
+        "--text-origin", choices=["placeholder", "binoculars"],
+        default="placeholder",
+        help="text origin analyzer (binoculars needs models/; uncalibrated in R1-B1)",
+    )
+    analyze.add_argument("--models-dir", metavar="DIR",
+                         help="model directory (default: <repo>/models)")
+    analyze.add_argument("--device", choices=["cuda", "cpu"],
+                         help="scorer device (default: cuda if available)")
     return parser
 
 
@@ -45,7 +54,13 @@ def main(argv=None) -> int:
         )
         return 1
 
-    report = run_analysis(args.file)
+    text_origin = None
+    if args.text_origin == "binoculars":
+        from litmus.scorer.analyzer import BinocularsAnalyzer
+        text_origin = BinocularsAnalyzer(models_dir=args.models_dir,
+                                         device=args.device)
+
+    report = run_analysis(args.file, text_origin)
     text = json.dumps(report, indent=2) + "\n"
 
     if args.output:
