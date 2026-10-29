@@ -3,6 +3,8 @@ no timing or memory is measured or asserted here (feasibility is R1-B2)."""
 import json
 import math
 import pathlib
+import subprocess
+import sys
 
 import pytest
 from binoculars_oracle import oracle
@@ -11,7 +13,14 @@ from litmus import config
 from litmus.cli import main
 from litmus.scorer.analyzer import NO_CALIBRATION, BinocularsAnalyzer
 from litmus.scorer.binoculars import binoculars_statistics
-from litmus.scorer.loader import UNAVAILABLE, forward_logits, load_pair
+from litmus.scorer.identity import SOURCE_FILES
+from litmus.scorer.loader import (
+    CUDA_ORDER_REASON,
+    UNAVAILABLE,
+    forward_logits,
+    load_pair,
+    profile_failures,
+)
 from litmus.scorer.tokenize import tokenize_window
 
 pytestmark = pytest.mark.slow
@@ -59,6 +68,10 @@ def test_effective_settings_read_back(pair):
     assert p["cublas_workspace_config"] == config.CUBLAS_WORKSPACE_CONFIG
     assert p["weight_dtype"] == "float32" and p["device_type"] == "cuda"
     assert UNAVAILABLE not in p.values()
+    # Settings were applied before CUDA initialized in this process
+    assert p["cuda_initialized_before_settings"] is False
+    assert profile_failures(p, models=(("observer", pair.observer),
+                                       ("performer", pair.performer))) == {}
     # Plain JSON types only (TorchVersion regression)
     assert all(type(v) in (str, bool, int) for v in p.values())
     assert p["torch_version"] == str(torch.__version__)
@@ -87,10 +100,13 @@ def test_medium_text_uncalibrated_evidence(analyzer):
     assert sw["truncated"] is False
     assert sw["scored_char_range"] == [0, len(MEDIUM_TEXT)]
     assert len(ev.details["scoring_config_hash"]) == 64
-    assert ev.details["scoring_config"]["source_files"] == [
+    assert ev.details["scoring_config"]["source_files"] == list(SOURCE_FILES) == [
         "src/litmus/config.py", "src/litmus/ingestion.py",
-        "src/litmus/scorer/binoculars.py", "src/litmus/scorer/loader.py",
+        "src/litmus/scorer/analyzer.py", "src/litmus/scorer/binoculars.py",
+        "src/litmus/scorer/identity.py", "src/litmus/scorer/loader.py",
         "src/litmus/scorer/tokenize.py"]
+    assert ev.details["execution_profile_complete"] is True
+    assert ev.details["execution_profile_failures"] == {}
 
 
 def test_long_text_truncates_to_512(analyzer, pair):
@@ -147,3 +163,55 @@ def test_cli_binoculars_report_under_offline_guards(tmp_path, capsys):
     reported = details["scoring_config_hash"]
     assert scoring_config_hash(details["scoring_config"]) == reported
     assert details["scoring_config"]["torch_version"] == "2.6.0+cu124"
+
+
+# Fresh interpreters (tests only; analysis code never spawns processes). Tiny
+# stand-in models: only the read-back profile is under test, not scoring.
+ORDER_SCRIPT = r"""
+import json, sys
+from types import SimpleNamespace
+import torch
+from litmus.scorer import loader
+
+def init_cuda():
+    a = torch.ones(4, 4, device="cuda")
+    (a @ a).sum().item()  # initializes CUDA and cuBLAS
+
+class Stub:
+    config = SimpleNamespace(_attn_implementation="eager")
+    def parameters(self):
+        yield torch.zeros(1)
+
+assert not torch.cuda.is_initialized()
+if sys.argv[1] == "init-first":
+    init_cuda()
+loader.configure_numerics("cuda")
+if sys.argv[1] == "configure-first":
+    init_cuda()
+profile = loader.read_profile(torch, torch.device("cuda"), Stub(), Stub())
+print(json.dumps({"cuda_initialized_now": torch.cuda.is_initialized(),
+                  "profile": profile,
+                  "failures": loader.profile_failures(profile)}))
+"""
+
+
+def _run_order(order):
+    proc = subprocess.run([sys.executable, "-c", ORDER_SCRIPT, order],
+                          capture_output=True, text=True, timeout=300)
+    assert proc.returncode == 0, proc.stderr
+    out = json.loads(proc.stdout.strip().splitlines()[-1])
+    print(f"\n[{order}]", json.dumps(out, indent=1))
+    assert out["cuda_initialized_now"] is True
+    return out
+
+
+def test_configure_then_initialize_cuda_is_complete():
+    out = _run_order("configure-first")
+    assert out["profile"]["cuda_initialized_before_settings"] is False
+    assert out["failures"] == {}
+
+
+def test_initialize_cuda_then_configure_is_incomplete():
+    out = _run_order("init-first")
+    assert out["profile"]["cuda_initialized_before_settings"] is True
+    assert out["failures"] == {"cuda_initialized_before_settings": CUDA_ORDER_REASON}

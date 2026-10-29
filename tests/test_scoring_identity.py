@@ -34,6 +34,7 @@ PROFILE = {
     "weight_dtype": "float32",
     "reduction_dtype": "float32",
     "os_family": "Windows",
+    "cuda_initialized_before_settings": False,
 }
 SOURCE_HASH = "0" * 64
 STATIC = identity.static_fields()
@@ -47,7 +48,10 @@ def fields(profile=PROFILE, static=STATIC, files=identity.SOURCE_FILES,
 # Golden digest for the fixed inputs above, cross-checked with `sha256sum` over
 # the canonical JSON text. Recompute deliberately (and record why) only when the
 # field set or a static configuration value changes.
-GOLDEN_HASH = "51a2bf595030b334a7ad12b6b65335f363eadd51e36e0cd0913f5e41240cfce6"
+# R1-B1 corrections: recomputed because the field set gained
+# cuda_initialized_before_settings and source_files gained analyzer.py and
+# identity.py (was 51a2bf595030b334a7ad12b6b65335f363eadd51e36e0cd0913f5e41240cfce6).
+GOLDEN_HASH = "324c40ee30f7830751820b88d08e87aabf8a43acc8c6e374d02c4cf00abd2639"
 
 
 def test_to_json_keeps_str_subclasses_as_text():
@@ -181,7 +185,8 @@ def test_matching_calibration_is_not_applied_in_r1b1(tmp_path):
 
 def test_cpu_runs_are_always_uncalibrated(tmp_path):
     cpu = dict(PROFILE, device_type="cpu", gpu_name="not_applicable",
-               nvidia_driver_version="not_applicable", cuda_runtime="not_applicable")
+               nvidia_driver_version="not_applicable", cuda_runtime="not_applicable",
+               cublas_workspace_config="not_applicable")
     h = identity.scoring_config_hash(fields(profile=cpu))
     _write_calibration(tmp_path / "cals", h)  # even an exact match
     assert profile_is_complete(cpu)
@@ -210,3 +215,41 @@ def test_evidence_is_uncalibrated_and_inconclusive(tmp_path, profile, reason):
     assert ev.details["scored_window"] == window
     assert ev.details["execution_profile_complete"] is (reason == NO_CALIBRATION)
     assert ev.limitations
+
+
+# --- source identity over the full list (R1-B1 corrections Fix 2) ---
+
+def _copy_sources(root, newline=b"\n"):
+    for rel in identity.SOURCE_FILES:
+        data = (identity._SRC_ROOT / rel).read_bytes().replace(b"\r\n", b"\n")
+        dest = root / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_bytes(data.replace(b"\n", newline))
+
+
+def test_source_list_includes_analyzer_and_identity():
+    assert "src/litmus/scorer/analyzer.py" in identity.SOURCE_FILES
+    assert "src/litmus/scorer/identity.py" in identity.SOURCE_FILES
+    assert len(set(identity.SOURCE_FILES)) == len(identity.SOURCE_FILES) == 7
+
+
+@pytest.mark.parametrize("rel", identity.SOURCE_FILES)
+def test_changing_any_listed_file_changes_both_hashes(tmp_path, rel):
+    _copy_sources(tmp_path)
+    before = identity.source_sha256(root=tmp_path)
+    # The copy is the real source, so the injected root reproduces the real hash
+    assert before == identity.source_sha256()
+    target = tmp_path / rel
+    target.write_bytes(target.read_bytes() + b"# changed\n")
+    after = identity.source_sha256(root=tmp_path)
+    assert after != before
+    assert (identity.scoring_config_hash(fields(src=after))
+            != identity.scoring_config_hash(fields(src=before)))
+
+
+def test_crlf_and_lf_copies_of_the_full_list_hash_equal(tmp_path):
+    _copy_sources(tmp_path / "lf", b"\n")
+    _copy_sources(tmp_path / "crlf", b"\r\n")
+    assert (identity.source_sha256(root=tmp_path / "lf")
+            == identity.source_sha256(root=tmp_path / "crlf")
+            == identity.source_sha256())

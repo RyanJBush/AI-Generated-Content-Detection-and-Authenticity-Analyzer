@@ -1,8 +1,9 @@
 """Text origin analyzer emitting uncalibrated OriginEvidence (R1-B1).
 
 Result is always ``inconclusive`` in R1-B1: either no calibration exists for
-the exact configuration, the execution profile is incomplete (CA2), or the
-run is on CPU (always uncalibrated). Threshold application is R1-F.
+the exact configuration, the execution profile is incomplete (CA2), the
+effective settings changed after load (no score), or the run is on CPU
+(always uncalibrated). Threshold application is R1-F.
 """
 import pathlib
 from typing import Any, Dict, Optional
@@ -10,11 +11,12 @@ from typing import Any, Dict, Optional
 from litmus import config
 from litmus.schemas import OriginEvidence, OriginResult
 from litmus.scorer.calibration import find_calibration
-from litmus.scorer.loader import profile_is_complete
+from litmus.scorer.loader import CUDA_ORDER_REASON, profile_failures
 
 METHOD_ID = "binoculars"
 NO_CALIBRATION = "no calibration for this configuration"
 PROFILE_INCOMPLETE = "execution_profile_incomplete"
+PROFILE_CHANGED = "execution_profile_changed"
 CALIBRATION_NOT_APPLIED = "calibration_application_not_implemented"
 TOO_SHORT = "too_short"
 NO_NONWHITESPACE = "no_nonwhitespace_content"
@@ -39,10 +41,13 @@ def _evidence(result, reasons, raw_score=None, details=None, extra_limitations=(
     )
 
 
-def calibration_reason(profile: Dict[str, Any], config_hash: str,
-                       calibrations_dir: Optional[pathlib.Path] = None) -> str:
+def calibration_reason(profile: Dict[str, Any], config_hash: Optional[str],
+                       calibrations_dir: Optional[pathlib.Path] = None,
+                       failures: Optional[Dict[str, str]] = None) -> str:
     """Why the result is inconclusive; strict exact-hash lookup."""
-    if not profile_is_complete(profile):
+    if failures is None:
+        failures = profile_failures(profile)
+    if failures:
         return PROFILE_INCOMPLETE  # CA2: never matches any calibration
     if profile.get("device_type") != "cuda":
         return NO_CALIBRATION  # CPU runs are always uncalibrated in R1
@@ -52,12 +57,18 @@ def calibration_reason(profile: Dict[str, Any], config_hash: str,
 
 
 def evidence_from_score(stats: Dict[str, Any], scored_window: Dict[str, Any],
-                        profile: Dict[str, Any], fields: Dict[str, Any],
-                        config_hash: str, tokenizer_vocab_size: int,
+                        profile: Dict[str, Any], fields: Optional[Dict[str, Any]],
+                        config_hash: Optional[str], tokenizer_vocab_size: int,
                         model_output_dim: int,
-                        calibrations_dir: Optional[pathlib.Path] = None
+                        calibrations_dir: Optional[pathlib.Path] = None,
+                        failures: Optional[Dict[str, str]] = None
                         ) -> OriginEvidence:
-    reason = calibration_reason(profile, config_hash, calibrations_dir)
+    if failures is None:
+        failures = profile_failures(profile)
+    reason = calibration_reason(profile, config_hash, calibrations_dir, failures)
+    reasons = [reason]
+    if failures.get("cuda_initialized_before_settings") == CUDA_ORDER_REASON:
+        reasons.append(CUDA_ORDER_REASON)
     details = {
         "scored_window": scored_window,
         "nll_performer": stats["nll_performer"],
@@ -68,11 +79,12 @@ def evidence_from_score(stats: Dict[str, Any], scored_window: Dict[str, Any],
         "model_output_dim": model_output_dim,
         "scoring_config_hash": config_hash,
         "scoring_config": fields,
-        "execution_profile_complete": profile_is_complete(profile),
+        "execution_profile_complete": not failures,
+        "execution_profile_failures": failures,
     }
     extra = (["only the first 512 tokens were scored"]
              if scored_window["truncated"] else [])
-    return _evidence(OriginResult.INCONCLUSIVE, [reason], raw_score=stats["score"],
+    return _evidence(OriginResult.INCONCLUSIVE, reasons, raw_score=stats["score"],
                      details=details, extra_limitations=extra)
 
 
@@ -115,7 +127,11 @@ class BinocularsAnalyzer:
             source_sha256,
             static_fields,
         )
-        from litmus.scorer.loader import apply_numerical_settings, forward_logits
+        from litmus.scorer.loader import (
+            effective_settings,
+            forward_logits,
+            profile_changes,
+        )
         from litmus.scorer.tokenize import tokenize_window
 
         window = tokenize_window(pair.tokenizer, text)
@@ -123,7 +139,16 @@ class BinocularsAnalyzer:
             return _evidence(OriginResult.INCONCLUSIVE, [TOO_SHORT],
                              details={"scored_window": window.scored_window()})
 
-        torch = apply_numerical_settings()
+        import torch
+
+        # Re-read immediately before scoring; never re-apply (that would hide
+        # a change). Any difference from the hashed profile -> no score.
+        changes = profile_changes(pair.profile, effective_settings(
+            torch, pair.device.type, pair.observer, pair.performer))
+        if changes:
+            return _evidence(OriginResult.INCONCLUSIVE, [PROFILE_CHANGED],
+                             details={"scored_window": window.scored_window(),
+                                      "execution_profile_changes": changes})
         obs = forward_logits(torch, pair.observer, window.ids, pair.device)
         perf = forward_logits(torch, pair.performer, window.ids, pair.device)
         ids = torch.tensor(window.ids, device=pair.device)
@@ -133,9 +158,18 @@ class BinocularsAnalyzer:
             return _evidence(OriginResult.ERROR, [f"numerical_error: {e}"],
                              details={"scored_window": window.scored_window()})
 
-        fields = config_fields(pair.profile, static_fields(pair.tokenizer_json_sha256),
-                               list(SOURCE_FILES), source_sha256())
+        failures = profile_failures(pair.profile, models=(
+            ("observer", pair.observer), ("performer", pair.performer)))
+        try:
+            fields = config_fields(pair.profile,
+                                   static_fields(pair.tokenizer_json_sha256),
+                                   list(SOURCE_FILES), source_sha256())
+            config_hash = scoring_config_hash(fields)
+        except (KeyError, ValueError):
+            if not failures:
+                raise
+            fields = config_hash = None  # incomplete profile: nothing to match
         return evidence_from_score(
-            stats, window.scored_window(), pair.profile, fields,
-            scoring_config_hash(fields), pair.tokenizer_vocab_size,
-            pair.model_output_dim, self.calibrations_dir)
+            stats, window.scored_window(), pair.profile, fields, config_hash,
+            pair.tokenizer_vocab_size, pair.model_output_dim,
+            self.calibrations_dir, failures)

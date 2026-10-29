@@ -27,7 +27,9 @@ the local file at load and required to equal the pinned value),
 `batch_size`, `matmul_allow_tf32`, `cudnn_allow_tf32`,
 `float32_matmul_precision`, `deterministic_algorithms`,
 `cublas_workspace_config`, `weight_dtype` (from the loaded parameters),
-`reduction_dtype`, `os_family`.
+`reduction_dtype`, `os_family`, `cuda_initialized_before_settings` (whether
+`torch.cuda.is_initialized()` was already true when the numerical settings were
+applied; see the initialization-order rule).
 The read-back `weight_dtype` / `reduction_dtype` must equal the configured
 values, otherwise hashing is refused. On CPU, GPU-only fields are
 `"not_applicable"`.
@@ -39,21 +41,80 @@ values, otherwise hashing is refused. On CPU, GPU-only fields are
 ```
 src/litmus/config.py
 src/litmus/ingestion.py
+src/litmus/scorer/analyzer.py
 src/litmus/scorer/binoculars.py
+src/litmus/scorer/identity.py
 src/litmus/scorer/loader.py
 src/litmus/scorer/tokenize.py
 ```
+
+`analyzer.py` and `identity.py` were added in the R1-B1 corrections: they decide
+completeness, the reported result and the hash itself.
 
 For each path in sorted order: `entry = path + "\n" + sha256(file bytes with
 CRLF replaced by LF)`. `source_sha256 = SHA-256( UTF-8( "\n".join(entries) ) )`.
 CRLF→LF normalization applies only to these files. The list itself is also a
 hash field (`source_files`).
 
-### Incomplete profile (Corrections A, CA2)
+### Required-field schema and completeness (Corrections A CA2; R1-B1 corrections)
 
-A profile value that cannot be determined is recorded as `"unavailable"`. Such a
-profile is **incomplete**: the analyzer returns `inconclusive` /
-`execution_profile_incomplete` and never looks up a calibration.
+Implemented as `PROFILE_SCHEMA` / `profile_failures()` in
+`src/litmus/scorer/loader.py`. The profile must have exactly these keys:
+
+| Field | Permitted value on `cuda` | On `cpu` |
+|---|---|---|
+| `device_type` | `"cuda"` or `"cpu"` | same |
+| `gpu_name` | non-empty string | `"not_applicable"` |
+| `nvidia_driver_version` | string matching `\d+(\.\d+)+` (e.g. `572.60`) | `"not_applicable"` |
+| `cuda_runtime` | string matching `\d+\.\d+` (e.g. `12.4`) | `"not_applicable"` |
+| `cublas_workspace_config` | `":4096:8"` | `"not_applicable"` |
+| `torch_version`, `transformers_version`, `tokenizers_version` | string matching `\d+(\.\d+)+` plus an optional local/pre-release suffix (e.g. `2.6.0+cu124`) | same |
+| `attn_implementation` | `"eager"` | same |
+| `batch_size` | int `1` | same |
+| `matmul_allow_tf32`, `cudnn_allow_tf32` | bool `false` | same |
+| `float32_matmul_precision` | `"highest"` | same |
+| `deterministic_algorithms` | a bool | same |
+| `weight_dtype`, `reduction_dtype` | `"float32"` | same |
+| `os_family` | `"Windows"`, `"Linux"` or `"Darwin"` | same |
+| `cuda_initialized_before_settings` | bool `false` | same |
+
+`"not_applicable"` is permitted only for the four GPU-specific fields, and only on
+CPU. The profile is **incomplete** if any of these holds: it is empty; a key is
+missing; an extra key is present; a value is `None`, an empty or blank string,
+`"unavailable"` or `"unknown"`; a value is outside its permitted set; or a
+model setting (`attn_implementation`, `weight_dtype`) differs from the value
+read from either loaded model.
+
+An incomplete profile gives `inconclusive` with reason
+`execution_profile_incomplete`, and `details.execution_profile_failures` maps
+each failing field to its reason. It never matches a calibration, even one
+carrying the same hash. If the profile cannot be hashed (for example, a missing
+key), `scoring_config_hash` is `null`.
+
+### Initialization-order rule
+
+`configure_numerics(device_type)` is the one function that applies every
+numerical setting: `CUBLAS_WORKSPACE_CONFIG` (on CUDA with deterministic
+algorithms), both TF32 flags, float32 matmul precision, and deterministic
+algorithms. It must run **before** any CUDA or cuBLAS initialization. It records
+`torch.cuda.is_initialized()` as observed by the first call in the process for
+that device type. A later call cannot overwrite this record.
+
+Reading back the environment variable is not proof that it took effect, because
+cuBLAS reads it once, when cuBLAS initializes. If CUDA was already initialized
+when the settings were applied, or if no configuration ran (order cannot be
+established), then `cuda_initialized_before_settings` is not `false`. The
+profile is then incomplete, with the additional reason
+`cuda_initialized_before_settings`. There is no workaround, and analysis never
+starts subprocesses.
+
+**Re-read before scoring:** immediately before each scoring call, the analyzer
+re-reads the effective settings: both TF32 flags, matmul precision, the
+deterministic flag, `cublas_workspace_config`, and each model's attention
+implementation and weight dtype. It compares them with the profile that was
+hashed, and never re-applies them. On any difference the result is
+`inconclusive` with reason `execution_profile_changed` and no `raw_score`, and
+`details.execution_profile_changes` lists each field as `{profile, effective}`.
 
 ### Calibration matching
 
@@ -72,4 +133,4 @@ Threshold application is not implemented (R1-F); a matching file would yield
 `scored_char_range` in code points), `nll_performer`, `xent`, `n_input_tokens`,
 `n_target_tokens`, `tokenizer_vocab_size`, `model_output_dim`,
 `scoring_config_hash`, `scoring_config` (the hashed fields, which include the
-execution profile), `execution_profile_complete`.
+execution profile), `execution_profile_complete`, `execution_profile_failures`.

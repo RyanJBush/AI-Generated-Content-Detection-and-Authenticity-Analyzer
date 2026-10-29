@@ -338,3 +338,51 @@ Commits checked with `git cat-file -t` (all `commit`): `3b0db47` (planning),
 - No RAID data.
 - C2PA analysis stays disabled; quality observers are not implemented.
 - Docker isolation: not run.
+
+## 2026-10-29 — R1-B1 corrections (on top of `6ca2b43`)
+
+`6ca2b43` was checked with `git cat-file -t` and returned `commit`.
+
+### Backend routing: still UNVERIFIED
+
+- The correction instruction asks for Ryan's `/status` provider and model lines
+  to replace the R1-B1 note, but its backend line is still the unfilled
+  placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
+- Nothing to record verbatim, so the R1-B1 note stands: routing is
+  **unverified**, and nothing is inferred from the agent's self-identification.
+
+### Fix 1: explicit profile completeness
+
+- `PROFILE_SCHEMA` / `profile_failures()` in `scorer/loader.py` replace the
+  former "no value equals `unavailable`" check. The schema is in
+  `docs/interfaces.md`.
+- `cublas_workspace_config` counts as a GPU-specific field: on CPU it is now
+  read back as `not_applicable` and must be `not_applicable`. CPU runs stay
+  uncalibrated.
+
+### Fix 2: source identity
+
+- `scorer/analyzer.py` and `scorer/identity.py` added to the hashed source list
+  (7 files).
+- Not changed, report only: `scorer/calibration.py` (see the R1-B1 corrections
+  report).
+
+### Fix 3: settings before CUDA initialization
+
+- `configure_numerics(device_type)` replaces `apply_numerical_settings()`.
+  `load_pair` chooses the device (`torch.cuda.is_available()` does not
+  initialize CUDA) and then configures, before any model or tensor touches the
+  device.
+- `CUBLAS_WORKSPACE_CONFIG` is now set (overwritten) only for CUDA. Before, it
+  was `setdefault` for every device.
+- New hashed profile field `cuda_initialized_before_settings`. The golden test
+  hash was recomputed and cross-checked with `sha256sum`.
+- The analyzer no longer re-applies settings before scoring, since re-applying
+  would hide a change. It re-reads them and refuses to score on any
+  difference (`execution_profile_changed`).
+- torch couples `matmul.allow_tf32` and `float32_matmul_precision`: changing one
+  changes the other, so a change to either one reports both fields.
+
+### Not in the R1-B1 corrections
+
+- No RAID access, no calibration, no R1-B2 benchmarking.

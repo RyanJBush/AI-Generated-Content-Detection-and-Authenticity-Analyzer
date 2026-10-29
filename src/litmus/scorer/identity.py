@@ -13,7 +13,9 @@ from litmus import config
 SOURCE_FILES: Tuple[str, ...] = (
     "src/litmus/config.py",
     "src/litmus/ingestion.py",
+    "src/litmus/scorer/analyzer.py",
     "src/litmus/scorer/binoculars.py",
+    "src/litmus/scorer/identity.py",
     "src/litmus/scorer/loader.py",
     "src/litmus/scorer/tokenize.py",
 )
@@ -34,6 +36,7 @@ PROFILE_FIELDS = (
     "attn_implementation", "batch_size", "matmul_allow_tf32", "cudnn_allow_tf32",
     "float32_matmul_precision", "deterministic_algorithms",
     "cublas_workspace_config", "weight_dtype", "reduction_dtype", "os_family",
+    "cuda_initialized_before_settings",
 )
 SOURCE_FIELDS = ("source_files", "source_sha256")
 

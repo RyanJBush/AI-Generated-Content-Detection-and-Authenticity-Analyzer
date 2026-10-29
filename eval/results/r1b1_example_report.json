@@ -64,7 +64,7 @@
             "n_target_tokens": 201,
             "tokenizer_vocab_size": 151665,
             "model_output_dim": 151936,
-            "scoring_config_hash": "08f90db6d59c705a7a48e8d2863ce1f809acd7c550c3991107491a0a99ec6a64",
+            "scoring_config_hash": "eb2db0e9d79c6d4e4b119a4466e901ee5264344e0ed516ea0777cc4222d0ab97",
             "scoring_config": {
               "scorer_version": "r1b1-1",
               "formula_id": "binoculars_shiftednll_allposxent_v1",
@@ -97,16 +97,20 @@
               "deterministic_algorithms": true,
               "cublas_workspace_config": ":4096:8",
               "os_family": "Windows",
+              "cuda_initialized_before_settings": false,
               "source_files": [
                 "src/litmus/config.py",
                 "src/litmus/ingestion.py",
+                "src/litmus/scorer/analyzer.py",
                 "src/litmus/scorer/binoculars.py",
+                "src/litmus/scorer/identity.py",
                 "src/litmus/scorer/loader.py",
                 "src/litmus/scorer/tokenize.py"
               ],
-              "source_sha256": "365c4cca7e554b6baa2b1dfdb2065d195637e2b34ed633b74df439fe9a2a3000"
+              "source_sha256": "a3573c4f11e31c54449ae136ea6f5d5493419e1a43d2f4d6b664dc532f351363"
             },
-            "execution_profile_complete": true
+            "execution_profile_complete": true,
+            "execution_profile_failures": {}
           }
         }
       ],
