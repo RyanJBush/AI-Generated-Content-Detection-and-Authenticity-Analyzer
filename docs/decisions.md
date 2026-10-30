@@ -499,7 +499,7 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
   groups (an expected 300 dev human texts). Clean + attacks is 5,000 texts, for
   an ESTIMATE of 1,127 s (18.8 min) scoring plus about 4 s load. This fits the
   0.5 h candidate budget with about 1.6× headroom. Clean-only is an ESTIMATE
-  of 7.5 min. This is not approved.
+  of 7.5 min.
 - **Approval requirement:** Ryan's approval must be recorded in
   `docs/decisions.md`, with the date of the approving message, before any
   dataset selection begins.
