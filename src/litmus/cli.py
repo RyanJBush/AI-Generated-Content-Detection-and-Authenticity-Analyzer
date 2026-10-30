@@ -25,6 +25,11 @@ def _parser() -> argparse.ArgumentParser:
                          help="model directory (default: <repo>/models)")
     analyze.add_argument("--device", choices=["cuda", "cpu"],
                          help="scorer device (default: cuda if available)")
+    analyze.add_argument(
+        "--quality", choices=["off", "on"], default="off",
+        help="text quality observers (default: off); quality observations do "
+             "not establish AI origin and never affect origin results",
+    )
     return parser
 
 
@@ -60,7 +65,13 @@ def main(argv=None) -> int:
         text_origin = BinocularsAnalyzer(models_dir=args.models_dir,
                                          device=args.device)
 
-    report = run_analysis(args.file, text_origin)
+    quality_observers = None
+    if args.quality == "on":
+        # Lexicons load here, before analysis starts
+        from litmus.quality.observers import build_observers
+        quality_observers = build_observers()
+
+    report = run_analysis(args.file, text_origin, quality_observers)
     text = json.dumps(report, indent=2) + "\n"
 
     if args.output:

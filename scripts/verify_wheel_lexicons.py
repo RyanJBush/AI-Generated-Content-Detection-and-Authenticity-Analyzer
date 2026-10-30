@@ -1,4 +1,4 @@
-"""R1-C1 installed-wheel check (plan §d, §j). Run with the TEMPORARY venv's
+"""R1-C1/R1-C2 installed-wheel check (plan §d, §j). Run with the TEMPORARY venv's
 interpreter in isolated mode, from a directory outside the repository:
 
     <tmp>\\venv\\Scripts\\python.exe -I scripts\\verify_wheel_lexicons.py \\
@@ -9,7 +9,9 @@ Asserts: (a) litmus is imported from inside --venv, not the repository;
 (c) each resource's SHA-256 equals the expected (source-file) value;
 (d) the loader/validator accepts every lexicon; (e) torch and transformers are
 not importable here, yet the C1 modules import and work, and neither they nor
-the scorer stack end up in sys.modules. Exits 1 on any failure.
+the scorer stack end up in sys.modules; (f) (R1-C2) the four observers are
+constructed and run, with the expected counts on a fixed sample. Exits 1 on
+any failure.
 """
 import argparse
 import hashlib
@@ -20,6 +22,12 @@ import pathlib
 import sys
 
 failures = []
+
+OBSERVER_SAMPLE = ("It is important to note that studies show a clear trend. "
+                   "Perhaps the data shows more. The cat sat on the mat. "
+                   "The cat sat on the mat. In conclusion, it seems likely.")
+OBSERVER_EXPECTED = {"stock_phrases": 2, "hedges": 3, "repeated_word_3grams": 8,
+                     "claim_phrases_to_inspect": 2}
 
 
 def check(ok, message):
@@ -46,7 +54,7 @@ def main(argv=None):
 
     import litmus
     import litmus.quality
-    from litmus.quality import lexicon, matcher, words
+    from litmus.quality import lexicon, matcher, observers, words
 
     location = pathlib.Path(litmus.__file__).resolve()
     print(f"litmus.__file__: {location}")
@@ -82,6 +90,12 @@ def main(argv=None):
         check(len(spans) == 1, f"{name}: compiled entries match a listed entry")
     check(words.word_index("C1 modules import anyway").count == 4,
           "word index works")
+
+    # (f) all four observers, constructed and run from the installed package
+    records = observers.observe_all(OBSERVER_SAMPLE, observers.build_observers())
+    got = {r.observer_id: r.count for r in records}
+    print(f"observer counts: {got}")
+    check(got == OBSERVER_EXPECTED, f"observer counts equal {OBSERVER_EXPECTED}")
 
     # (e, second half)
     loaded = sorted(m for m in sys.modules

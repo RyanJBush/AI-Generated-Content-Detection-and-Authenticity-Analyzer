@@ -165,6 +165,20 @@ def test_cli_binoculars_report_under_offline_guards(tmp_path, capsys):
     assert details["scoring_config"]["torch_version"] == "2.6.0+cu124"
 
 
+def test_cli_real_origin_bytes_identical_with_quality_off_and_on(tmp_path, capsys):
+    src = tmp_path / "synthetic.txt"
+    src.write_text(MEDIUM_TEXT, encoding="utf-8")
+    origins = {}
+    for quality in ("off", "on"):
+        assert main(["analyze", str(src), "--text-origin", "binoculars",
+                     "--device", "cuda", "--quality", quality]) == 0
+        seg = json.loads(capsys.readouterr().out)["segments"][0]
+        assert len(seg["quality"]) == (4 if quality == "on" else 0)
+        origins[quality] = json.dumps(seg["origin"], sort_keys=True,
+                                      separators=(",", ":")).encode("utf-8")
+    assert origins["off"] == origins["on"]
+
+
 # Fresh interpreters (tests only; analysis code never spawns processes). Tiny
 # stand-in models: only the read-back profile is under test, not scoring.
 ORDER_SCRIPT = r"""

@@ -5,7 +5,7 @@ R0 analyzers never analyze anything: they return ``inconclusive`` or
 """
 import hashlib
 import os
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Sequence
 
 from litmus import __version__
 from litmus.ingestion import Ingested, ingest
@@ -28,6 +28,19 @@ DETECTOR_REPORT_LIMITATIONS = [
     "text origin score is uncalibrated in R1-B1; image analyzers are "
     "placeholders and there is no C2PA analysis",
     "no result in this report is a probability or a verdict",
+]
+# Appended to the report limitations only when quality observers ran
+QUALITY_REPORT_LIMITATIONS = [
+    "quality observations do not establish AI origin and never affect origin "
+    "results",
+    "quality lexicons are English-oriented and provisional (v1)",
+    "quality word counts assume space-separated scripts; text without spaces "
+    "(e.g. CJK) counts each run as one word",
+    "quality counts describe surface patterns, not quality judgments; "
+    "frequencies depend on genre",
+    "homoglyphs and zero-width or format characters can split words and evade "
+    "quality matches",
+    "at most 1,000 quality spans are listed per observer; counts are exact",
 ]
 TextOrigin = Callable[[str], OriginEvidence]
 _CODEC_STEP = {"utf-8": "utf8_decode", "utf-16-le": "utf16le_decode",
@@ -120,17 +133,34 @@ def _input_sha256(ing: Ingested) -> Optional[str]:
     return None  # not read (e.g. over the size limit)
 
 
-def build_report(path: str, text_origin: Optional[TextOrigin] = None
-                 ) -> Dict[str, Any]:
-    """text_origin: analyzer for text segments; None uses the R0 placeholder."""
+def _add_quality(segment: Segment, text: str, observers: Sequence) -> None:
+    """Origin is already computed; observers get only the decoded text."""
+    from litmus.quality.observers import observe_all
+
+    segment.quality = observe_all(text, observers)
+
+
+def build_report(path: str, text_origin: Optional[TextOrigin] = None,
+                 quality_observers: Optional[Sequence] = None) -> Dict[str, Any]:
+    """text_origin: analyzer for text segments; None uses the R0 placeholder.
+    quality_observers: constructed observers (litmus.quality.observers), run on
+    text segments after origin; None (the default) runs none and leaves the
+    report exactly as without quality support."""
     ing = ingest(path)
 
     tree = SegmentTree()
     if ing.accepted:
-        tree.add_segment(_root_segment(ing, text_origin))
+        root = _root_segment(ing, text_origin)
+        if quality_observers is not None and ing.text is not None:
+            _add_quality(root, ing.text, quality_observers)
+        tree.add_segment(root)
         if not tree.validate():
             raise RuntimeError("internal error: invalid segment tree")
     segments = list(tree.segments.values())
+    limitations = list(REPORT_LIMITATIONS if text_origin is None
+                       else DETECTOR_REPORT_LIMITATIONS)
+    if quality_observers is not None:
+        limitations += QUALITY_REPORT_LIMITATIONS
 
     return {
         "report_schema": REPORT_SCHEMA,
@@ -144,16 +174,15 @@ def build_report(path: str, text_origin: Optional[TextOrigin] = None
         },
         "segments": [to_json(s) for s in segments],
         "extraction_coverage": _coverage(ing, segments),
-        "limitations": list(REPORT_LIMITATIONS if text_origin is None
-                            else DETECTOR_REPORT_LIMITATIONS),
+        "limitations": limitations,
     }
 
 
-def run_analysis(path: str, text_origin: Optional[TextOrigin] = None
-                 ) -> Dict[str, Any]:
+def run_analysis(path: str, text_origin: Optional[TextOrigin] = None,
+                 quality_observers: Optional[Sequence] = None) -> Dict[str, Any]:
     """Build a report with the offline guards active for the whole analysis."""
     with offline_guards():
-        report = build_report(path, text_origin)
+        report = build_report(path, text_origin, quality_observers)
     report["offline"] = {
         "socket_guard": "loopback_only",
         "subprocess_guard": "blocked",
