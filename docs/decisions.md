@@ -752,3 +752,18 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
 ### Non-ASCII audit exception (pre-existing)
 
 - `tests/conftest.py:11` has a U+00A7 (`§`) in the comment `# SPEC §7: ...`, from `18c7cbc` (R0). It is a comment, not a string literal, and is unchanged. It is listed because `conftest.py` changed in R1-D1 (trap port parameter).
+
+## 2026-10-30 — R1-D1 closure
+
+- **2026-10-30: R1-D1 closed.** Independent review (Codex) through `64ab969`: 463 default tests and Ruff passed; fixture hashes and 24 captured reads matched; remote-reference trap and positive control passed; test-anchor effects confirmed. Production C2PA remains disabled. Ryan approved R1-D2 only.
+- These results were reported by the reviewer and by Ryan. They are recorded as reported and were not run by the agent for this entry.
+- `64ab969` was checked with `git cat-file -t` and returned `commit`.
+- **Scoped observation (no cause stated):**
+  - **Setup:** c2pa-python 0.38.0, SDK 0.91.0 (`c2pa.sdk_version()`).
+  - **Input:** `tests/fixtures/c2pa/trusted_signer.jpg`, read with `Reader("image/jpeg", BytesIO(bytes), context=Context(settings=...))` and the A1.2 offline settings.
+  - **Observed:**
+    - `Settings.set("trust.trust_anchors", json.dumps(<test_root_ca.pem text>))` and `Settings.set("trust.user_anchors", ...)` left the result at `validation_state = "Valid"` with `signingCredential.untrusted`.
+    - `Settings.from_dict({"trust": {"trust_anchors": <same PEM>}})` gave `"Trusted"` with `signingCredential.trusted`.
+  - **Scope:** this was observed only for these inputs and this SDK version (test `test_settings_set_trust_anchors_had_no_observed_effect`).
+  - **Consequence:** `Settings.from_dict` remains the configuration route.
+- **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
