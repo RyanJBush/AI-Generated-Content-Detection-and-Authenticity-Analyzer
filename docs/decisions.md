@@ -606,3 +606,9 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 
 - Observers, report/CLI integration and `--quality` are C2.
 - No RAID data, calibration, C2PA work or origin-scoring changes.
+
+## 2026-10-30 — R1-C1 closure
+
+- **2026-10-30: R1-C1 closed.** Independent review (Codex) of `1891140`: 387 default tests passed; Ruff passed; a fresh installed-wheel check outside the repository passed resource, hash, loader, matcher, and model-stack isolation checks; repository clean. Ryan approved starting R1-C2.
+- These results were reported by the reviewer and by Ryan. They are recorded as reported and were not run by the agent for this entry.
+- `1891140` was checked with `git cat-file -t` and returned `commit`.
