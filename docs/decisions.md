@@ -662,3 +662,10 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
   - Highest median total: 0.1334 s (`"a "` repeated). Nothing was flagged against the 5 s target.
   - Power: on battery (39%), Balanced plan.
   - Caveat: the prose unit is 704 code points, so the 2,000 and 10,000 inputs repeat it, which inflates their `repeated_word_3grams` counts.
+
+## 2026-10-30 — R1-C2 closure
+
+- **2026-10-30: R1-C2 closed.** Independent review (Codex) accepted corrections through `847ae13`: 440 default tests passed; Ruff passed; lexicon initialization failures isolated correctly; expanded quality benchmark covers the requested 200,000-code-point and natural-length cases, preserves earlier measurements, and records no target exceedances. Both benchmark runs were on battery power; AC-power timing was not measured.
+- These results were reported by the reviewer. They are recorded as reported and were not run by the agent for this entry.
+- `847ae13` was checked with `git cat-file -t` and returned `commit`.
+- **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`, so there is nothing to record verbatim. Nothing is inferred from the agent's self-identification.
