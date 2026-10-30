@@ -767,3 +767,104 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   - **Scope:** this was observed only for these inputs and this SDK version (test `test_settings_set_trust_anchors_had_no_observed_effect`).
   - **Consequence:** `Settings.from_dict` remains the configuration route.
 - **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
+
+## 2026-10-30 — R1-D2 continuation and implementation (pending independent review)
+
+### Scope and starting state
+
+- Ryan authorized D2 completion only, committing the implementation and actual
+  evidence, then stopping for independent review. D1 was already accepted.
+- Starting HEAD matched `e88a3e5`. There were no tracked modifications. The
+  five D2 modules, constructed-output generator and 13 constructed JSON files
+  were untracked partial work; they were inspected and retained, with fixes.
+  No unrelated changes were stashed, removed or overwritten.
+- No repository `AGENTS.md` was found. Work continued in the requested
+  checkout using its existing `.venv`; no replacement checkout, dependencies
+  or model downloads were created.
+
+### D2 implementation
+
+- Internal `read_store` -> `map_store` -> ordered rules pipeline, isolated from
+  the CLI and reports. All ten rule results/labels and precedence are tested.
+- Context-aware attribution uses manifest labels and assertion URLs, including
+  active `assertion.action.ingredientMismatch`, ingredient-only failures,
+  relative stored ingredient URLs and unknown/missing URLs. Current trust
+  deltas supersede stored ingredient trust. Unreferenced manifests cannot
+  trigger rule 9. Raw status entries and unmapped/unattributed entries remain
+  available in normalized diagnostics.
+- Strict positive evidence is required in success lists. Unknown codes force
+  integrity/signature incomplete unless already invalid. Overall SDK state
+  does not determine those fields. Exact action labels and IPTC URI matches
+  determine declarations; other source types are recorded without declaring.
+- Production trust always remains `unknown`, even if SDK diagnostic codes say
+  trusted. `TestOnlyPolicy` exists only in tests and must be explicitly passed
+  alongside explicit test-anchor settings to exercise trusted outcomes.
+- Timestamp state is independent of claim signature. No TSA exists in these
+  fixtures. Timestamp successes, ignored failures and signing-time basis
+  behavior are constructed policy tests, not real timestamp validation.
+  The inherited C2PA 2.5 section 14.8 reference remains UNVERIFIED; no online
+  specification was consulted and no supporting section is claimed verified.
+- One lazy worker, one outstanding task, no queue or replacement on timeout.
+  Deadline returns `c2pa_timeout`; new work while busy returns
+  `c2pa_worker_busy`. Native work continues. The worker closes resources and
+  releases input references, abandoned outputs and exception traceback frames
+  before publishing idle. Tests cover recovery, 30 immediate busy requests,
+  concurrent callers, stable worker thread identity/count and cleanup on
+  success/error paths after both completed and timed-out requests.
+- The three reported Ruff errors were reproduced: E501 in `mapping.py`,
+  `reader.py` and `scripts/make_c2pa_constructed.py`. All were fixed without
+  weakening lint configuration.
+- Regression tests initially exposed wrong-list positive evidence, overly
+  broad actions labels, incomplete unknown-code handling, a KeyError on
+  unattributable stored ingredient statuses, missing settings-rejection
+  reasons, orphan declaration handling and unrecorded near-miss URIs.
+  These were corrected. An initial test also used the wrong capture filename
+  (`test_anchor` instead of the existing `test_anchors`); the test was fixed.
+
+### Actual verification (this agent, Windows, existing venv)
+
+- `.venv/Scripts/python.exe -m pytest tests/test_c2pa_d2.py tests/test_c2pa_d2_worker.py -q --tb=short`:
+  **165 passed in 1.63 s**, exit 0.
+- Inside `C:\Users\Ryano\Projects\litmus`:
+  `.venv/Scripts/python.exe -m pytest -q`:
+  **628 passed, 20 deselected in 9.67 s**, exit 0.
+- Outside, cwd `C:\Users\Ryano`:
+  `C:/Users/Ryano/Projects/litmus/.venv/Scripts/python.exe -m pytest C:/Users/Ryano/Projects/litmus/tests -q`:
+  **628 passed, 20 deselected in 8.65 s**, exit 0.
+- `.venv/Scripts/python.exe -m ruff check src tests scripts`:
+  **All checks passed!**, exit 0.
+- `.venv/Scripts/python.exe -m pip check`:
+  **No broken requirements found.**, exit 0.
+- `git diff --check`: exit 0. Git reports ordinary LF-to-CRLF notices for
+  text files; no whitespace errors were reported.
+- The full suite includes D1 fixture hashes, all captured SDK reads, package
+  trust/settings checks, image golden byte equality (LF-normalized), and
+  CLI C2PA import isolation. The production CLI/report/golden files were not
+  modified. C2PA analysis remains disabled.
+- Early sandbox test runs emitted pytest-cache access warnings. Final test
+  runs were approved outside the sandbox and completed without those warnings.
+
+### Evidence and limitations
+
+- The mapping has **45 codes**. All have constructed-store tests committed in
+  `constructed/mapping_rows.json`; **9 codes** also occur in real D1 captures.
+  The other **36** have no real SDK emission demonstrated; the complete table
+  and observation split are in `docs/interfaces.md`. No mapping row lacks
+  test coverage. Synthetic injection never establishes SDK emission.
+- Both remote-reference variants (committed Builder JPEG and existing XMP
+  fixture construction) passed through the D2 pipeline with production
+  settings: rule 4, **0 trap connections** each. Each paired positive control
+  recorded **1 connection**, `GET /manifest.c2pa`; the trap deliberately
+  returned 404, producing rule 2. This is zero attempted connections observed
+  with passing controls for these fixtures/settings/destination only.
+- The generic-error message adapter is pinned to c2pa-python 0.38.0 / SDK
+  0.91.0 and exact prefix, with fetch explicitly disabled. Other versions,
+  prefixes or enabled-fetch configurations fail closed. It remains fragile.
+- Not run: the 20 slow/model-dependent tests, real TSA/timestamp validation,
+  real 120-second native hang, Docker/network isolation, Linux SDK runs,
+  wheel rebuild, models/calibration/RAID, D3 integration or UI. No new
+  dependencies, external fixtures, network downloads or destructive cleanup.
+- Daemon process exit during an unfinished native call cannot promise native
+  resource cleanup. Constructor-internal cleanup remains owned by the SDK;
+  returned resources are explicitly closed on the worker.
+- This is an implementation submission, not independent-review acceptance.

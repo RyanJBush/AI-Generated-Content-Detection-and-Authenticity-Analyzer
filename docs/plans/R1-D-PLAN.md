@@ -1,6 +1,6 @@
 # R1-D plan — C2PA image provenance
 
-**Status: D1 APPROVED 2026-10-30 (feasibility only). D2 and D3 remain PROPOSED (not approved).** Ryan's corrections of 2026-10-30 are in §p; where §p differs from earlier sections, §p governs.
+**Status: D1 CLOSED 2026-10-30; D2 APPROVED (implementation submitted for independent review); D3 remains PROPOSED (not approved).** Ryan's corrections of 2026-10-30 are in §p; where §p differs from earlier sections, §p governs. D2 continuation scope and evidence are recorded in §q.
 
 - **Drafted** 2026-10-30 on top of `4c3f42c` (R1-C2 closure record).
 - **Governing documents, in precedence order:**
@@ -452,3 +452,38 @@ R1-PLAN.md §2 names R1-D among the most uncertain checkpoints.
 - **Sidecar fallback** when the library detects no container (`Reader.__init__` docstring). Mitigation: only ingested JPEG/PNG/WebP reach the analyzer, and the MIME type is passed explicitly.
 - **Library version drift.** The pinned version (0.38.0 / SDK 0.91.0) is recorded in every record. An upgrade invalidates the D1 recorded output and the mapping until re-verified.
 - **Windows-only native library in this environment** (`c2pa/libs/c2pa_c.dll`). Docker/Linux runs remain not run.
+
+## q) D2 continuation (Ryan, 2026-10-30)
+
+Ryan authorized completion of the interrupted D2 implementation, preserving
+all existing work, using the existing `.venv`, and committing D2 plus evidence
+before stopping for independent review. This supersedes earlier D2 approval
+status lines; it does not authorize D3. HEAD at continuation was `e88a3e5`.
+
+Implementation details and limits are in `docs/interfaces.md` (internal D2
+interface). Actual checks are in `docs/decisions.md` and
+`eval/results/r1d2_verification.json`. The production analyzer remains disabled.
+
+- Remote-reference adapter: for pinned 0.38.0 / 0.91.0 only, the exact captured
+  `Remote: must fetch remote manifests from url ` prefix is recognized when
+  fetch is explicitly disabled. Builder and XMP variants have paired trap
+  tests through the D2 pipeline. The adapter is fragile and version-gated.
+- Empty production trust policy always returns `unknown`, independently of
+  SDK trust observations. Trusted results are exercised only through an
+  explicit policy defined under tests, with explicit test-anchor settings.
+- Timestamp states are separate from claim signature. All timestamp cases
+  are constructed policy tests; no real timestamp verification is claimed.
+  The inherited partial generator named C2PA 2.5 section 14.8, but that
+  section/text remains UNVERIFIED here. No specification copy was fetched.
+- Unknown codes follow section c strictness rule 2, affecting both active
+  integrity and signature unless already invalid. Positive evidence must
+  occur in the success list. The mapping does not infer validity from the
+  overall SDK validation state.
+- Ingredient binding matches remain `not_checked` for the analyzed asset;
+  attributed negative codes can make an ingredient `invalid`. Such states
+  never upgrade the active result. Unreferenced manifests are diagnostic
+  records, excluded from the ingredient declaration rule.
+- The worker implements a response deadline, immediate busy response and
+  recovery on the same thread, with worker-owned cleanup. Timeout never
+  cancels native work. Tests use injected short deadlines and blocked stubs;
+  a real native call hanging for 120 seconds was not induced.

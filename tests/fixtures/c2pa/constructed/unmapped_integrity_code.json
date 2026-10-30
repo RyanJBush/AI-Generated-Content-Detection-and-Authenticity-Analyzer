@@ -1,0 +1,103 @@
+{
+ "constructed": true,
+ "note": "CONSTRUCTED, NOT REAL SDK OUTPUT",
+ "derived_from": "eval/results/r1d1_library_outputs/trusted_signer_jpg__production.json",
+ "represents": "Litmus mapping policy (docs/plans/R1-D-PLAN.md \u00a7c strictness rules); not a C2PA specification requirement",
+ "change": "added unrecognized code assertion.litmusConstructed.unrecognized (success)",
+ "manifest_store": {
+  "active_manifest": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+  "manifests": {
+   "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df": {
+    "claim_generator_info": [
+     {
+      "name": "litmus-test-fixtures",
+      "version": "1",
+      "org.contentauth.c2pa_rs": "0.91.0"
+     }
+    ],
+    "title": "trusted_signer.jpg",
+    "instance_id": "xmp.iid:adc872e5-f3c6-4a01-81c9-9850a26bb97a",
+    "assertions": [
+     {
+      "label": "c2pa.actions.v2",
+      "data": {
+       "actions": [
+        {
+         "action": "c2pa.created",
+         "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+        }
+       ]
+      }
+     }
+    ],
+    "signature_info": {
+     "alg": "Es256",
+     "issuer": "Litmus TEST ONLY",
+     "common_name": "Litmus TEST ONLY signer",
+     "cert_serial_number": "204263040383821090990931487665622567408740048238"
+    },
+    "label": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+    "claim_version": 2
+   }
+  },
+  "validation_status": [
+   {
+    "code": "signingCredential.untrusted",
+    "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.signature",
+    "explanation": "signing certificate untrusted"
+   }
+  ],
+  "validation_results": {
+   "activeManifest": {
+    "success": [
+     {
+      "code": "claimSignature.insideValidity",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.signature",
+      "explanation": "claim signature valid"
+     },
+     {
+      "code": "claimSignature.validated",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.signature",
+      "explanation": "claim signature valid"
+     },
+     {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.assertions/c2pa.hash.data",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+     },
+     {
+      "code": "assertion.hashedURI.match",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.assertions/c2pa.actions.v2",
+      "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+     },
+     {
+      "code": "assertion.dataHash.match",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.assertions/c2pa.hash.data",
+      "explanation": "data hash valid"
+     },
+     {
+      "code": "assertion.litmusConstructed.unrecognized",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.assertions/c2pa.hash.data",
+      "explanation": "CONSTRUCTED entry (not SDK output)"
+     }
+    ],
+    "informational": [
+     {
+      "code": "signingCredential.ocsp.skipped",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.signature",
+      "explanation": "OCSP fetching skipped"
+     }
+    ],
+    "failure": [
+     {
+      "code": "signingCredential.untrusted",
+      "url": "self#jumbf=/c2pa/urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df/c2pa.signature",
+      "explanation": "signing certificate untrusted"
+     }
+    ]
+   },
+   "specVersion": "2.4.0"
+  },
+  "validation_state": "Valid"
+ }
+}

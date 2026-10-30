@@ -1,0 +1,143 @@
+{
+  "checkpoint": "R1-D2",
+  "date": "2026-10-30",
+  "status": "implementation submitted; pending independent review",
+  "starting_head": "e88a3e5",
+  "environment": {
+    "platform": "Windows",
+    "interpreter": "C:/Users/Ryano/Projects/litmus/.venv/Scripts/python.exe",
+    "c2pa_python": "0.38.0",
+    "sdk": "0.91.0",
+    "new_dependencies": false
+  },
+  "checks": [
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m pytest tests/test_c2pa_d2.py tests/test_c2pa_d2_worker.py -q --tb=short",
+      "exit_code": 0,
+      "result": "165 passed in 1.63s"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m pytest -q",
+      "exit_code": 0,
+      "result": "628 passed, 20 deselected in 9.67s"
+    },
+    {
+      "cwd": "C:/Users/Ryano",
+      "command": "C:/Users/Ryano/Projects/litmus/.venv/Scripts/python.exe -m pytest C:/Users/Ryano/Projects/litmus/tests -q",
+      "exit_code": 0,
+      "result": "628 passed, 20 deselected in 8.65s"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "result": "All checks passed!"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "exit_code": 0,
+      "result": "No broken requirements found."
+    }
+  ],
+  "mapping": {
+    "version": "1",
+    "codes_exercised": 45,
+    "real_d1_codes_observed": 9,
+    "constructed_only_codes": 36,
+    "undemonstrated_by_tests": [],
+    "constructed_catalog": "tests/fixtures/c2pa/constructed/mapping_rows.json",
+    "real_code_list": [
+      "assertion.dataHash.match",
+      "assertion.dataHash.mismatch",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "ingredient.manifest.validated",
+      "signingCredential.ocsp.skipped",
+      "signingCredential.trusted",
+      "signingCredential.untrusted"
+    ],
+    "limitation": "Constructed tests establish mapping policy, not SDK emission."
+  },
+  "remote_pipeline_checks": [
+    {
+      "fixture": "committed Builder remote_reference.jpg",
+      "production_rule": 4,
+      "production_connections": 0,
+      "positive_control_connections": 1,
+      "positive_control_requests": [
+        "/manifest.c2pa"
+      ],
+      "positive_control_http_status": 404,
+      "positive_control_rule": 2
+    },
+    {
+      "fixture": "existing XMP _remote_reference_jpeg construction",
+      "production_rule": 4,
+      "production_connections": 0,
+      "positive_control_connections": 1,
+      "positive_control_requests": [
+        "/manifest.c2pa"
+      ],
+      "positive_control_http_status": 404,
+      "positive_control_rule": 2
+    }
+  ],
+  "production_c2pa_enabled": false,
+  "default_image_report_checks": "D1 byte equality and CLI import isolation passed in both full suites; CLI/report/goldens unchanged",
+  "production_signer_trust": "unknown, irrespective of SDK diagnostic codes",
+  "trusted_outcomes": "explicit separate TestOnlyPolicy defined only in tests, with explicit test-anchor settings",
+  "timestamp_evidence": "constructed only; all real fixtures have no TSA; no real timestamp validation demonstrated",
+  "timestamp_specification_reference": "Inherited section 14.8 citation remains UNVERIFIED; no specification fetched",
+  "worker_evidence": "short injected response deadlines, immediate busy responses (30 requests), concurrent admission, same-thread recovery, input/output/traceback release, worker-owned cleanup on completion and after timeout/error",
+  "not_run": [
+    "20 slow/model-dependent tests",
+    "real TSA or timestamp validation",
+    "real 120-second native hang",
+    "Docker/network isolation",
+    "Linux SDK execution",
+    "wheel rebuild",
+    "D3/CLI integration",
+    "models, calibration, RAID or UI work"
+  ],
+  "limitations": [
+    "Remote adapter is a fragile exact-prefix match gated to pinned versions and fetch disabled.",
+    "Zero attempted connections observed with passing controls covers only these fixtures/settings/loopback destination.",
+    "Timeout does not cancel native work; daemon process exit during native work cannot guarantee cleanup.",
+    "The SDK owns cleanup of constructor-internal handles that were never returned.",
+    "Independent review has not yet occurred for this D2 submission."
+  ],
+  "changed_files": [
+    "docs/decisions.md",
+    "docs/interfaces.md",
+    "docs/plans/R1-D-PLAN.md",
+    "eval/results/r1d2_verification.json",
+    "scripts/make_c2pa_constructed.py",
+    "src/litmus/c2pa/__init__.py",
+    "src/litmus/c2pa/mapping.py",
+    "src/litmus/c2pa/pipeline.py",
+    "src/litmus/c2pa/reader.py",
+    "src/litmus/c2pa/rules.py",
+    "src/litmus/c2pa/worker.py",
+    "tests/fixtures/c2pa/constructed/README.txt",
+    "tests/fixtures/c2pa/constructed/active_ingredient_mismatch.json",
+    "tests/fixtures/c2pa/constructed/claim_signature_outside_validity.json",
+    "tests/fixtures/c2pa/constructed/ingredient_manifest_mismatch.json",
+    "tests/fixtures/c2pa/constructed/integrity_invalid_with_timestamp.json",
+    "tests/fixtures/c2pa/constructed/mapping_rows.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_malformed.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_mismatch.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_outsideValidity.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_untrusted.json",
+    "tests/fixtures/c2pa/constructed/timestamp_trusted_validated.json",
+    "tests/fixtures/c2pa/constructed/unattributable_code_no_url.json",
+    "tests/fixtures/c2pa/constructed/unattributable_code_unknown_label.json",
+    "tests/fixtures/c2pa/constructed/unmapped_integrity_code.json",
+    "tests/fixtures/c2pa/constructed/unmapped_unknown_family_code.json",
+    "tests/test_c2pa_d2.py",
+    "tests/test_c2pa_d2_worker.py"
+  ]
+}

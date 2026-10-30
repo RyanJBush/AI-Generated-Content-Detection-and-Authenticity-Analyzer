@@ -1,0 +1,1662 @@
+{
+ "constructed": true,
+ "note": "CONSTRUCTED, NOT REAL SDK OUTPUT",
+ "represents": "Litmus mapping policy (docs/plans/R1-D-PLAN.md \u00a7c strictness rules); not a C2PA specification requirement",
+ "change": "minimal synthetic stores; one injected code per mapping row",
+ "cases": {
+  "assertion.dataHash.match": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "assertion.boxesHash.match": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "assertion.boxesHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "assertion.bmffHash.match": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "assertion.bmffHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "assertion.hashedURI.match": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "assertion.hashedURI.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "assertion.dataHash.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.dataHash.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.boxesHash.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.boxesHash.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.bmffHash.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.bmffHash.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.hashedURI.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.hashedURI.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claim.hardBindings.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claim.hardBindings.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.action.ingredientMismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.action.ingredientMismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "ingredient.manifest.validated": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "ingredient.manifest.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "ingredient.manifest.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "ingredient.manifest.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "ingredient.manifest.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "ingredient.manifest.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "ingredient.unknownProvenance": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "ingredient.unknownProvenance",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claimSignature.validated": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "claimSignature.insideValidity": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "claimSignature.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claimSignature.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claimSignature.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claimSignature.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claimSignature.outsideValidity": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claimSignature.outsideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.invalid": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.invalid",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.expired": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.expired",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.revoked": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.revoked",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.ocsp.revoked": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.revoked",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.ocsp.skipped": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.skipped",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.ocsp.notRevoked": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.notRevoked",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.ocsp.inaccessible": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.ocsp.inaccessible",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "ingredient.claimSignature.validated": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "ingredient.claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "ingredient.claimSignature.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "ingredient.claimSignature.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "signingCredential.trusted": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "signingCredential.trusted",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "signingCredential.untrusted": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "signingCredential.untrusted",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "timeStamp.trusted": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "timeStamp.trusted",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "timeStamp.validated": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "timeStamp.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": []
+    }
+   }
+  },
+  "timeStamp.malformed": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "timeStamp.malformed",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "timeStamp.mismatch": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "timeStamp.mismatch",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "timeStamp.untrusted": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "timeStamp.untrusted",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "timeStamp.outsideValidity": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "timeStamp.outsideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "general.error": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "general.error",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "algorithm.unsupported": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "algorithm.unsupported",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claim.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claim.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "claim.multiple": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "claim.multiple",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "manifest.missing": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "manifest.missing",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "manifest.inaccessible": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "manifest.inaccessible",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "manifest.multipleParents": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "manifest.multipleParents",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  },
+  "assertion.cbor.invalid": {
+   "active_manifest": "urn:c2pa:constructed-mapping-row",
+   "manifests": {
+    "urn:c2pa:constructed-mapping-row": {
+     "assertions": []
+    }
+   },
+   "validation_results": {
+    "activeManifest": {
+     "success": [
+      {
+       "code": "assertion.dataHash.match",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.validated",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      },
+      {
+       "code": "claimSignature.insideValidity",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ],
+     "informational": [],
+     "failure": [
+      {
+       "code": "assertion.cbor.invalid",
+       "url": "self#jumbf=/c2pa/urn:c2pa:constructed-mapping-row/c2pa.signature",
+       "explanation": "CONSTRUCTED entry (not SDK output)"
+      }
+     ]
+    }
+   }
+  }
+ }
+}

@@ -207,3 +207,174 @@ subclass (for example `PermissionError`) gives that observer
 evidence and the report are unaffected, and the CLI exits 0. Any other
 exception during lexicon loading is not caught: it propagates out of the CLI
 (traceback, exit 1) before analysis starts.
+
+## C2PA internal D2 interface (production analysis disabled)
+
+`litmus.c2pa.pipeline.analyze_c2pa(data, mime, *, config, policy=PRODUCTION_POLICY,
+worker=None, deadline=120.0, read=read_store, supported=None)` is an internal
+testable pipeline. Callers supply bytes already accepted by image ingestion;
+it does not reopen a path. It is not connected to `report.py` or the CLI.
+Default image reports retain `image_origin_placeholder` and
+`c2pa_analyzer_disabled_in_r0`. D3 remains unimplemented.
+
+`reader.read_store` returns `ReadOutcome(kind, store, reasons, detail)`.
+Kinds are `store`, `no_credentials`, `remote_reference_only`, or `error`.
+Settings rejection gives `c2pa_settings_rejected`; other exceptions reach
+rule 2. The worker owns settings, context, input stream and reader, and closes
+them before finishing. Cleanup of a handle whose SDK constructor fails is
+the SDK's responsibility; successfully returned objects are closed explicitly.
+Supported MIME types are cached once per process.
+
+Settings come from the D1 builder, `Settings.from_dict`: remote manifest and
+OCSP fetch off, allowed network hosts empty, identity assertion decoding off,
+trust verification on. `production_config()` loads the packaged, versioned,
+empty PEM list and refuses a nonempty list. `test_anchor_config(pems)` is an
+explicit separate settings path. It does not change Litmus policy by itself.
+Production `signer_trust` is always `unknown`, including when the SDK reports
+`signingCredential.trusted`. SDK observations are diagnostics, not policy.
+Only tests define `TestOnlyPolicy`; trusted outcomes require explicitly
+passing both that policy and test-anchor settings. No source module imports
+test anchors or the test policy.
+
+### Normalized store and attribution (`mapping_version = "1"`)
+
+`map_store(store, policy=PRODUCTION_POLICY)` returns `MappedStore`:
+
+- `validation_state`: raw overall SDK state, diagnostic only;
+- `active_label`, `policy`, `mapping_version`;
+- `records`: active first, then referenced ingredients, then other manifests;
+- `ingredient_labels`: only manifests referenced by the active claim;
+  `ingredients` selects these records, excluding unrelated manifests;
+- `status_entries`: original entry, list, attributed label and originating
+  results location (preserves assertion URLs and explanations);
+- `unattributed`: code, list, URL and origin for entries without a known label;
+- `unmapped_status_codes`: code, list, URL, label and origin for unknown codes.
+
+Each `ManifestRecord` carries `manifest_label`, `is_active`, ingredient
+`relationship` and `title`, `integrity`, `signature`, `timestamp`,
+`signing_time_basis`, `signer_trust`, `declared_ai_use`,
+`sdk_trust_observation`, `sources` and `notes`.
+
+The manifest named in each absolute `self#jumbf=/c2pa/<label>/...` URL owns
+the status, regardless of the results list containing it. A relative JUMBF
+URL uses the enclosing manifest's label where known. Missing URLs and unknown
+labels are unattributed and make active integrity/signature `not_checked`
+unless already `invalid`. This also applies to stored ingredient results.
+Current ingredient-delta trust codes supersede stored ingredient trust codes.
+Active `assertion.action.ingredientMismatch` invalidates active integrity;
+the same code on an ingredient affects that ingredient only. Ingredient
+binding matches cannot establish integrity of the analyzed image. Ingredient
+integrity stays `not_checked` unless a negative code makes it `invalid`.
+
+### Status mapping and evidence limits
+
+Positive evidence counts only in `success`. Integrity needs a hard-binding
+match; signature needs both `claimSignature.validated` and
+`claimSignature.insideValidity`. Hashed-URI and ingredient validation alone
+are insufficient. Invalid beats incomplete. Every unknown code, including
+an unknown timestamp code, makes both integrity and signature `not_checked`
+unless already invalid, as required by plan section c strictness rule 2.
+
+All 45 codes below are exercised by explicitly **constructed** stores in
+`tests/fixtures/c2pa/constructed/mapping_rows.json`. The nine codes marked
+**real** were also observed in D1 captures. All other codes are demonstrated
+only by constructed injection; SDK emission remains undemonstrated for them.
+There are no rows without mapping-test coverage. Constructed coverage is not
+evidence that the pinned SDK emits a code or assigns it to a particular list.
+
+| Codes | Effect | Real SDK observations |
+|---|---|---|
+| `assertion.dataHash.match`, `assertion.boxesHash.match`, `assertion.bmffHash.match` | hard-binding evidence | dataHash only |
+| `assertion.hashedURI.match` | reference evidence, insufficient alone | real |
+| `assertion.dataHash.mismatch`, `assertion.boxesHash.mismatch`, `assertion.bmffHash.mismatch` | integrity invalid | dataHash only |
+| `assertion.hashedURI.mismatch`, `assertion.missing`, `claim.hardBindings.missing`, `assertion.action.ingredientMismatch` | integrity invalid | constructed only |
+| `ingredient.manifest.validated` | ingredient evidence, insufficient alone | real |
+| `ingredient.manifest.mismatch`, `ingredient.manifest.missing` | integrity invalid on attributed manifest | constructed only |
+| `ingredient.unknownProvenance` | recorded only | constructed only |
+| `claimSignature.validated`, `claimSignature.insideValidity` | signature evidence, both required | both real |
+| `claimSignature.mismatch`, `claimSignature.missing`, `claimSignature.outsideValidity` | signature invalid | constructed only |
+| `signingCredential.invalid`, `signingCredential.expired`, `signingCredential.revoked`, `signingCredential.ocsp.revoked` | signature invalid | constructed only |
+| `ingredient.claimSignature.validated`, `ingredient.claimSignature.mismatch` | evidence (insufficient alone), invalid respectively | constructed only |
+| `signingCredential.ocsp.skipped`, `signingCredential.ocsp.notRevoked`, `signingCredential.ocsp.inaccessible` | recorded only | skipped only |
+| `signingCredential.trusted`, `signingCredential.untrusted` | SDK trust diagnostic; production policy remains unknown | both real |
+| `timeStamp.trusted`, `timeStamp.validated` | both required for timestamp trusted_validated | constructed only |
+| `timeStamp.malformed`, `timeStamp.mismatch`, `timeStamp.untrusted`, `timeStamp.outsideValidity` | timestamp ignored; no signature invalidation by themselves | constructed only |
+| `general.error`, `algorithm.unsupported`, `claim.missing`, `claim.multiple`, `manifest.missing`, `manifest.inaccessible`, `manifest.multipleParents`, `assertion.cbor.invalid` | integrity and signature not_checked unless invalid | constructed only |
+
+`claimSignature.outsideValidity` and `signingCredential.revoked` were absent
+from the D1 binary-name scan. Their constructed treatment is conservative
+Litmus policy, not a claim of SDK support.
+
+Timestamp states are `absent`, `ignored`, `not_checked`, or
+`trusted_validated`. They are independent of claim-signature state. A lone
+timestamp success code is incomplete. `insideValidity` alone never proves a
+verified signing time. `signing_time_basis` is `trusted_timestamp` only for
+the paired timestamp successes; with absent/ignored timestamps and a
+credential validity code it is `current_time_check`, otherwise `unknown`.
+This is a policy interpretation of codes, not an independent clock or TSA
+verification. All real R1 fixtures have no TSA and map to timestamp `absent`.
+No real timestamp validation is demonstrated. C2PA 2.5 section 14.8 was named
+in the inherited partial generator, but its section/text remains UNVERIFIED
+in this offline work; the timestamp split follows Ryan's correction 2.
+
+AI use is declared only in `c2pa.actions` or `c2pa.actions.v2` for these exact
+`digitalSourceType` values:
+
+- `http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia`
+- `http://cv.iptc.org/newscodes/digitalsourcetype/compositeWithTrainedAlgorithmicMedia`
+
+Near misses and other source types are recorded in notes and never declare AI
+use. Unrelated assertions cannot declare it.
+
+### Ordered result rules
+
+`evaluate_rules(RuleInput)` is pure and returns
+`RuleOutcome(rule, result, label, reasons, limitations, details)`.
+First match wins; active fields govern except rule 9.
+
+| Rule | Condition | Result / label |
+|---|---|---|
+| 1 | unsupported format; reader is not called | not_supported / c2pa_format_unsupported |
+| 2 | read/settings/mapping error, deadline or busy worker | error / c2pa_error |
+| 3 | no store | inconclusive / no_credentials |
+| 4 | remote reference only, not fetched | inconclusive / remote_reference_only |
+| 5 | integrity or signature invalid | inconclusive / validation_failed |
+| 6 | integrity or signature not_checked | inconclusive / validation_incomplete |
+| 7 | active declares, trusted under explicit test policy | supports_ai / trusted_provenance_ai_declared |
+| 8 | active declares, untrusted or unknown | inconclusive / untrusted_signed_ai_declaration |
+| 9 | only referenced ingredient declares | inconclusive / ingredient_ai_declaration |
+| 10 | no declaration | no_signal / manifest_no_ai_declaration |
+
+Rule 9 details identify declaring ingredients by label, relationship, title
+and their own integrity/signature/timestamp/trust states. Their states never
+upgrade the result. Validation failures and incomplete validation precede
+declarations. Every outcome carries the empty-production-trust and
+provenance-only limitations. No credentials and no declaration are not
+evidence of human origin.
+
+### Remote adapter and deadline
+
+For c2pa-python **0.38.0 / SDK 0.91.0 only**, a `C2paError` beginning exactly
+`Remote: must fetch remote manifests from url ` maps to rule 4 when
+`verify.remote_manifest_fetch` is explicitly false. This fragile message
+adapter is justified by the captured error and both Builder/XMP pipeline
+tests. Version drift, a different prefix or enabled fetch fails closed to
+rule 2. It is never treated as no credentials.
+
+The paired tests observe **zero attempted connections with passing controls**
+for both remote fixtures: production settings give zero loopback-trap
+connections; fetch enabled with only the trap host allowed gives one GET
+and a deliberate 404. This covers those fixtures/settings/destination only.
+Network isolation was not run; no Docker image was pulled.
+
+`get_worker()` lazily creates one dedicated daemon thread per process.
+There is at most one outstanding task and no queue. A 120-second deadline
+returns rule 2 / `c2pa_timeout`; native work is not cancelled. While any task
+still runs, new requests return rule 2 / `c2pa_worker_busy` immediately.
+The worker is never replaced while busy. When the task finishes, inputs and
+abandoned outputs/exception tracebacks are released before idle is published;
+subsequent requests can use the same thread. Explicit cleanup runs on the
+worker after both normal and timed-out requests, including error exits.
+Short injected deadlines and blocked stubs test these semantics; no real
+120-second native hang was induced. Daemon shutdown cannot guarantee native
+cleanup if the process exits while work is still running.
