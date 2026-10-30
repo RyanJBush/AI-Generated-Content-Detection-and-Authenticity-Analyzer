@@ -1,8 +1,9 @@
 """R1-B2 synthetic input generator: exact token counts and determinism.
 
 The exact-count tests use the real observer tokenizer under the production
-preprocessing (models/ must be installed; missing files fail, not skip). The
-generator logic itself is also tested with a stand-in counter, model-free.
+preprocessing; they are marked slow (models/ must be installed; missing files
+fail, not skip). The generator stand-in tests and the manifest/hash test stay in
+the default suite and need no models.
 """
 import hashlib
 import importlib.util
@@ -64,6 +65,7 @@ def tokenizer():
         mp.undo()
 
 
+@pytest.mark.slow
 def test_committed_inputs_have_exact_production_token_counts(tokenizer):
     from litmus.scorer.tokenize import tokenize_window
 
@@ -74,6 +76,7 @@ def test_committed_inputs_have_exact_production_token_counts(tokenizer):
         assert not window.truncated
 
 
+@pytest.mark.slow
 @pytest.mark.parametrize("n", gen.LENGTHS)
 def test_regeneration_reproduces_committed_bytes(tokenizer, n):
     # One text per length, regenerated with the real tokenizer

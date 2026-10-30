@@ -459,9 +459,19 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
 ### ESTIMATE: sample size (not measured; every number below is an ESTIMATE)
 
 - **Per-text cost:** `c` = measured end-to-end p90 at 512 tokens = 0.22547 s
-  (ESTIMATE, applied to every RAID text). RAID lengths are UNMEASURED.
-  Production truncates at 512 tokens, so per-text scoring cost is bounded at
-  512 tokens. Shorter texts would cost less.
+  (ESTIMATE, applied to every RAID text). This is a planning estimate, not an
+  upper bound. RAID lengths are UNMEASURED.
+- **Unmeasured costs (R1-B2 corrections):**
+  - Production tokenizes the full decoded input before truncating to 512
+    tokens, so tokenization cost for long inputs (up to the 200,000-code-point
+    limit, `MAX_DECODED_CHARS`) is unmeasured. The benchmark's longest input
+    was 512 tokens (2,995 characters).
+  - Sustained thermal effects over multi-hour runs are unmeasured. The 56 s run
+    already showed SM clock reductions (2625 → 2010–2190 MHz) and power near
+    the 80 W limit (up to 79.75 W).
+  - A cold-cache model load is unmeasured; all measured loads were warm-cache.
+  - Dataset processing overhead is unmeasured: reading, decoding,
+    deduplication and manifest work.
 - **Per group:** `k` texts, with `k = 2` clean-only (1 human + 1 machine) or
   `k = 5` with 3 attacked variants. Scoring time is `T(G) = G · k · c`, plus one
   model load `L` (measured maximum 4.006 s).
@@ -474,13 +484,41 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
 | 2 h | 15,966 | 6,386 |
 | 4 h | 31,933 | 12,773 |
 
-- **Design lower bound:** dev human texts = 0.3 · G ≥ 200, so G ≥ 667. An
-  ASSUMED 20% exclusion margin (too_short, missing variants, errors), which is
-  not measured, gives G ≥ 834 (ESTIMATE).
-- **PROPOSED, pending Ryan's decision:** N_target = 1,000 groups (300 dev human
-  texts). Clean + attacks is 5,000 texts, for an ESTIMATE of 1,127 s (18.8 min)
-  scoring plus about 4 s load. This fits the 0.5 h candidate budget with
-  about 1.6× headroom. Clean-only is an ESTIMATE of 7.5 min.
+- **Development allocation:** the 30% development share is EXPECTED, not
+  guaranteed. It is a hash-based assignment, so the realized share for a given
+  G can differ from 0.3.
+- **Calibration rule:** the 5% calibration is enabled only if at least 200
+  ELIGIBLE development human texts remain after all exclusions (deduplication,
+  eligibility, pair cleanup). Otherwise no calibration is created.
+- **Design lower bound:** expected dev human texts = 0.3 · G ≥ 200, so G ≥ 667.
+  An ASSUMED 20% exclusion margin (too_short, missing variants, errors), which
+  is not measured, gives G ≥ 834 (ESTIMATE). Neither figure guarantees 200
+  eligible development human texts. The calibration rule above decides that.
+- **N_target status: PROPOSED — pending Ryan's approval.** N_target = 1,000
+  groups (an expected 300 dev human texts). Clean + attacks is 5,000 texts, for
+  an ESTIMATE of 1,127 s (18.8 min) scoring plus about 4 s load. This fits the
+  0.5 h candidate budget with about 1.6× headroom. Clean-only is an ESTIMATE
+  of 7.5 min. This is not approved.
+- **Approval requirement:** Ryan's approval must be recorded in
+  `docs/decisions.md`, with the date of the approving message, before any
+  dataset selection begins.
+
+### R1-B2 corrections (documentation and test markers)
+
+- The five benchmark-input tests that load the real tokenizer from `models/` are
+  now marked slow. The generator stand-in tests and the manifest/hash test stay
+  in the default suite.
+- **Wording-only changes to the R1-B2 ESTIMATE section above:**
+  - "planning estimate, not an upper bound" for c.
+  - The unmeasured-cost list.
+  - The dev-allocation and calibration-enablement rule.
+  - The N_target status.
+  - No measured value changed.
+- `eval/results/r1b2_benchmark.json` is unchanged. It has no recommendation
+  section: the ESTIMATE section was kept out of the measurement file and lives
+  only here.
+- **Backend routing:** still UNVERIFIED. The correction instruction's backend
+  line is the unfilled placeholder.
 
 ### Not in R1-B2
 
