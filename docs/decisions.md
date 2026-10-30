@@ -612,6 +612,7 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 - **2026-10-30: R1-C1 closed.** Independent review (Codex) of `1891140`: 387 default tests passed; Ruff passed; a fresh installed-wheel check outside the repository passed resource, hash, loader, matcher, and model-stack isolation checks; repository clean. Ryan approved starting R1-C2.
 - These results were reported by the reviewer and by Ryan. They are recorded as reported and were not run by the agent for this entry.
 - `1891140` was checked with `git cat-file -t` and returned `commit`.
+
 ## 2026-10-30 — Checkpoint R1-C2 (text quality observers, `--quality`)
 
 - **Observers:** `src/litmus/quality/observers.py` (`observer_version = "1"`): `stock_phrases`, `hedges`, `repeated_word_3grams`, `claim_phrases_to_inspect`, in that report order. Fields, notes format, the 1,000-span cap and error behavior are in `docs/interfaces.md` ("Text quality observations (R1-C2)").
