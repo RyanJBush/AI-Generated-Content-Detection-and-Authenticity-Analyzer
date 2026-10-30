@@ -7,3 +7,8 @@ R1-PLAN-CORRECTIONS-A.md -text
 eval/inputs/** -text
 # R1-C lexicons are hashed byte-for-byte: never convert line endings
 src/litmus/quality/lexicons/** -text
+# R1-D1 production trust list is hashed byte-for-byte
+src/litmus/c2pa/trust/** -text
+# R1-D1 C2PA fixtures, PKI and captured library output are hashed
+tests/fixtures/c2pa/** -text
+eval/results/r1d1_library_outputs/** -text

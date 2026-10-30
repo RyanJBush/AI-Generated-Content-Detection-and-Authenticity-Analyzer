@@ -1,0 +1,12 @@
+{
+ "fixture": "remote_reference.jpg",
+ "fixture_sha256": "3369fe52ad92605b365bc44b6162f47f36977bd37d9d9d1158436202e5142769",
+ "config": "production",
+ "outcome": "exception",
+ "exception_class": "C2paError",
+ "exception_bases": [
+  "Exception",
+  "BaseException"
+ ],
+ "message": "Remote: must fetch remote manifests from url http://127.0.0.1:47811/manifest.c2pa"
+}

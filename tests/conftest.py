@@ -16,8 +16,8 @@ def _loopback_only():
 class _TrapServer(http.server.ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self):
-        super().__init__(("127.0.0.1", 0), _TrapHandler)
+    def __init__(self, port=0):
+        super().__init__(("127.0.0.1", port), _TrapHandler)
         self.connections = []  # (client_address,) per accepted connection
         self.requests = []  # request paths seen
         self._lock = threading.Lock()
@@ -61,7 +61,23 @@ class Trap:
 @pytest.fixture
 def trap():
     """Loopback HTTP listener on 127.0.0.1:<random port> recording connections."""
-    server = _TrapServer()
+    yield from _serve(_TrapServer())
+
+
+@pytest.fixture
+def c2pa_fixture_trap():
+    """Loopback trap on the fixed port named by the committed C2PA
+    remote-reference fixture (tests/fixtures/c2pa/manifest.json)."""
+    import json
+    import pathlib
+
+    manifest = json.loads((pathlib.Path(__file__).parent / "fixtures" / "c2pa"
+                           / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["trap"]["host"] == "127.0.0.1"
+    yield from _serve(_TrapServer(manifest["trap"]["port"]))
+
+
+def _serve(server):
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:

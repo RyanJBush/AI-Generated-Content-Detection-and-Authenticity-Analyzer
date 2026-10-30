@@ -1,0 +1,567 @@
+{
+ "checkpoint": "R1-D1",
+ "captured": "2026-10-30T13:24:13-04:00",
+ "command": "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe scripts\\capture_c2pa_outputs.py",
+ "library": {
+  "c2pa_python": "0.38.0 (dist-info)",
+  "sdk_version": "0.91.0"
+ },
+ "settings_applied_with": "c2pa.Settings.from_dict(config) then c2pa.Context(settings=...); Reader(mime, BytesIO(bytes), context=...)",
+ "configs": {
+  "production": {
+   "verify": {
+    "remote_manifest_fetch": false,
+    "ocsp_fetch": false,
+    "verify_trust": true
+   },
+   "core": {
+    "allowed_network_hosts": [],
+    "decode_identity_assertions": false
+   }
+  },
+  "test_anchors": {
+   "verify": {
+    "remote_manifest_fetch": false,
+    "ocsp_fetch": false,
+    "verify_trust": true
+   },
+   "core": {
+    "allowed_network_hosts": [],
+    "decode_identity_assertions": false
+   },
+   "trust": {
+    "trust_anchors_sha256": "41b24f4d368c2ace2fb00a4749729a17dc6754a20a58ec808915705d79893709"
+   }
+  }
+ },
+ "test_anchor": "tests/fixtures/c2pa/pki/test_root_ca.pem",
+ "reads": {
+  "active_ai_declared.jpg / production": {
+   "file": "active_ai_declared_jpg__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+     ]
+    }
+   ]
+  },
+  "active_ai_declared.jpg / test_anchors": {
+   "file": "active_ai_declared_jpg__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Trusted",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+     ]
+    }
+   ]
+  },
+  "ingredient_ai_only.jpg / production": {
+   "file": "ingredient_ai_only_jpg__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    },
+    "ingredientDeltas[0] self#jumbf=/c2pa/urn:c2pa:6df3f2e4-f7b5-4f71-aeeb-fe635770b849/c2pa.assertions/c2pa.ingredient.v3": {
+     "success": [
+      "ingredient.manifest.validated"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+     "is_active": false,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+     ]
+    },
+    {
+     "manifest_label": "urn:c2pa:6df3f2e4-f7b5-4f71-aeeb-fe635770b849",
+     "is_active": true,
+     "ingredients": [
+      {
+       "title": "active_ai_declared.jpg",
+       "relationship": "componentOf"
+      }
+     ],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+      null
+     ]
+    }
+   ]
+  },
+  "ingredient_ai_only.jpg / test_anchors": {
+   "file": "ingredient_ai_only_jpg__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Trusted",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ]
+    },
+    "ingredientDeltas[0] self#jumbf=/c2pa/urn:c2pa:6df3f2e4-f7b5-4f71-aeeb-fe635770b849/c2pa.assertions/c2pa.ingredient.v3": {
+     "success": [
+      "ingredient.manifest.validated",
+      "signingCredential.trusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+     "is_active": false,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+     ]
+    },
+    {
+     "manifest_label": "urn:c2pa:6df3f2e4-f7b5-4f71-aeeb-fe635770b849",
+     "is_active": true,
+     "ingredients": [
+      {
+       "title": "active_ai_declared.jpg",
+       "relationship": "componentOf"
+      }
+     ],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture",
+      null
+     ]
+    }
+   ]
+  },
+  "no_manifest.jpg / production": {
+   "file": "no_manifest_jpg__production.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "no_manifest.jpg / test_anchors": {
+   "file": "no_manifest_jpg__test_anchors.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "no_manifest.png / production": {
+   "file": "no_manifest_png__production.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "no_manifest.png / test_anchors": {
+   "file": "no_manifest_png__test_anchors.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "no_manifest.webp / production": {
+   "file": "no_manifest_webp__production.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "no_manifest.webp / test_anchors": {
+   "file": "no_manifest_webp__test_anchors.json",
+   "outcome": "exception",
+   "exception_class": "_C2paManifestNotFound",
+   "message": "ManifestNotFound: no JUMBF data found"
+  },
+  "remote_reference.jpg / production": {
+   "file": "remote_reference_jpg__production.json",
+   "outcome": "exception",
+   "exception_class": "C2paError",
+   "message": "Remote: must fetch remote manifests from url http://127.0.0.1:47811/manifest.c2pa"
+  },
+  "remote_reference.jpg / test_anchors": {
+   "file": "remote_reference_jpg__test_anchors.json",
+   "outcome": "exception",
+   "exception_class": "C2paError",
+   "message": "Remote: must fetch remote manifests from url http://127.0.0.1:47811/manifest.c2pa"
+  },
+  "tampered.jpg / production": {
+   "file": "tampered_jpg__production.json",
+   "outcome": "read",
+   "validation_state": "Invalid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "assertion.dataHash.mismatch",
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "tampered.jpg / test_anchors": {
+   "file": "tampered_jpg__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Invalid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "assertion.dataHash.mismatch"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.jpg / production": {
+   "file": "trusted_signer_jpg__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.jpg / test_anchors": {
+   "file": "trusted_signer_jpg__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Trusted",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.png / production": {
+   "file": "trusted_signer_png__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:84b44e60-d6d7-420b-a22c-f3f1516a5f07",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.png / test_anchors": {
+   "file": "trusted_signer_png__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Trusted",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:84b44e60-d6d7-420b-a22c-f3f1516a5f07",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.webp / production": {
+   "file": "trusted_signer_webp__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:09c33320-83e9-4913-b101-02c55f0ef73e",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "trusted_signer.webp / test_anchors": {
+   "file": "trusted_signer_webp__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Trusted",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated",
+      "signingCredential.trusted"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:09c33320-83e9-4913-b101-02c55f0ef73e",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "untrusted_signer.jpg / production": {
+   "file": "untrusted_signer_jpg__production.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:9d0fcbf6-3ee8-4b5f-976a-002c794b938c",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  },
+  "untrusted_signer.jpg / test_anchors": {
+   "file": "untrusted_signer_jpg__test_anchors.json",
+   "outcome": "read",
+   "validation_state": "Valid",
+   "codes": {
+    "activeManifest": {
+     "success": [
+      "assertion.dataHash.match",
+      "assertion.hashedURI.match",
+      "assertion.hashedURI.match",
+      "claimSignature.insideValidity",
+      "claimSignature.validated"
+     ],
+     "informational": [
+      "signingCredential.ocsp.skipped"
+     ],
+     "failure": [
+      "signingCredential.untrusted"
+     ]
+    }
+   },
+   "manifests": [
+    {
+     "manifest_label": "urn:c2pa:9d0fcbf6-3ee8-4b5f-976a-002c794b938c",
+     "is_active": true,
+     "ingredients": [],
+     "digital_source_types": [
+      "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+     ]
+    }
+   ]
+  }
+ }
+}

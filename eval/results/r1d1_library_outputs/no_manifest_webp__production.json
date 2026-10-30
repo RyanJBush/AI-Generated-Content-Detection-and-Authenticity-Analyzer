@@ -1,0 +1,12 @@
+{
+ "fixture": "no_manifest.webp",
+ "fixture_sha256": "6125b6a789c095c52154f7e6d45a5260623906cc30e421cc6941722f91183eab",
+ "config": "production",
+ "outcome": "exception",
+ "exception_class": "_C2paManifestNotFound",
+ "exception_bases": [
+  "C2paError",
+  "Exception"
+ ],
+ "message": "ManifestNotFound: no JUMBF data found"
+}

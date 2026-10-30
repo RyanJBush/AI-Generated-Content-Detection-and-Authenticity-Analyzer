@@ -28,6 +28,7 @@ where = ["src"]
 # R1-C: lexicons ship inside the package, loaded via importlib.resources
 [tool.setuptools.package-data]
 "litmus.quality" = ["lexicons/*.txt"]
+"litmus.c2pa" = ["trust/*.pem"]
 
 [tool.setuptools.dynamic]
 version = { attr = "litmus.__version__" }

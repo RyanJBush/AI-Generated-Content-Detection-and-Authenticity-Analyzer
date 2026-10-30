@@ -1,0 +1,168 @@
+{
+ "checkpoint": "R1-D1",
+ "generated": "2026-10-30T13:22:29-04:00",
+ "command": "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe scripts\\generate_c2pa_fixtures.py",
+ "library": {
+  "c2pa_python": "0.38.0 (dist-info)",
+  "sdk_version": "0.91.0"
+ },
+ "signing_settings": {
+  "verify": {
+   "remote_manifest_fetch": false,
+   "ocsp_fetch": false
+  },
+  "core": {
+   "allowed_network_hosts": [],
+   "decode_identity_assertions": false
+  },
+  "builder": {
+   "thumbnail": {
+    "enabled": false
+   }
+  }
+ },
+ "test_only": "All keys and certificates under pki/ are TEST ONLY: generated locally for Litmus tests, never for production or trust.",
+ "pki": {
+  "algorithm": "ECDSA P-256, SHA-256 signatures; signing alg ES256",
+  "validity": [
+   "2026-01-01T00:00:00+00:00",
+   "2046-01-01T00:00:00+00:00"
+  ],
+  "ca_profile": "BasicConstraints CA=true (critical, pathLen root 1 / intermediate 0 / untrusted root 0); KeyUsage keyCertSign+cRLSign (critical); SKI; AKI",
+  "end_entity_profile": "BasicConstraints CA=false (critical); KeyUsage digitalSignature (critical); ExtendedKeyUsage emailProtection; SKI; AKI",
+  "tsa": null,
+  "files": {
+   "test_root_ca.pem": "41b24f4d368c2ace2fb00a4749729a17dc6754a20a58ec808915705d79893709",
+   "test_intermediate_ca.pem": "ae0f781da915f781e4ce6874c4973458831ae6f9488bb57442e16335cb132df9",
+   "test_signer_chain.pem": "8c2d1c9c59ff9590d1f9bdebd78c171a73945e3fdd0aa0bbd458aec561466e24",
+   "test_signer_key.pem": "78c11395b4ba9e06cb0044f7e3f8af8f4d5e576fffe14502d3b069eed87ad0d0",
+   "untrusted_root_ca.pem": "e479c24518ee2884aeb90270e2abf5c50e0e0b053ab6a2b861e89da1c3688d4e",
+   "untrusted_signer_chain.pem": "e787deb4a746dc922cb6bc081b6ba4b96af4e6a0f023c0b8ead915f8d7418687",
+   "untrusted_signer_key.pem": "5a40d5ec143a7c9271c90a707950431f7af6547e72e265b8c7a98c9b2552b2ae"
+  }
+ },
+ "trap": {
+  "host": "127.0.0.1",
+  "port": 47811,
+  "remote_url": "http://127.0.0.1:47811/manifest.c2pa"
+ },
+ "fixtures": {
+  "active_ai_declared.jpg": {
+   "sha256": "868d203846025bba99acb5c54187154f093222af8448a0c7dd252cb0dd12c720",
+   "bytes": 4561,
+   "params": {
+    "signer": "test signer",
+    "digitalSourceType": "trainedAlgorithmicMedia",
+    "source": "no_manifest.jpg"
+   }
+  },
+  "ingredient_ai_only.jpg": {
+   "sha256": "1e23872c21aeb3218a8c2d361075d74f06a057f573ff83c5bf5f7c14a01bde56",
+   "bytes": 9787,
+   "params": {
+    "signer": "test signer",
+    "digitalSourceType": "digitalCapture (active)",
+    "ingredient": {
+     "title": "active_ai_declared.jpg",
+     "relationship": "componentOf",
+     "label": "ai_ingredient",
+     "source": "active_ai_declared.jpg"
+    },
+    "extra_action": {
+     "action": "c2pa.placed",
+     "parameters": {
+      "ingredientIds": [
+       "ai_ingredient"
+      ]
+     }
+    },
+    "source": "no_manifest.jpg"
+   }
+  },
+  "no_manifest.jpg": {
+   "sha256": "7819dfda03dd5138699a9530f4cb47585e2675172a40d080d46172abb1631c31",
+   "bytes": 1286,
+   "params": {
+    "image": "64x48 gradient",
+    "format": "JPEG"
+   }
+  },
+  "no_manifest.png": {
+   "sha256": "fd57fa42c47181ed614f89700f3ffb958c649ed11ea264a8eb9de6915e18e1ea",
+   "bytes": 913,
+   "params": {
+    "image": "64x48 gradient",
+    "format": "PNG"
+   }
+  },
+  "no_manifest.webp": {
+   "sha256": "6125b6a789c095c52154f7e6d45a5260623906cc30e421cc6941722f91183eab",
+   "bytes": 898,
+   "params": {
+    "image": "64x48 gradient",
+    "format": "WEBP"
+   }
+  },
+  "remote_reference.c2pa": {
+   "sha256": "05e7d0d3548c1048e962d1c76d9173766be4e05029a0598ea5d0f76778ba6a5a",
+   "bytes": 3252,
+   "params": {
+    "what": "manifest store returned by Builder.sign for remote_reference.jpg"
+   }
+  },
+  "remote_reference.jpg": {
+   "sha256": "3369fe52ad92605b365bc44b6162f47f36977bd37d9d9d1158436202e5142769",
+   "bytes": 1945,
+   "params": {
+    "signer": "test signer",
+    "no_embed": true,
+    "remote_url": "http://127.0.0.1:47811/manifest.c2pa",
+    "source": "no_manifest.jpg"
+   }
+  },
+  "tampered.jpg": {
+   "sha256": "957f5365bdea6b8a2f707051f4490ce5524cb982c63145992fe49eda48fa69a2",
+   "bytes": 4548,
+   "params": {
+    "source": "trusted_signer.jpg",
+    "change": "one byte XOR 0x01 in the entropy-coded data after the last SOS marker"
+   }
+  },
+  "trusted_signer.jpg": {
+   "sha256": "133862c2a095d703bc5d76b8df7bd394565b10b141b0842ad8bed919c83b5539",
+   "bytes": 4548,
+   "params": {
+    "signer": "test signer (test root -> intermediate)",
+    "digitalSourceType": "digitalCapture",
+    "source": "no_manifest.jpg"
+   }
+  },
+  "trusted_signer.png": {
+   "sha256": "1d19d42db914f0c70e551f8b12325d85dae02c26aa0286d8540fd0af9284d6b5",
+   "bytes": 4175,
+   "params": {
+    "signer": "test signer (test root -> intermediate)",
+    "digitalSourceType": "digitalCapture",
+    "source": "no_manifest.png"
+   }
+  },
+  "trusted_signer.webp": {
+   "sha256": "b22924addf1ce2f45a80b28e352f93bdd9c65be7ddbc79a6dc8968d04322efae",
+   "bytes": 4158,
+   "params": {
+    "signer": "test signer (test root -> intermediate)",
+    "digitalSourceType": "digitalCapture",
+    "source": "no_manifest.webp"
+   }
+  },
+  "untrusted_signer.jpg": {
+   "sha256": "3bac6fe81f614cfaad2b735da26cef78fc4a47ee98c22c7db2afe07389a59cdc",
+   "bytes": 4066,
+   "params": {
+    "signer": "untrusted signer (separate root)",
+    "digitalSourceType": "digitalCapture",
+    "source": "no_manifest.jpg"
+   }
+  }
+ }
+}
