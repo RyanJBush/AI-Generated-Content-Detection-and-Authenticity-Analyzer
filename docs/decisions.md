@@ -494,7 +494,8 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
   An ASSUMED 20% exclusion margin (too_short, missing variants, errors), which
   is not measured, gives G ≥ 834 (ESTIMATE). Neither figure guarantees 200
   eligible development human texts. The calibration rule above decides that.
-- **N_target status: PROPOSED — pending Ryan's approval.** N_target = 1,000
+- **N_target status: APPROVED** (was PROPOSED; see "2026-10-30 — N_target
+  approval and R1-B2 closure" below). N_target = 1,000
   groups (an expected 300 dev human texts). Clean + attacks is 5,000 texts, for
   an ESTIMATE of 1,127 s (18.8 min) scoring plus about 4 s load. This fits the
   0.5 h candidate budget with about 1.6× headroom. Clean-only is an ESTIMATE
@@ -524,3 +525,20 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
 
 - No RAID acquisition, no calibration, no quality observers, no C2PA work.
 - Docker isolation: not run.
+
+## 2026-10-30 — N_target approval and R1-B2 closure
+
+- **2026-10-30: Ryan approved N_target = 1,000 source groups for R1-E dataset
+  selection.** This approval comes from Ryan's instruction message of
+  2026-10-30. It updates the N_target entry in the R1-B2 ESTIMATE section from
+  PROPOSED to APPROVED. The per-group cost and time figures there remain
+  ESTIMATES.
+- **2026-10-30: R1-B2 closed.** Independent review (Codex) accepted correction
+  commit `82a2eca`: 298 default tests passed with model-file reads blocked and
+  zero attempted accesses; Ruff passed. Ryan's terminal: 19 slow tests passed.
+  - These results were reported by the reviewer and by Ryan. They are recorded
+    as reported and were not run by the agent for this entry.
+- **Reminder:** R1-E still requires Ryan's separate approval for RAID
+  acquisition. N_target approval is not acquisition approval.
+- **Backend routing:** still UNVERIFIED. The instruction's backend line is the
+  unfilled placeholder.
