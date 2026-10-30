@@ -649,3 +649,16 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 - No RAID data, calibration, C2PA, UI or origin-scoring changes.
 - No optimization.
 - Lexicon licensing remains OPEN — pending Ryan's decision.
+
+## 2026-10-30 — R1-C2 corrections
+
+- **Reviewer-reported (not run by the agent for this entry):** Codex reviewed R1-C2 through `01c79e7`. It reported 436 default tests passed, Ruff passed, the real-model origin-byte comparison with quality off and on passed, and the repository was clean.
+- **Lexicon initialization isolation:** each lexicon observer now also catches `OSError` and its subclasses (for example `PermissionError`) while loading its lexicon. That observer gets an error record with note `error=<exception class name>`; the other observers, origin evidence and the report are unchanged, and the CLI exits 0.
+  - `LexiconError` behavior and messages are unchanged. This includes a missing file at the resource read, which is still reported as `lexicon_invalid=lexicon '<name>' is not packaged`.
+  - Other exception types are still not caught. They propagate out of the CLI (traceback, exit 1) before analysis starts, as before.
+- **Extended quality benchmark (agent run):** `scripts/benchmark_quality.py --suite extended` was added. Results are appended as a separate run under `additional_runs` in `eval/results/r1c2_quality_benchmark.json`; the original measurements are kept unchanged.
+  - Log: `eval/results/logs/r1c2_quality_benchmark_extended_20261030T125949.log`.
+  - Cases: 200,000 code points of `"a "` repeated, one 200,000-code-point word, and 200,000 CJK code points with no spaces; ordinary prose at 500 / 2,000 / 10,000 code points.
+  - Highest median total: 0.1334 s (`"a "` repeated). Nothing was flagged against the 5 s target.
+  - Power: on battery (39%), Balanced plan.
+  - Caveat: the prose unit is 704 code points, so the 2,000 and 10,000 inputs repeat it, which inflates their `repeated_word_3grams` counts.

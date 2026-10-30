@@ -720,5 +720,761 @@
    "flag": null
   }
  ],
- "flagged": []
+ "flagged": [],
+ "additional_runs": [
+  {
+   "checkpoint": "R1-C2",
+   "suite": "extended",
+   "started": "2026-10-30T12:59:49.419-04:00",
+   "finished": "2026-10-30T12:59:51.530-04:00",
+   "command": "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe scripts\\benchmark_quality.py --suite extended",
+   "definitions": {
+    "timer": "time.perf_counter()",
+    "p90": "nearest rank: the ceil(0.9*n)-th smallest value",
+    "warmup": "1 untimed run per input",
+    "timed": "5 runs per input",
+    "word_index": "litmus.quality.words.word_index(text), built once per run",
+    "per_observer": "observer.observe(text, words) for each observer",
+    "total": "word index + the four observe calls, in report order (excludes observer construction, decoding and report assembly)",
+    "construction": "build_observers(): load and compile the three lexicons (timed once)",
+    "offline": "warmup and timed runs execute under litmus.offline.offline_guards()",
+    "target": "median total <= 5.0 s; every case above it is flagged for review, not optimized"
+   },
+   "system": {
+    "cpu": "Intel(R) Core(TM) i7-14650HX",
+    "ram_bytes": 16869634048,
+    "os": "Windows-11-10.0.26100-SP0",
+    "python": "3.13.7",
+    "power": {
+     "ac_line": "offline (battery)",
+     "battery_percent": 39,
+     "battery_flag": 0,
+     "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+    }
+   },
+   "observer_version": "1",
+   "lexicons": {
+    "stock_phrases": {
+     "version": 1,
+     "sha256": "781b44148b65ac55fa394cc87ab8947e36f13e3ed7d56d3ff8045251c974d637"
+    },
+    "hedges": {
+     "version": 1,
+     "sha256": "d2625f88fa1b9ac4b784590fa3e16128791e35c71ee606f8cfd079123da09805"
+    },
+    "claim_phrases_to_inspect": {
+     "version": 1,
+     "sha256": "6ef25f0591733bd04d317d29fbdf82bba1dd311dea6b2eb320c45cfd260ee705"
+    }
+   },
+   "inputs": {
+    "typical_prose_unit_sha256": "b6c2a6026cd5e2a9271496920d3789a0d98c743f99065e5e89919b4f16705659",
+    "adversarial_unit_sha256": "f795d9f3fa18d0506be05606975fb26a95588938f2fadd81bbac970ba9696b19"
+   },
+   "construction_seconds": 0.031929099990520626,
+   "results": [
+    {
+     "kind": "a_space_repeated",
+     "generator": {
+      "method": "repeat unit, cut to n code points",
+      "unit": "'a '",
+      "unit_sha256": "6583dcd6056fd32aadd0d2d0be920de99f6ff08b80065e4b9142aaa4169391cb",
+      "n": 200000
+     },
+     "code_points": 200000,
+     "sha256_utf8": "32141747928eef5fa7711f00374445e36d42e182c735e2ed239255a4517855ae",
+     "words": 100000,
+     "counts": {
+      "stock_phrases": 0,
+      "hedges": 0,
+      "repeated_word_3grams": 99998,
+      "claim_phrases_to_inspect": 0
+     },
+     "statuses": {
+      "stock_phrases": "none_found",
+      "hedges": "none_found",
+      "repeated_word_3grams": "observed",
+      "claim_phrases_to_inspect": "none_found"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 0.025208300008671358,
+       "stock_phrases": 0.018663099996047094,
+       "hedges": 0.017216699998243712,
+       "repeated_word_3grams": 0.042651800002204254,
+       "claim_phrases_to_inspect": 0.015030999988084659,
+       "total": 0.11877670000831131
+      },
+      {
+       "word_index": 0.024142599999322556,
+       "stock_phrases": 0.02195449999999255,
+       "hedges": 0.0236163000081433,
+       "repeated_word_3grams": 0.05418700000154786,
+       "claim_phrases_to_inspect": 0.014675300000817515,
+       "total": 0.13858080000500195
+      },
+      {
+       "word_index": 0.024607499988633208,
+       "stock_phrases": 0.018863200006308034,
+       "hedges": 0.016806100000394508,
+       "repeated_word_3grams": 0.0510297000000719,
+       "claim_phrases_to_inspect": 0.02977419999660924,
+       "total": 0.14108679999480955
+      },
+      {
+       "word_index": 0.04288020000967663,
+       "stock_phrases": 0.019392999995034188,
+       "hedges": 0.016865300000063144,
+       "repeated_word_3grams": 0.03829300000506919,
+       "claim_phrases_to_inspect": 0.01593180000782013,
+       "total": 0.1333681000105571
+      },
+      {
+       "word_index": 0.03630810001050122,
+       "stock_phrases": 0.020574199996190146,
+       "hedges": 0.01853359999950044,
+       "repeated_word_3grams": 0.03984830000263173,
+       "claim_phrases_to_inspect": 0.01714440000068862,
+       "total": 0.13241320000088308
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 0.024142599999322556,
+       "median": 0.025208300008671358,
+       "mean": 0.030629340003360993,
+       "p90": 0.04288020000967663,
+       "max": 0.04288020000967663
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 0.018663099996047094,
+       "median": 0.019392999995034188,
+       "mean": 0.019889599998714404,
+       "p90": 0.02195449999999255,
+       "max": 0.02195449999999255
+      },
+      "hedges": {
+       "n": 5,
+       "min": 0.016806100000394508,
+       "median": 0.017216699998243712,
+       "mean": 0.01860760000126902,
+       "p90": 0.0236163000081433,
+       "max": 0.0236163000081433
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 0.03829300000506919,
+       "median": 0.042651800002204254,
+       "mean": 0.04520196000230499,
+       "p90": 0.05418700000154786,
+       "max": 0.05418700000154786
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 0.014675300000817515,
+       "median": 0.01593180000782013,
+       "mean": 0.018511339998804034,
+       "p90": 0.02977419999660924,
+       "max": 0.02977419999660924
+      },
+      "total": {
+       "n": 5,
+       "min": 0.11877670000831131,
+       "median": 0.1333681000105571,
+       "mean": 0.1328451200039126,
+       "p90": 0.14108679999480955,
+       "max": 0.14108679999480955
+      }
+     },
+     "flag": null
+    },
+    {
+     "kind": "long_word_no_spaces",
+     "generator": {
+      "method": "'a' * n",
+      "n": 200000
+     },
+     "code_points": 200000,
+     "sha256_utf8": "2287d207f24a941ff3b56c04c8a25ad56b63e3023207b3bb5b4ac0c9869d74be",
+     "words": 1,
+     "counts": {
+      "stock_phrases": 0,
+      "hedges": 0,
+      "repeated_word_3grams": 0,
+      "claim_phrases_to_inspect": 0
+     },
+     "statuses": {
+      "stock_phrases": "none_found",
+      "hedges": "none_found",
+      "repeated_word_3grams": "none_found",
+      "claim_phrases_to_inspect": "none_found"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 0.027096899997559376,
+       "stock_phrases": 0.004550900004687719,
+       "hedges": 0.0047799999883864075,
+       "repeated_word_3grams": 5.5900003644637764e-05,
+       "claim_phrases_to_inspect": 0.004816699991351925,
+       "total": 0.041302799989352934
+      },
+      {
+       "word_index": 0.02614799998991657,
+       "stock_phrases": 0.004760700001497753,
+       "hedges": 0.004744499994558282,
+       "repeated_word_3grams": 5.629999213851988e-05,
+       "claim_phrases_to_inspect": 0.004657299999962561,
+       "total": 0.04036889999406412
+      },
+      {
+       "word_index": 0.027803100005257875,
+       "stock_phrases": 0.004370399998151697,
+       "hedges": 0.004600200001732446,
+       "repeated_word_3grams": 5.329999839887023e-05,
+       "claim_phrases_to_inspect": 0.004703099999460392,
+       "total": 0.04153250000672415
+      },
+      {
+       "word_index": 0.02555479999864474,
+       "stock_phrases": 0.00465670000994578,
+       "hedges": 0.004582800000207499,
+       "repeated_word_3grams": 5.610000516753644e-05,
+       "claim_phrases_to_inspect": 0.004533899991656654,
+       "total": 0.03938679999555461
+      },
+      {
+       "word_index": 0.026924799996777438,
+       "stock_phrases": 0.004756299997097813,
+       "hedges": 0.005128000004333444,
+       "repeated_word_3grams": 6.0699996538460255e-05,
+       "claim_phrases_to_inspect": 0.005099499991047196,
+       "total": 0.04197209999256302
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 0.02555479999864474,
+       "median": 0.026924799996777438,
+       "mean": 0.0267055199976312,
+       "p90": 0.027803100005257875,
+       "max": 0.027803100005257875
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 0.004370399998151697,
+       "median": 0.00465670000994578,
+       "mean": 0.004619000002276152,
+       "p90": 0.004760700001497753,
+       "max": 0.004760700001497753
+      },
+      "hedges": {
+       "n": 5,
+       "min": 0.004582800000207499,
+       "median": 0.004744499994558282,
+       "mean": 0.004767099997843615,
+       "p90": 0.005128000004333444,
+       "max": 0.005128000004333444
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 5.329999839887023e-05,
+       "median": 5.610000516753644e-05,
+       "mean": 5.6459999177604915e-05,
+       "p90": 6.0699996538460255e-05,
+       "max": 6.0699996538460255e-05
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 0.004533899991656654,
+       "median": 0.004703099999460392,
+       "mean": 0.004762099994695746,
+       "p90": 0.005099499991047196,
+       "max": 0.005099499991047196
+      },
+      "total": {
+       "n": 5,
+       "min": 0.03938679999555461,
+       "median": 0.041302799989352934,
+       "mean": 0.04091261999565177,
+       "p90": 0.04197209999256302,
+       "max": 0.04197209999256302
+      }
+     },
+     "flag": null
+    },
+    {
+     "kind": "cjk_no_spaces",
+     "generator": {
+      "method": "chr(base + i % cycle) for i in range(n)",
+      "base": "U+4E00",
+      "cycle": 500,
+      "n": 200000
+     },
+     "code_points": 200000,
+     "sha256_utf8": "fe6880275ada65c29e892d8d7e0aa195b8e6a7551e9f6d18c613524244ac8854",
+     "words": 1,
+     "counts": {
+      "stock_phrases": 0,
+      "hedges": 0,
+      "repeated_word_3grams": 0,
+      "claim_phrases_to_inspect": 0
+     },
+     "statuses": {
+      "stock_phrases": "none_found",
+      "hedges": "none_found",
+      "repeated_word_3grams": "none_found",
+      "claim_phrases_to_inspect": "none_found"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 0.026758399995742366,
+       "stock_phrases": 0.005814199990709312,
+       "hedges": 0.005570699999225326,
+       "repeated_word_3grams": 0.0008857999928295612,
+       "claim_phrases_to_inspect": 0.005592899993644096,
+       "total": 0.04462509999575559
+      },
+      {
+       "word_index": 0.02623899999889545,
+       "stock_phrases": 0.0058357999951113015,
+       "hedges": 0.006217900008778088,
+       "repeated_word_3grams": 0.0009756000072229654,
+       "claim_phrases_to_inspect": 0.005706399999326095,
+       "total": 0.044976500008488074
+      },
+      {
+       "word_index": 0.027537300004041754,
+       "stock_phrases": 0.005578299998887815,
+       "hedges": 0.005686700009391643,
+       "repeated_word_3grams": 0.000873099997988902,
+       "claim_phrases_to_inspect": 0.0055961000034585595,
+       "total": 0.04527289999532513
+      },
+      {
+       "word_index": 0.027287800010526553,
+       "stock_phrases": 0.005866499996045604,
+       "hedges": 0.005752600001869723,
+       "repeated_word_3grams": 0.0011031000030925497,
+       "claim_phrases_to_inspect": 0.006159500000649132,
+       "total": 0.046171800000593066
+      },
+      {
+       "word_index": 0.02943750000849832,
+       "stock_phrases": 0.005745200003730133,
+       "hedges": 0.0055201000068336725,
+       "repeated_word_3grams": 0.0009040000004461035,
+       "claim_phrases_to_inspect": 0.005776200006948784,
+       "total": 0.04738500001258217
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 0.02623899999889545,
+       "median": 0.027287800010526553,
+       "mean": 0.027452000003540887,
+       "p90": 0.02943750000849832,
+       "max": 0.02943750000849832
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 0.005578299998887815,
+       "median": 0.005814199990709312,
+       "mean": 0.0057679999968968335,
+       "p90": 0.005866499996045604,
+       "max": 0.005866499996045604
+      },
+      "hedges": {
+       "n": 5,
+       "min": 0.0055201000068336725,
+       "median": 0.005686700009391643,
+       "mean": 0.005749600005219691,
+       "p90": 0.006217900008778088,
+       "max": 0.006217900008778088
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 0.000873099997988902,
+       "median": 0.0009040000004461035,
+       "mean": 0.0009483200003160164,
+       "p90": 0.0011031000030925497,
+       "max": 0.0011031000030925497
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 0.005592899993644096,
+       "median": 0.005706399999326095,
+       "mean": 0.005766220000805333,
+       "p90": 0.006159500000649132,
+       "max": 0.006159500000649132
+      },
+      "total": {
+       "n": 5,
+       "min": 0.04462509999575559,
+       "median": 0.04527289999532513,
+       "mean": 0.04568626000254881,
+       "p90": 0.04738500001258217,
+       "max": 0.04738500001258217
+      }
+     },
+     "flag": null
+    },
+    {
+     "kind": "natural_prose",
+     "generator": {
+      "method": "repeat unit, cut to n code points",
+      "unit": "typical_prose",
+      "unit_sha256": "b6c2a6026cd5e2a9271496920d3789a0d98c743f99065e5e89919b4f16705659",
+      "n": 500
+     },
+     "code_points": 500,
+     "sha256_utf8": "582752e1148c85aa5d65ceaefafee0c88ebe84c85407ab4dcdb462a92b2621b3",
+     "words": 85,
+     "counts": {
+      "stock_phrases": 1,
+      "hedges": 0,
+      "repeated_word_3grams": 0,
+      "claim_phrases_to_inspect": 1
+     },
+     "statuses": {
+      "stock_phrases": "observed",
+      "hedges": "none_found",
+      "repeated_word_3grams": "none_found",
+      "claim_phrases_to_inspect": "observed"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 3.3199990866705775e-05,
+       "stock_phrases": 3.060000017285347e-05,
+       "hedges": 3.1100003980100155e-05,
+       "repeated_word_3grams": 2.5300003471784294e-05,
+       "claim_phrases_to_inspect": 2.78999941656366e-05,
+       "total": 0.000148899998748675
+      },
+      {
+       "word_index": 3.2099997042678297e-05,
+       "stock_phrases": 2.9000002541579306e-05,
+       "hedges": 3.189999551977962e-05,
+       "repeated_word_3grams": 2.4900000425986946e-05,
+       "claim_phrases_to_inspect": 3.510000533424318e-05,
+       "total": 0.00015360000543296337
+      },
+      {
+       "word_index": 3.989999822806567e-05,
+       "stock_phrases": 3.599999763537198e-05,
+       "hedges": 3.9699996705166996e-05,
+       "repeated_word_3grams": 2.950000634882599e-05,
+       "claim_phrases_to_inspect": 3.499999002087861e-05,
+       "total": 0.0001807999942684546
+      },
+      {
+       "word_index": 3.9999998989515007e-05,
+       "stock_phrases": 3.57000099029392e-05,
+       "hedges": 4.67000063508749e-05,
+       "repeated_word_3grams": 2.8800001018680632e-05,
+       "claim_phrases_to_inspect": 4.060000355821103e-05,
+       "total": 0.000192599996807985
+      },
+      {
+       "word_index": 4.119999357499182e-05,
+       "stock_phrases": 3.959999594371766e-05,
+       "hedges": 3.959999594371766e-05,
+       "repeated_word_3grams": 3.0300012440420687e-05,
+       "claim_phrases_to_inspect": 3.4500000765547156e-05,
+       "total": 0.00018569998792372644
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 3.2099997042678297e-05,
+       "median": 3.989999822806567e-05,
+       "mean": 3.727999574039131e-05,
+       "p90": 4.119999357499182e-05,
+       "max": 4.119999357499182e-05
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 2.9000002541579306e-05,
+       "median": 3.57000099029392e-05,
+       "mean": 3.418000123929232e-05,
+       "p90": 3.959999594371766e-05,
+       "max": 3.959999594371766e-05
+      },
+      "hedges": {
+       "n": 5,
+       "min": 3.1100003980100155e-05,
+       "median": 3.959999594371766e-05,
+       "mean": 3.779999969992787e-05,
+       "p90": 4.67000063508749e-05,
+       "max": 4.67000063508749e-05
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 2.4900000425986946e-05,
+       "median": 2.8800001018680632e-05,
+       "mean": 2.776000474113971e-05,
+       "p90": 3.0300012440420687e-05,
+       "max": 3.0300012440420687e-05
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 2.78999941656366e-05,
+       "median": 3.499999002087861e-05,
+       "mean": 3.461999876890332e-05,
+       "p90": 4.060000355821103e-05,
+       "max": 4.060000355821103e-05
+      },
+      "total": {
+       "n": 5,
+       "min": 0.000148899998748675,
+       "median": 0.0001807999942684546,
+       "mean": 0.00017231999663636088,
+       "p90": 0.000192599996807985,
+       "max": 0.000192599996807985
+      }
+     },
+     "flag": null
+    },
+    {
+     "kind": "natural_prose",
+     "generator": {
+      "method": "repeat unit, cut to n code points",
+      "unit": "typical_prose",
+      "unit_sha256": "b6c2a6026cd5e2a9271496920d3789a0d98c743f99065e5e89919b4f16705659",
+      "n": 2000
+     },
+     "code_points": 2000,
+     "sha256_utf8": "cc3b3bf12496a9967f44d6f7a86570671dee5b8aa00280a17540c8a9da048223",
+     "words": 343,
+     "counts": {
+      "stock_phrases": 3,
+      "hedges": 3,
+      "repeated_word_3grams": 340,
+      "claim_phrases_to_inspect": 3
+     },
+     "statuses": {
+      "stock_phrases": "observed",
+      "hedges": "observed",
+      "repeated_word_3grams": "observed",
+      "claim_phrases_to_inspect": "observed"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 0.00015920000441838056,
+       "stock_phrases": 0.00014180000289343297,
+       "hedges": 0.0001564999984111637,
+       "repeated_word_3grams": 0.00016039999900385737,
+       "claim_phrases_to_inspect": 0.00013229998876340687,
+       "total": 0.0007512000011047348
+      },
+      {
+       "word_index": 0.00015700000221841037,
+       "stock_phrases": 0.0001795999996829778,
+       "hedges": 0.00019530000281520188,
+       "repeated_word_3grams": 0.00021980000019539148,
+       "claim_phrases_to_inspect": 0.00017270000535063446,
+       "total": 0.0009253999887732789
+      },
+      {
+       "word_index": 0.00021290000586304814,
+       "stock_phrases": 0.00018180000188294798,
+       "hedges": 0.0001973000034922734,
+       "repeated_word_3grams": 0.00022280000848695636,
+       "claim_phrases_to_inspect": 0.00017980000120587647,
+       "total": 0.000995800000964664
+      },
+      {
+       "word_index": 0.00021319999359548092,
+       "stock_phrases": 0.0001875000016298145,
+       "hedges": 0.00019940000493079424,
+       "repeated_word_3grams": 0.00029079998785164207,
+       "claim_phrases_to_inspect": 0.00017500000831205398,
+       "total": 0.0010671000054571778
+      },
+      {
+       "word_index": 0.0002682000049389899,
+       "stock_phrases": 0.00023350000265054405,
+       "hedges": 0.00026330001128371805,
+       "repeated_word_3grams": 0.0002710999979171902,
+       "claim_phrases_to_inspect": 0.00022159999934956431,
+       "total": 0.0012589000107254833
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 0.00015700000221841037,
+       "median": 0.00021290000586304814,
+       "mean": 0.00020210000220686198,
+       "p90": 0.0002682000049389899,
+       "max": 0.0002682000049389899
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 0.00014180000289343297,
+       "median": 0.00018180000188294798,
+       "mean": 0.00018484000174794345,
+       "p90": 0.00023350000265054405,
+       "max": 0.00023350000265054405
+      },
+      "hedges": {
+       "n": 5,
+       "min": 0.0001564999984111637,
+       "median": 0.0001973000034922734,
+       "mean": 0.00020236000418663024,
+       "p90": 0.00026330001128371805,
+       "max": 0.00026330001128371805
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 0.00016039999900385737,
+       "median": 0.00022280000848695636,
+       "mean": 0.0002329799986910075,
+       "p90": 0.00029079998785164207,
+       "max": 0.00029079998785164207
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 0.00013229998876340687,
+       "median": 0.00017500000831205398,
+       "mean": 0.00017628000059630722,
+       "p90": 0.00022159999934956431,
+       "max": 0.00022159999934956431
+      },
+      "total": {
+       "n": 5,
+       "min": 0.0007512000011047348,
+       "median": 0.000995800000964664,
+       "mean": 0.0009996800014050677,
+       "p90": 0.0012589000107254833,
+       "max": 0.0012589000107254833
+      }
+     },
+     "flag": null
+    },
+    {
+     "kind": "natural_prose",
+     "generator": {
+      "method": "repeat unit, cut to n code points",
+      "unit": "typical_prose",
+      "unit_sha256": "b6c2a6026cd5e2a9271496920d3789a0d98c743f99065e5e89919b4f16705659",
+      "n": 10000
+     },
+     "code_points": 10000,
+     "sha256_utf8": "0a56fcbdfdedf4a9fea2d9a073118a997a4a1767497e428d49c37bfe5184c56e",
+     "words": 1719,
+     "counts": {
+      "stock_phrases": 14,
+      "hedges": 14,
+      "repeated_word_3grams": 1717,
+      "claim_phrases_to_inspect": 14
+     },
+     "statuses": {
+      "stock_phrases": "observed",
+      "hedges": "observed",
+      "repeated_word_3grams": "observed",
+      "claim_phrases_to_inspect": "observed"
+     },
+     "runs_seconds": [
+      {
+       "word_index": 0.0039018999959807843,
+       "stock_phrases": 0.003983900009188801,
+       "hedges": 0.0022499000042444095,
+       "repeated_word_3grams": 0.004293099991627969,
+       "claim_phrases_to_inspect": 0.003097600012551993,
+       "total": 0.01753430000098888
+      },
+      {
+       "word_index": 0.005525200002011843,
+       "stock_phrases": 0.004041400010464713,
+       "hedges": 0.004386700005852617,
+       "repeated_word_3grams": 0.0050389999960316345,
+       "claim_phrases_to_inspect": 0.003581200013286434,
+       "total": 0.022580700009712018
+      },
+      {
+       "word_index": 0.0043637000053422526,
+       "stock_phrases": 0.0037191999872447923,
+       "hedges": 0.003607399994507432,
+       "repeated_word_3grams": 0.00345730000117328,
+       "claim_phrases_to_inspect": 0.0031750999914947897,
+       "total": 0.018329300000914373
+      },
+      {
+       "word_index": 0.0034229000011691824,
+       "stock_phrases": 0.0028395999979693443,
+       "hedges": 0.0028568999987328425,
+       "repeated_word_3grams": 0.00341070001013577,
+       "claim_phrases_to_inspect": 0.00233719999960158,
+       "total": 0.014872899992042221
+      },
+      {
+       "word_index": 0.0027587000076891854,
+       "stock_phrases": 0.0022508999973069876,
+       "hedges": 0.0023126000014599413,
+       "repeated_word_3grams": 0.0021853000071132556,
+       "claim_phrases_to_inspect": 0.001848900006734766,
+       "total": 0.011361199998646043
+      }
+     ],
+     "summary_seconds": {
+      "word_index": {
+       "n": 5,
+       "min": 0.0027587000076891854,
+       "median": 0.0039018999959807843,
+       "mean": 0.00399448000243865,
+       "p90": 0.005525200002011843,
+       "max": 0.005525200002011843
+      },
+      "stock_phrases": {
+       "n": 5,
+       "min": 0.0022508999973069876,
+       "median": 0.0037191999872447923,
+       "mean": 0.0033670000004349275,
+       "p90": 0.004041400010464713,
+       "max": 0.004041400010464713
+      },
+      "hedges": {
+       "n": 5,
+       "min": 0.0022499000042444095,
+       "median": 0.0028568999987328425,
+       "mean": 0.0030827000009594485,
+       "p90": 0.004386700005852617,
+       "max": 0.004386700005852617
+      },
+      "repeated_word_3grams": {
+       "n": 5,
+       "min": 0.0021853000071132556,
+       "median": 0.00345730000117328,
+       "mean": 0.0036770800012163817,
+       "p90": 0.0050389999960316345,
+       "max": 0.0050389999960316345
+      },
+      "claim_phrases_to_inspect": {
+       "n": 5,
+       "min": 0.001848900006734766,
+       "median": 0.003097600012551993,
+       "mean": 0.0028080000047339126,
+       "p90": 0.003581200013286434,
+       "max": 0.003581200013286434
+      },
+      "total": {
+       "n": 5,
+       "min": 0.011361199998646043,
+       "median": 0.01753430000098888,
+       "mean": 0.016935680000460706,
+       "p90": 0.022580700009712018,
+       "max": 0.022580700009712018
+      }
+     },
+     "flag": null
+    }
+   ],
+   "flagged": []
+  }
+ ]
 }

@@ -14,11 +14,21 @@ in the observe_all order), with time.perf_counter(). Observer construction
 (lexicon load and compile) is timed once, separately. Inputs are generated
 in memory; their SHA-256 values are recorded. The benchmark is not a test.
 
-A 200,000-code-point median total above 5 s is flagged
-"EXCEEDS TARGET -- for review" (an em dash in the output) with the
-per-observer breakdown; nothing here optimizes anything.
+Suite ``extended`` (R1-C2 corrections) adds 200,000-code-point "a "
+repeated, one 200,000-code-point word with no spaces, 200,000 CJK code points
+with no spaces, and ordinary prose at 500 / 2,000 / 10,000 code points. Every
+input records its generator parameters, exact code-point count and SHA-256.
 
-    .venv\\Scripts\\python.exe scripts\\benchmark_quality.py [--out PATH]
+Any case whose median total exceeds 5 s is flagged "EXCEEDS TARGET -- for
+review" (an em dash in the output) with the per-observer breakdown; nothing
+here optimizes anything.
+
+Results are never overwritten: if --out exists, the run is appended as a new
+timestamped section under "additional_runs"; otherwise the run is written as
+the top-level object.
+
+    .venv\\Scripts\\python.exe scripts\\benchmark_quality.py
+        [--suite r1c2|extended] [--out PATH]
 """
 import argparse
 import hashlib
@@ -46,7 +56,8 @@ LENGTHS = (10_000, 50_000, 200_000)
 WARMUP_RUNS = 1
 TIMED_RUNS = 5
 TARGET_SECONDS = 5.0
-TARGET_LENGTH = 200_000
+CJK_BASE = 0x4E00  # CJK Unified Ideographs
+CJK_CYCLE = 500
 
 PROSE = (
     "The committee met on Tuesday to review the budget for the coming year. "
@@ -70,11 +81,33 @@ def make_text(unit, length):
     return (unit * (length // len(unit) + 1))[:length]
 
 
-def inputs():
-    for kind, unit in (("typical_prose", PROSE),
-                       ("adversarial_high_match", ADVERSARIAL)):
-        for n in LENGTHS:
-            yield kind, n, make_text(unit, n)
+def _sha(text):
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _repeat(kind, unit_name, unit, n):
+    generator = {"method": "repeat unit, cut to n code points",
+                 "unit": unit_name, "unit_sha256": _sha(unit), "n": n}
+    return kind, generator, make_text(unit, n)
+
+
+def inputs(suite):
+    """(kind, generator parameters, text), deterministic."""
+    if suite == "r1c2":
+        for kind, unit in (("typical_prose", PROSE),
+                           ("adversarial_high_match", ADVERSARIAL)):
+            for n in LENGTHS:
+                yield _repeat(kind, kind, unit, n)
+        return
+    yield _repeat("a_space_repeated", "'a '", "a ", 200_000)
+    yield ("long_word_no_spaces",
+           {"method": "'a' * n", "n": 200_000}, "a" * 200_000)
+    yield ("cjk_no_spaces",
+           {"method": "chr(base + i % cycle) for i in range(n)",
+            "base": f"U+{CJK_BASE:04X}", "cycle": CJK_CYCLE, "n": 200_000},
+           "".join(chr(CJK_BASE + i % CJK_CYCLE) for i in range(200_000)))
+    for n in (500, 2_000, 10_000):
+        yield _repeat("natural_prose", "typical_prose", PROSE, n)
 
 
 def timed_run(text, observers):
@@ -92,7 +125,8 @@ def timed_run(text, observers):
     return times, records
 
 
-def measure(kind, n, text, observers):
+def measure(kind, generator, text, observers):
+    n = len(text)
     expected = observe_all(text, observers)
     with offline_guards():
         for _ in range(WARMUP_RUNS):
@@ -104,8 +138,8 @@ def measure(kind, n, text, observers):
     keys = ["word_index", *OBSERVER_IDS, "total"]
     summary = {k: summarize([t[k] for t, _ in runs]) for k in keys}
     block = {
-        "kind": kind, "code_points": len(text),
-        "sha256_utf8": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+        "kind": kind, "generator": generator, "code_points": len(text),
+        "sha256_utf8": _sha(text),
         "words": word_index(text).count,
         "counts": {r.observer_id: r.count for r in expected},
         "statuses": {r.observer_id: r.status.value for r in expected},
@@ -113,7 +147,7 @@ def measure(kind, n, text, observers):
         "summary_seconds": summary,
         "flag": None,
     }
-    if n == TARGET_LENGTH and summary["total"]["median"] > TARGET_SECONDS:
+    if summary["total"]["median"] > TARGET_SECONDS:
         block["flag"] = {
             "status": "EXCEEDS TARGET \u2014 for review",
             "target_seconds": TARGET_SECONDS,
@@ -126,6 +160,7 @@ def measure(kind, n, text, observers):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", type=pathlib.Path, default=DEFAULT_OUT)
+    ap.add_argument("--suite", choices=["r1c2", "extended"], default="r1c2")
     args = ap.parse_args(argv)
 
     started = now()
@@ -145,10 +180,10 @@ def main(argv=None):
                 for o in observers if getattr(o, "lexicon", None)}
 
     blocks = []
-    for kind, n, text in inputs():
-        blocks.append(measure(kind, n, text, observers))
+    for kind, generator, text in inputs(args.suite):
+        blocks.append(measure(kind, generator, text, observers))
         s = blocks[-1]["summary_seconds"]
-        print(f"[{kind} {n}] words={blocks[-1]['words']} "
+        print(f"[{kind} {len(text)}] words={blocks[-1]['words']} "
               f"counts={blocks[-1]['counts']}", flush=True)
         print("  " + "  ".join(f"{k}: median={v['median']:.4f}s max={v['max']:.4f}s"
                                for k, v in s.items()), flush=True)
@@ -158,6 +193,7 @@ def main(argv=None):
     flagged = [f"{b['kind']}/{b['code_points']}" for b in blocks if b["flag"]]
     result = {
         "checkpoint": "R1-C2",
+        "suite": args.suite,
         "started": started, "finished": now(),
         "command": " ".join([sys.executable] + sys.argv),
         "definitions": {
@@ -174,24 +210,26 @@ def main(argv=None):
                             "lexicons (timed once)",
             "offline": "warmup and timed runs execute under "
                        "litmus.offline.offline_guards()",
-            "target": f"median total <= {TARGET_SECONDS} s at {TARGET_LENGTH} "
-                      "code points; exceeding it is flagged for review, not "
-                      "optimized",
+            "target": f"median total <= {TARGET_SECONDS} s; every case above it "
+                      "is flagged for review, not optimized",
         },
         "system": system,
         "observer_version": OBSERVER_VERSION,
         "lexicons": lexicons,
-        "inputs": {"lengths": list(LENGTHS),
-                   "typical_prose_unit_sha256": hashlib.sha256(
-                       PROSE.encode("utf-8")).hexdigest(),
-                   "adversarial_unit_sha256": hashlib.sha256(
-                       ADVERSARIAL.encode("utf-8")).hexdigest()},
+        "inputs": {"typical_prose_unit_sha256": _sha(PROSE),
+                   "adversarial_unit_sha256": _sha(ADVERSARIAL)},
         "construction_seconds": construction,
         "results": blocks,
         "flagged": flagged,
     }
+    if args.out.exists():
+        # Earlier measurements are kept: append this run as a new section
+        data = json.loads(args.out.read_text(encoding="utf-8"))
+        data.setdefault("additional_runs", []).append(result)
+    else:
+        data = result
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
+    args.out.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     print(f"construction: {construction:.4f}s")
     print(f"flagged: {flagged}")
     print(f"wrote {args.out}")
