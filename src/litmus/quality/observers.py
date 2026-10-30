@@ -5,9 +5,10 @@ QualityObservation. Observers never see or change origin evidence, and
 quality observations do not establish AI origin.
 
 Lexicons are loaded once, when an observer is constructed; ``observe`` does no
-file or network access. Every observer runs in its own try/except
-(``observe_all``): a failure becomes that observer's ``error`` record and does
-not affect the others.
+file or network access. A lexicon that fails to load (LexiconError, or OSError
+and its subclasses) makes only that observer emit an ``error`` record. Every
+observer runs in its own try/except (``observe_all``): a failure becomes that
+observer's ``error`` record and does not affect the others.
 
 Notes use a fixed ``key=value`` format, in this order: observer_version, then
 lexicon_name / lexicon_version / lexicon_sha256 (lexicon observers), then
@@ -75,6 +76,8 @@ class LexiconObserver:
             self.pattern = compile_entries(self.lexicon.entries)
         except LexiconError as e:
             self.init_error = f"lexicon_invalid={e}"
+        except OSError as e:  # e.g. PermissionError: isolated to this observer
+            self.init_error = f"error={type(e).__name__}"
 
     def observe(self, text: str, words: WordIndex) -> QualityObservation:
         if self.init_error:

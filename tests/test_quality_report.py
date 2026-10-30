@@ -4,8 +4,10 @@ import pathlib
 
 import pytest
 
+from litmus import cli as cli_mod
 from litmus import report as report_mod
 from litmus.cli import main
+from litmus.quality import lexicon as lex_mod
 from litmus.quality.observers import OBSERVER_IDS, RepeatedWord3Grams, build_observers
 from litmus.schemas import (
     OriginEvidence,
@@ -136,6 +138,96 @@ def test_cli_exit_0_when_an_observer_raises(capsys, monkeypatch):
     assert err["status"] == "error" and err["count"] is None
     assert "error=RuntimeError" in err["notes"]
     assert [q["count"] for q in quality] == [2, 3, None, 2]
+
+
+# --- lexicon initialization failures (R1-C2 corrections, fix 1) ---
+
+def stub_cli(capsys, monkeypatch, *args):
+    """Full CLI path, with the deterministic stub origin analyzer."""
+    real = report_mod.run_analysis
+    monkeypatch.setattr(cli_mod, "run_analysis",
+                        lambda path, origin, observers: real(path, stub_origin,
+                                                             observers))
+    code, out = cli(capsys, INPUTS / "quality.txt", *args)
+    return code, json.loads(out)
+
+
+def fail_resource(monkeypatch, name, make_error):
+    """The packaged resource read fails for lexicon `name` only."""
+    real = lex_mod.resource_bytes
+
+    def fake(n):
+        if n == name:
+            raise make_error(n)
+        return real(n)
+
+    monkeypatch.setattr(lex_mod, "resource_bytes", fake)
+
+
+def check_isolated(capsys, monkeypatch, failing, inject):
+    _, baseline = stub_cli(capsys, monkeypatch, "--quality", "on")
+    _, off = stub_cli(capsys, monkeypatch, "--quality", "off")
+    inject()
+    code, rep = stub_cli(capsys, monkeypatch, "--quality", "on")
+    assert code == 0
+    quality = {q["observer_id"]: q for q in rep["segments"][0]["quality"]}
+    expected = {q["observer_id"]: q for q in baseline["segments"][0]["quality"]}
+    assert list(quality) == list(OBSERVER_IDS)
+    err = quality.pop(failing)
+    assert (err["status"], err["count"], err["rate_per_100_words"], err["spans"]) == (
+        "error", None, None, [])
+    expected.pop(failing)
+    assert quality == expected
+    assert canonical(rep["segments"][0]["origin"]) == canonical(
+        off["segments"][0]["origin"])
+    assert rep["limitations"] == baseline["limitations"]
+    return err
+
+
+def test_permission_error_on_one_lexicon_is_isolated(capsys, monkeypatch):
+    err = check_isolated(capsys, monkeypatch, "hedges", lambda: fail_resource(
+        monkeypatch, "hedges", lambda n: PermissionError(13, "denied", n)))
+    assert err["notes"] == ["observer_version=1", "error=PermissionError"]
+
+
+def test_file_not_found_on_one_lexicon_is_isolated(capsys, monkeypatch):
+    err = check_isolated(
+        capsys, monkeypatch, "claim_phrases_to_inspect", lambda: fail_resource(
+            monkeypatch, "claim_phrases_to_inspect",
+            lambda n: FileNotFoundError(2, "missing", n)))
+    assert err["notes"] == ["observer_version=1", "error=FileNotFoundError"]
+
+
+def test_invalid_lexicon_for_one_observer_is_isolated(capsys, monkeypatch):
+    real = lex_mod.resource_bytes
+
+    def header_only(n):
+        data = real(n)
+        if n == "stock_phrases":  # header lines only: no valid entries
+            return b"".join(data.splitlines(keepends=True)[:6])
+        return data
+
+    err = check_isolated(capsys, monkeypatch, "stock_phrases",
+                         lambda: monkeypatch.setattr(lex_mod, "resource_bytes",
+                                                     header_only))
+    assert err["notes"] == ["observer_version=1",
+                            "lexicon_invalid=no valid entries"]
+
+
+def test_missing_file_at_the_read_keeps_its_lexicon_error(capsys, monkeypatch):
+    # resource_bytes turns a FileNotFoundError from the file read itself into
+    # LexiconError("... is not packaged"); that existing behavior is kept
+    real = pathlib.Path.read_bytes
+
+    def read_bytes(self):
+        if self.name == "hedges.txt":
+            raise FileNotFoundError(2, "missing", str(self))
+        return real(self)
+
+    err = check_isolated(capsys, monkeypatch, "hedges", lambda: monkeypatch.setattr(
+        pathlib.Path, "read_bytes", read_bytes))
+    assert err["notes"] == ["observer_version=1",
+                            "lexicon_invalid=lexicon 'hedges' is not packaged"]
 
 
 # --- round trip ---

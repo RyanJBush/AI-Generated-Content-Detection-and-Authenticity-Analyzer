@@ -197,3 +197,13 @@ observer's record with `status = "error"`, `count = null`,
 records and the origin evidence are unchanged, and the CLI still exits 0. A
 packaged lexicon that fails validation gives the same error record with the
 note `lexicon_invalid=<reason>` instead of `error=...`.
+
+Lexicon loading happens when the observers are constructed (before analysis),
+separately for each lexicon observer. A `LexiconError` gives that observer
+`lexicon_invalid=<reason>` (a resource missing at the file read is reported as
+`lexicon_invalid=lexicon '<name>' is not packaged`). An `OSError` or any
+subclass (for example `PermissionError`) gives that observer
+`error=<exception class name>`. In both cases the other observers, origin
+evidence and the report are unaffected, and the CLI exits 0. Any other
+exception during lexicon loading is not caught: it propagates out of the CLI
+(traceback, exit 1) before analysis starts.
