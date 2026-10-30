@@ -1,0 +1,46 @@
+command: .venv/Scripts/python.exe scripts/r1b2_inputs.py
+cwd: C:/Users/Ryano/Projects/litmus
+start: 2026-10-30T10:34:34-04:00
+len064_00.txt: tokens=64 chars=373
+len064_01.txt: tokens=64 chars=361
+len064_02.txt: tokens=64 chars=374
+len064_03.txt: tokens=64 chars=350
+len064_04.txt: tokens=64 chars=385
+len064_05.txt: tokens=64 chars=356
+len064_06.txt: tokens=64 chars=359
+len064_07.txt: tokens=64 chars=367
+len064_08.txt: tokens=64 chars=383
+len064_09.txt: tokens=64 chars=353
+len128_00.txt: tokens=128 chars=740
+len128_01.txt: tokens=128 chars=740
+len128_02.txt: tokens=128 chars=746
+len128_03.txt: tokens=128 chars=729
+len128_04.txt: tokens=128 chars=745
+len128_05.txt: tokens=128 chars=741
+len128_06.txt: tokens=128 chars=767
+len128_07.txt: tokens=128 chars=777
+len128_08.txt: tokens=128 chars=720
+len128_09.txt: tokens=128 chars=807
+len256_00.txt: tokens=256 chars=1507
+len256_01.txt: tokens=256 chars=1531
+len256_02.txt: tokens=256 chars=1463
+len256_03.txt: tokens=256 chars=1487
+len256_04.txt: tokens=256 chars=1485
+len256_05.txt: tokens=256 chars=1486
+len256_06.txt: tokens=256 chars=1510
+len256_07.txt: tokens=256 chars=1505
+len256_08.txt: tokens=256 chars=1550
+len256_09.txt: tokens=256 chars=1439
+len512_00.txt: tokens=512 chars=2971
+len512_01.txt: tokens=512 chars=2924
+len512_02.txt: tokens=512 chars=2982
+len512_03.txt: tokens=512 chars=2980
+len512_04.txt: tokens=512 chars=2954
+len512_05.txt: tokens=512 chars=2976
+len512_06.txt: tokens=512 chars=2990
+len512_07.txt: tokens=512 chars=2979
+len512_08.txt: tokens=512 chars=2995
+len512_09.txt: tokens=512 chars=2959
+wrote 40 texts and manifest.json to C:\Users\Ryano\Projects\litmus\eval\inputs\r1b2
+end: 2026-10-30T10:34:42-04:00
+exit: 0

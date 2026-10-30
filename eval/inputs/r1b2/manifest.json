@@ -1,0 +1,328 @@
+{
+  "generator": "scripts/r1b2_inputs.py",
+  "base_seed": 20261030,
+  "preprocessing": "litmus.scorer.tokenize.tokenize_window (tokens_total)",
+  "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+  "files": [
+    {
+      "file": "len064_00.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325030,
+      "chars": 373,
+      "sha256": "dcd3abb4f2ada62bb2af1dc1c9a44ab2330fe03dda01e98eb6ff187d4fdc8a63"
+    },
+    {
+      "file": "len064_01.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325031,
+      "chars": 361,
+      "sha256": "c7deae668da1683c09d4149578ff830c130854392d0f82a9bcfdc902df842d87"
+    },
+    {
+      "file": "len064_02.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325032,
+      "chars": 374,
+      "sha256": "3eec40e50b7e0159136d5f97dd842c55784f4e5efe07d5743b0772f94b013829"
+    },
+    {
+      "file": "len064_03.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325033,
+      "chars": 350,
+      "sha256": "1e8dd3075604735304f0d3eeef6816046a2a0b69dea76f88bdd7c1102fa2be0d"
+    },
+    {
+      "file": "len064_04.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325034,
+      "chars": 385,
+      "sha256": "e9dac943434d52247a76bf58a5f4cb6f1329ac2290b3b37fe7b880ac45e3ef05"
+    },
+    {
+      "file": "len064_05.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325035,
+      "chars": 356,
+      "sha256": "fbf385723fd64121b066307f07812e524a54ac7616907943b2bdb3e14777520a"
+    },
+    {
+      "file": "len064_06.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325036,
+      "chars": 359,
+      "sha256": "dd1c28b0c1149d88b0d24f8debadaadf801d4071abc836926bf92ab8ab734f3d"
+    },
+    {
+      "file": "len064_07.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325037,
+      "chars": 367,
+      "sha256": "55bd36f047ba646d67604637704bb86447509e6c33d6f5e2f6d03e8ccfffac53"
+    },
+    {
+      "file": "len064_08.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325038,
+      "chars": 383,
+      "sha256": "4286629e3f491faf6bd231728bbc85389ed698791354346c663d43b949b519b6"
+    },
+    {
+      "file": "len064_09.txt",
+      "target_tokens": 64,
+      "tokens_verified": 64,
+      "seed": 20325039,
+      "chars": 353,
+      "sha256": "73abc7414111c44b406286728888b84600a6f96b3fba107733aab075a7f32c3d"
+    },
+    {
+      "file": "len128_00.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389030,
+      "chars": 740,
+      "sha256": "afbbed058627034f233adc6a2414ea65ceb17899ab7309d1fda307f52e479f84"
+    },
+    {
+      "file": "len128_01.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389031,
+      "chars": 740,
+      "sha256": "567b57b8e2eb696348eda799035c6e86fb5f3141832db3a778408c81cb2c85f6"
+    },
+    {
+      "file": "len128_02.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389032,
+      "chars": 746,
+      "sha256": "993f08155cf94ead50468138011ae9de8ae565cb3e18ce0b1624b770e2564c8d"
+    },
+    {
+      "file": "len128_03.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389033,
+      "chars": 729,
+      "sha256": "67cf74da3ca7b434930fb59a0f4ee66f78d50681f0c58aa50f5f281cc0b5fd3c"
+    },
+    {
+      "file": "len128_04.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389034,
+      "chars": 745,
+      "sha256": "cc5e242b851a30e746fa0820edd801194e927817c2d94c47e19fc0754aea8556"
+    },
+    {
+      "file": "len128_05.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389035,
+      "chars": 741,
+      "sha256": "592e06ca2909d38115a6ed1e577735d97178b167a506b94d1eb27c13c2de65b0"
+    },
+    {
+      "file": "len128_06.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389036,
+      "chars": 767,
+      "sha256": "b69e6c34409a6008aef8be6a7b3539608cdb9a0cf31164a46fcf7b29ff8faddf"
+    },
+    {
+      "file": "len128_07.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389037,
+      "chars": 777,
+      "sha256": "1777974ab97d8114e0f513293a96ddeb98a44f7e29bcd9123a05f84e0bfad2a1"
+    },
+    {
+      "file": "len128_08.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389038,
+      "chars": 720,
+      "sha256": "d576607466fb7f6815d880299d5d3c1bd640cdc916a739093f97c1d5d2cabf7b"
+    },
+    {
+      "file": "len128_09.txt",
+      "target_tokens": 128,
+      "tokens_verified": 128,
+      "seed": 20389039,
+      "chars": 807,
+      "sha256": "9ca5a1f2b4aad0e87e17906d94ca5ab6db002616a1079eb01f08129f7c46edd4"
+    },
+    {
+      "file": "len256_00.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517030,
+      "chars": 1507,
+      "sha256": "54431a0564cf9aa70a84af08a1cc25d34c0f94b30005512cbaf6d37100b1d37a"
+    },
+    {
+      "file": "len256_01.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517031,
+      "chars": 1531,
+      "sha256": "dbd930bff6b70df153097cedbf34178bb1124f50946047a738c5335f3cad6870"
+    },
+    {
+      "file": "len256_02.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517032,
+      "chars": 1463,
+      "sha256": "0ba169b7d588378697a58488ea8a45035b5d04e1211c25e34375575b573fac5e"
+    },
+    {
+      "file": "len256_03.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517033,
+      "chars": 1487,
+      "sha256": "48b0d73db8ca3aed7999a5ae919366622cad1e502ee5af20d49ba27c8b3a2c98"
+    },
+    {
+      "file": "len256_04.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517034,
+      "chars": 1485,
+      "sha256": "2193dd2e9aa45be203129963a072f33317035c443abe47eefdf031a326b42f47"
+    },
+    {
+      "file": "len256_05.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517035,
+      "chars": 1486,
+      "sha256": "4f175e90e9111d3e02b653d3f53c2628972cc15fe06457c4362c9072126e1029"
+    },
+    {
+      "file": "len256_06.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517036,
+      "chars": 1510,
+      "sha256": "016a45679286049f4bd143081f8f5e8625e4ba1f6291cdaec7f56de4f0e337d5"
+    },
+    {
+      "file": "len256_07.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517037,
+      "chars": 1505,
+      "sha256": "fbb64e60f28db64a2857c2f7bed4c630e1795dd14070111903199d31dd809984"
+    },
+    {
+      "file": "len256_08.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517038,
+      "chars": 1550,
+      "sha256": "0575bb7e089712ec2bc8961f4ae74820e794ec6ef278a7c6f7cf349b3eb1d4cd"
+    },
+    {
+      "file": "len256_09.txt",
+      "target_tokens": 256,
+      "tokens_verified": 256,
+      "seed": 20517039,
+      "chars": 1439,
+      "sha256": "64164d777367e7636a6e2bfe7c0be73b447101c68a30d686b6d88f1d2cacd1ef"
+    },
+    {
+      "file": "len512_00.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773030,
+      "chars": 2971,
+      "sha256": "cabecd2eabfaeab890c5051a2fc28d55a0c7640db77bf912d20463781a6072b6"
+    },
+    {
+      "file": "len512_01.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773031,
+      "chars": 2924,
+      "sha256": "62914602d29685e89bee311daffabb3446ca722160085b6964400f3b662ee6bd"
+    },
+    {
+      "file": "len512_02.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773032,
+      "chars": 2982,
+      "sha256": "7dd27c77628ae011eccb244daa0a5f62b6a13b382c87234312cd8b244196179f"
+    },
+    {
+      "file": "len512_03.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773033,
+      "chars": 2980,
+      "sha256": "fc679aff94e5ec686fb173a4b08fd81121678e3f7aaed04b56db945bd8bc61d3"
+    },
+    {
+      "file": "len512_04.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773034,
+      "chars": 2954,
+      "sha256": "0b63f9fa1893e5069a67070a95639107b9663db0991f9d9ec7a12598d5cf9026"
+    },
+    {
+      "file": "len512_05.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773035,
+      "chars": 2976,
+      "sha256": "34bd5e791370580c78b3f6fd9b2915c518ebb3ba537a6a5bf850faf84cb2c436"
+    },
+    {
+      "file": "len512_06.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773036,
+      "chars": 2990,
+      "sha256": "2586f2ab04a8f18effedfb2cd7e8895cef5fe1a59c38d55560d8e3b5d38e197e"
+    },
+    {
+      "file": "len512_07.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773037,
+      "chars": 2979,
+      "sha256": "62b80075a78ed6dc2085f5a2c6488a9256f40a5089b8e0faefc4c3f4a92e9459"
+    },
+    {
+      "file": "len512_08.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773038,
+      "chars": 2995,
+      "sha256": "6c8ad20b0853064412bd9c05fffc1bcfa19b7e07b9139615b675ce2713f528b6"
+    },
+    {
+      "file": "len512_09.txt",
+      "target_tokens": 512,
+      "tokens_verified": 512,
+      "seed": 20773039,
+      "chars": 2959,
+      "sha256": "036859c5ae8434b2b5a707c7b8d888c1f5de21c98a72f6567f8cd7b7d6d9ebd1"
+    }
+  ]
+}
