@@ -146,8 +146,8 @@ def stub_cli(capsys, monkeypatch, *args):
     """Full CLI path, with the deterministic stub origin analyzer."""
     real = report_mod.run_analysis
     monkeypatch.setattr(cli_mod, "run_analysis",
-                        lambda path, origin, observers: real(path, stub_origin,
-                                                             observers))
+                        lambda path, origin, observers, *, c2pa_enabled=False:
+                        real(path, stub_origin, observers, c2pa_enabled=c2pa_enabled))
     code, out = cli(capsys, INPUTS / "quality.txt", *args)
     return code, json.loads(out)
 

@@ -20,6 +20,7 @@ Error classification (``classify_error``):
 import importlib.metadata
 import io
 import json
+import time
 from dataclasses import dataclass, field
 from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
@@ -37,6 +38,8 @@ class ReadOutcome:
     store: Optional[dict] = None
     reasons: List[str] = field(default_factory=list)
     detail: Optional[str] = None
+    settings_applied: Optional[bool] = None
+    read_seconds: Optional[float] = None
 
 
 def installed_versions() -> Tuple[str, str]:
@@ -69,21 +72,31 @@ def classify_error(exc: Exception, config: Dict[str, Any],
 
 def read_store(data: bytes, mime: str, config: Dict[str, Any]) -> ReadOutcome:
     """Read one asset from memory with the given settings config."""
+    started = time.perf_counter()
+    outcome = _read_store(data, mime, config)
+    outcome.read_seconds = time.perf_counter() - started
+    return outcome
+
+
+def _read_store(data: bytes, mime: str, config: Dict[str, Any]) -> ReadOutcome:
     import c2pa
 
     try:
         settings = build_settings(config)
     except Exception as e:
         return ReadOutcome("error", reasons=["c2pa_settings_rejected"],
-                           detail=f"{type(e).__name__}: {e}")
+                           detail=f"{type(e).__name__}: {e}", settings_applied=False)
     try:
         context = c2pa.Context(settings=settings)
         try:
             with io.BytesIO(data) as stream:
                 with c2pa.Reader(mime, stream, context=context) as reader:
-                    return ReadOutcome("store", store=json.loads(reader.json()))
+                    return ReadOutcome("store", store=json.loads(reader.json()),
+                                       settings_applied=True)
         except c2pa.C2paError as e:
-            return classify_error(e, config, installed_versions())
+            outcome = classify_error(e, config, installed_versions())
+            outcome.settings_applied = True
+            return outcome
         finally:
             context.close()
     finally:

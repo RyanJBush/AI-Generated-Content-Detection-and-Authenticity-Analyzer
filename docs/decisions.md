@@ -868,3 +868,126 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   resource cleanup. Constructor-internal cleanup remains owned by the SDK;
   returned resources are explicitly closed on the worker.
 - This is an implementation submission, not independent-review acceptance.
+
+## 2026-10-30 — R1-D2 closure and R1-D3 approval
+
+- **D2 closed, reviewer-reported.** Ryan reported Codex's independent review
+  of `0c6fa08`: 628 default tests, Ruff and pip check passed; both remote
+  trap/control variants and bounded-worker tests passed; the repository was
+  clean. Those reviewer results are recorded as supplied, not builder-run.
+- Ryan approved `docs/plans/R1-D3-BUILD-PROMPT.md` and authorized D3 only,
+  preserving work/evidence, committing implementation plus actual checks,
+  then stopping for independent review. The previously untracked complete
+  prompt is retained, marked approved, with Ryan's wheel-check clarification.
+- **Wheel clarification:** existing pinned runtime dependencies must remain
+  available without downloads/new dependencies, while Litmus must import
+  from a freshly installed wheel rather than the editable checkout.
+- Starting HEAD matched `0c6fa08edeb856633e86a65667461c73b1708bca`. The only
+  untracked file was the saved D3 prompt; no tracked changes existed. No
+  repository AGENTS.md was found. Work continued in the requested checkout
+  with its existing .venv. No existing work/evidence was removed or stashed.
+- **Citation attribution correction:** the C2PA 2.5 section 14.8, “Validate
+  the time stamp,” citation was supplied by the reviewer:
+  https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp.
+  The builder did not independently fetch or verify the specification text.
+  Earlier builder statements about an inherited/Ryan citation are preserved
+  as historical entries and superseded here. Current documentation and
+  constructed-fixture descriptions now use reviewer attribution. Constructed
+  timestamp tests remain policy evidence only; no real TSA validation follows.
+
+## 2026-10-30 — R1-D3 implementation (pending independent review)
+
+### Delivered scope
+
+- `--c2pa {off,on}`, default off. Only accepted JPEG/PNG/WebP image segments
+  invoke the lazy production adapter using ingested bytes/MIME. Text-only and
+  rejected inputs do not initialize the SDK/worker. Omitted/off golden bytes
+  remain unchanged. Text origin/quality and scoring source/hash behavior are
+  unchanged; model-free stub comparisons verify report preservation.
+- C2PA OriginEvidence version 1 contains active/referenced ingredient records,
+  independent validation/timestamp/trust/declaration fields, trust-list
+  identity/hash/count, library versions, requested settings, raw attributed
+  statuses, unknown/unattributed diagnostics, rule/reasons and limitations.
+  Scores/calibration are null. Unknown presence/validation/timing values are
+  null/empty with notes; no successful read or settings application is invented.
+- Reader/pipeline additions expose diagnostics only: settings application and
+  read/response durations. The D2 rule/mapping/worker semantics are preserved.
+  The worker implementation and the 45-code mapping table were not changed.
+- The explicit activation constant records reviewed offline evidence through
+  0c6fa08; runtime does not probe the network or execute tests. Missing evidence,
+  invalid trust resources, SDK import failure or version drift refuse activation
+  (CLI exit 1, stderr, no report/output-file write). Post-initialization analyzer
+  errors produce rule-2 evidence, CLI exit 0 when the report is emitted, without
+  falling back to a disabled placeholder. Argument errors exit 2.
+- A minimal unsigned-metadata summary reports EXIF tag count and four truncated
+  fields, plus Pillow-exposed XMP presence/length. Each component failure is
+  isolated. It is labeled unverifiable/editable/not evidence and never changes
+  result/reasons or signed validation/declaration data. EXIF DateTime is not
+  verified signing time. Metadata is read from memory, not the input path.
+- Report/evidence round-trip, CLI/error behavior, fresh-process import isolation,
+  short deadline/busy/recovery behavior, both enabled remote trap/control pairs,
+  default byte identity and metadata invariance/isolation are covered by 32 new
+  model-free integration tests. The existing quality-test stub was adapted to
+  forward the added keyword-only report option; observer behavior is unchanged.
+- README status, interfaces, approved build prompt and D-plan were reconciled
+  with reviewed D1/D2 evidence. The nine-real/36-constructed mapping distinction,
+  explicit empty trust policy and absence of real timestamp validation remain.
+  Only citation-description metadata changed in the constructed timestamp JSON;
+  underlying stores and all earlier D1/D2 captured/verification evidence remain.
+
+### Fresh builder-run verification
+
+- Inside `C:\Users\Ryano\Projects\litmus`:
+  `.venv/Scripts/python.exe -m pytest -q`:
+  **660 passed, 20 deselected in 11.17 s**, exit 0.
+- Outside, cwd `C:\Users\Ryano`:
+  `C:/Users/Ryano/Projects/litmus/.venv/Scripts/python.exe -m pytest C:/Users/Ryano/Projects/litmus/tests -q`:
+  **660 passed, 20 deselected in 11.45 s**, exit 0.
+- `.venv/Scripts/python.exe -m ruff check src tests scripts`:
+  **All checks passed!**, exit 0.
+- `.venv/Scripts/python.exe -m pip check`:
+  **No broken requirements found.**, exit 0.
+- `.venv/Scripts/python.exe scripts/audit_c2pa_d3.py --output eval/results/r1d3_non_ascii_audit.json`:
+  **PASS: 13 changed/new Python files, 2 comment/docstring findings, 0
+  code/runtime-literal violations**, exit 0. This is a scoped source audit,
+  not a claim that the entire repository lacks intentional Unicode fixtures.
+- `.venv/Scripts/python.exe scripts/verify_wheel_c2pa.py --output eval/results/r1d3_wheel_check.json`:
+  **PASS**, exit 0. Scratch directory:
+  `C:\Users\Ryano\AppData\Local\Temp\litmus-d3-wheel-vr_xa0e9` (retained).
+  Built offline with --no-index --no-deps --no-build-isolation; installed only
+  Litmus into a fresh target with --no-index --no-deps. The child ran -I from
+  outside the repository using the existing venv runtime dependencies. Every
+  loaded Litmus module resolved inside the wheel target. Pillow 13.0.0,
+  c2pa-python 0.38.0 and SDK 0.91.0 came from the existing venv. Resource hash
+  and empty trust matched; only the empty production PEM was packaged, with
+  no test keys/anchors. Enabled JPEG/PNG/WebP, default golden and no-model-import
+  checks passed. pip freeze --all before/after was identical.
+- `git diff --check`: exit 0 (ordinary LF/CRLF notices, no whitespace errors).
+- Real report snapshots for eight committed fixtures are in
+  `eval/results/r1d3_image_reports.json`; all mapped production trust is unknown
+  and every real timestamp state is absent. Timing values are observations,
+  not a benchmark or calibration. `r1d3_verification.json` indexes results/files.
+
+### Observations, limitations and not run
+
+- Both enabled Builder and XMP variants returned rule 4 with zero trap
+  connections; each paired control recorded one GET /manifest.c2pa and the
+  trap's deliberate 404, yielding rule 2. This is zero attempted connections
+  observed with passing controls for these fixtures/settings/destination only.
+- The first full suite exposed four existing quality-test stub signature
+  mismatches; these were fixed by forwarding the new keyword. The first D3
+  tests failed before implementation as expected. Early sandbox runs had
+  pytest cache/temp access failures; approved final runs did not.
+- One standalone report capture inside the sandbox failed initialization with
+  `subprocess.Popen blocked during analysis`. Fresh-process reproduction and
+  capture outside the sandbox passed. No broader cause is asserted and no
+  network/subprocess guard was weakened to make the capture succeed.
+- Not run: 20 slow/model-dependent tests, real-model on/off comparison, actual
+  TSA/timestamp validation, a real 120-second native hang, Docker/network
+  isolation or Linux SDK execution. No production anchors, calibration, RAID,
+  image detector, UI, new dependencies or external fixture acquisition.
+- Timeout remains response waiting, not cancellation. The worker owns native
+  resources until completion; daemon process exit while work is running cannot
+  guarantee cleanup. Constructor-internal failed-handle cleanup belongs to the
+  SDK. Version/prefix-dependent remote classification remains fragile.
+- D3 is submitted for independent review, not marked independently accepted.

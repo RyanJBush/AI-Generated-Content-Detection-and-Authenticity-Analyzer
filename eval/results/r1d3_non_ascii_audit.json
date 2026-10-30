@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "base": "0c6fa08",
+  "scope": "changed and new Python files; comments/docstrings inventoried",
+  "files": [
+    "scripts/audit_c2pa_d3.py",
+    "scripts/make_c2pa_constructed.py",
+    "scripts/verify_wheel_c2pa.py",
+    "src/litmus/c2pa/__init__.py",
+    "src/litmus/c2pa/analyzer.py",
+    "src/litmus/c2pa/metadata.py",
+    "src/litmus/c2pa/pipeline.py",
+    "src/litmus/c2pa/reader.py",
+    "src/litmus/cli.py",
+    "src/litmus/errors.py",
+    "src/litmus/report.py",
+    "tests/test_c2pa_d3.py",
+    "tests/test_quality_report.py"
+  ],
+  "findings": [
+    {
+      "file": "src/litmus/c2pa/pipeline.py",
+      "line": 10,
+      "kind": "comment",
+      "codepoints": [
+        "U+00A7"
+      ]
+    },
+    {
+      "file": "src/litmus/c2pa/reader.py",
+      "line": 1,
+      "kind": "docstring",
+      "codepoints": [
+        "U+00A7"
+      ]
+    }
+  ],
+  "violations": []
+}

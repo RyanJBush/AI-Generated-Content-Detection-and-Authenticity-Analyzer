@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "isolated": true,
+  "cwd": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9",
+  "installed_target": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed",
+  "wheel": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\wheels\\litmus-0.0.0-py3-none-any.whl",
+  "runtime_dependency_source": "C:\\Users\\Ryano\\Projects\\litmus\\.venv",
+  "runtime_versions": {
+    "pillow": "13.0.0",
+    "c2pa_python": "0.38.0",
+    "sdk": "0.91.0"
+  },
+  "trust_sha256": "05baa209b1484bc358c44df4855dd7a41d041a20ed327c42cc02d92cc21a5876",
+  "trust_anchor_count": 0,
+  "all_loaded_litmus_modules_from_wheel": {
+    "litmus": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\__init__.py",
+    "litmus.c2pa": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\__init__.py",
+    "litmus.c2pa.trust_list": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\trust_list.py",
+    "litmus.errors": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\errors.py",
+    "litmus.ingestion": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\ingestion.py",
+    "litmus.offline": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\offline.py",
+    "litmus.schemas": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\schemas.py",
+    "litmus.tree": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\tree.py",
+    "litmus.report": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\report.py",
+    "litmus.cli": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\cli.py",
+    "litmus.c2pa.mapping": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\mapping.py",
+    "litmus.c2pa.metadata": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\metadata.py",
+    "litmus.c2pa.settings": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\settings.py",
+    "litmus.c2pa.reader": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\reader.py",
+    "litmus.c2pa.rules": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\rules.py",
+    "litmus.c2pa.worker": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\worker.py",
+    "litmus.c2pa.pipeline": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\pipeline.py",
+    "litmus.c2pa.analyzer": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed\\litmus\\c2pa\\analyzer.py"
+  },
+  "enabled_formats_passed": [
+    "jpeg",
+    "png",
+    "webp"
+  ],
+  "default_image_golden": "PASS",
+  "test_keys_and_anchors_packaged": false,
+  "existing_venv_distributions_unchanged": true,
+  "commands": [
+    [
+      "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "wheel",
+      "--no-index",
+      "--no-deps",
+      "--no-build-isolation",
+      "--no-cache-dir",
+      "--wheel-dir",
+      "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\wheels",
+      "C:\\Users\\Ryano\\Projects\\litmus"
+    ],
+    [
+      "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-deps",
+      "--no-compile",
+      "--target",
+      "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed",
+      "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\wheels\\litmus-0.0.0-py3-none-any.whl"
+    ],
+    [
+      "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\Ryano\\Projects\\litmus\\scripts\\verify_wheel_c2pa.py",
+      "--verify",
+      "--target",
+      "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\installed",
+      "--repo",
+      "C:\\Users\\Ryano\\Projects\\litmus",
+      "--wheel",
+      "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-d3-wheel-vr_xa0e9\\wheels\\litmus-0.0.0-py3-none-any.whl",
+      "--expect-sha",
+      "05baa209b1484bc358c44df4855dd7a41d041a20ed327c42cc02d92cc21a5876"
+    ]
+  ]
+}

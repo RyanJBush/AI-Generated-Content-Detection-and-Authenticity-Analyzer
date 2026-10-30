@@ -1,6 +1,11 @@
 # R1-D plan — C2PA image provenance
 
-**Status: D1 CLOSED 2026-10-30; D2 APPROVED (implementation submitted for independent review); D3 remains PROPOSED (not approved).** Ryan's corrections of 2026-10-30 are in §p; where §p differs from earlier sections, §p governs. D2 continuation scope and evidence are recorded in §q.
+**Status: D1 and D2 CLOSED; D3 APPROVED by Ryan on 2026-10-30; implementation submitted for independent review.** The approved scope is `R1-D3-BUILD-PROMPT.md`. Sections p–r supersede earlier planning statements; section r reconciles current implementation and evidence.
+
+Sections a–o retain original design discussion and feasibility questions for
+traceability. Remaining PROPOSED/UNVERIFIED wording there is historical; use
+the reviewed D1/D2 evidence, current interface contract and section r for
+resolved questions. D3 approval does not authorize later checkpoints.
 
 - **Drafted** 2026-10-30 on top of `4c3f42c` (R1-C2 closure record).
 - **Governing documents, in precedence order:**
@@ -32,8 +37,7 @@
   - VERIFIED, from the `Reader.__init__` docstring: when the given format disagrees with the container the library detects, the library ignores the format. When it detects no container, it treats the asset as a sidecar.
   - The analyzer therefore runs only on image segments that ingestion accepted. Those already passed the signature check, the 50 MB size limit, the 50-megapixel header check and a full decode (`ingest`; SPEC §6.2).
 - **Limits applied first.** The analyzer is never called for inputs that ingestion rejected. Rejected inputs keep their `not_supported` / `error` ingestion result.
-- **Per-analyzer timeout: 120 s per segment (SPEC §6.2).** Nothing implements a timeout yet. A repository search for `timeout` in `src/litmus` found none outside the scorer.
-  - **Proposal:** run the library read (Reader construction plus JSON retrieval) in a worker thread (`threading`; subprocesses stay forbidden, A1.2), and wait with `join(timeout)`.
+- **Per-analyzer response deadline: 120 s per segment (SPEC §6.2).** D2 implements a single dedicated worker with event-based response waiting. The original per-call `join(timeout)` proposal was superseded by section p Correction 3.
   - On expiry, the segment gets rule 2 (`error`), with reason `c2pa_timeout` in `reasons` and the label `c2pa_error`.
   - **Superseded by §p Correction 3.** The timeout is a response deadline, not cancellation: one dedicated worker per process, at most one outstanding task, and `c2pa_worker_busy` while a timed-out task still runs.
   - **Limitation:** a native call cannot be cancelled. A timed-out task keeps running on the worker until it finishes. This limitation is stated in the report's limitations whenever a timeout occurs.
@@ -46,7 +50,7 @@
     - VERIFIED: `Reader.get_active_manifest()` (`c2pa/c2pa.py`) reads `data["active_manifest"]` and returns `data["manifests"][id]`. It raises `KeyError` if either key is missing or the id is absent.
   - Ingredient manifests are manifests referenced by the active manifest's `ingredients` entries.
     - VERIFIED: `Reader.get_manifest(label)` returns `data["manifests"][label]`.
-    - UNVERIFIED: the field name linking an ingredient to its manifest label. D1 records it from a fixture.
+    - D1 captures demonstrate the ingredient `active_manifest` link; D2 uses it.
 - **Per declaration**, every manifest reported carries:
   - `manifest_label`;
   - `is_active`;
@@ -55,8 +59,8 @@
 
 | Field | Values | Note |
 |---|---|---|
-| `integrity` | `valid` / `invalid` / `not_checked` | Active manifest only. Ingredient bindings refer to other assets, so for ingredients it is `not_checked`, labeled "binding refers to another asset". |
-| `signature` | `valid` / `invalid` / `not_checked` | The claim signature verifies, and the certificate was valid at signing time. |
+| `integrity` | `valid` / `invalid` / `not_checked` | Ingredient binding matches cannot establish validity for the analyzed asset; attributed negative codes may make an ingredient invalid. |
+| `signature` | `valid` / `invalid` / `not_checked` | Claim-signature/credential validation; verified signing time is a separate timestamp state. |
 | `signer_trust` | `trusted` / `untrusted` / `unknown` | `unknown` when no trust anchors are configured. That is always the case in production in R1 (§h, §i). |
 | `declared_ai_use` | `declared` / `not_declared` | `declared` when a `c2pa.actions` (or `c2pa.actions.v2`) assertion contains an action whose `digitalSourceType` is exactly one of the IPTC URIs for `trainedAlgorithmicMedia` or `compositeWithTrainedAlgorithmicMedia` (SPEC §17 [9]). See the note below the table. |
 
@@ -76,7 +80,7 @@
 **Structure of the results (all labels below are PRESENCE ONLY in `c2pa_c.dll`).**
 - `validation_results` is expected to contain `activeManifest` with `success` / `informational` / `failure` code lists, plus `ingredientDeltas` for ingredients.
 - Each entry is expected to carry a status `code`.
-- UNVERIFIED: the exact JSON shape. D1 pins it from real fixture output and commits that output as a test fixture.
+- D1 committed real output pins this JSON shape; D2 normalizes it by manifest/assertion context.
 
 **Validation state is not used to set fields.** `validation_state` (VERIFIED accessor `Reader.get_validation_state`; values UNVERIFIED) is recorded in `details` only. Fields come from individual status codes, because one overall state cannot separate integrity from signature from trust.
 
@@ -103,7 +107,7 @@
 | `assertion.action.ingredientMismatch` | failure | **context-aware (§p Correction 1):** on the active claim, it affects the active manifest (`integrity = invalid`, pending D2 confirmation); on an ingredient's claim, it affects that ingredient's record |
 | `ingredient.*` codes | failure/any | applied to the manifest the code belongs to (§p Correction 1); recorded |
 
-Absent from `c2pa_c.dll`, so not used: `claimSignature.outsideValidity`, `signingCredential.revoked`, `algorithm.deprecated`.
+Absent from the D1 binary-name scan: `claimSignature.outsideValidity`, `signingCredential.revoked`, `algorithm.deprecated`. The first two have conservative constructed-only D2 mappings; this does not establish SDK emission. `algorithm.deprecated` remains unmapped.
 
 **Strictness rules (proposed):**
 1. **Positive evidence required.**
@@ -114,7 +118,7 @@ Absent from `c2pa_c.dll`, so not used: `claimSignature.outsideValidity`, `signin
 3. **Invalid wins.** `invalid` beats `not_checked`, matching rule order (5 before 6).
 4. **Ingredients.**
    - Ingredient `signature` and `signer_trust` come from the codes reported for that ingredient (`ingredientDeltas` or the ingredient's own `validation_results`; UNVERIFIED shape).
-   - Ingredient `integrity` is `not_checked` (see §b).
+   - Ingredient binding matches leave `integrity` not_checked; attributed negative codes may make it invalid (see sections b and r).
    - Ingredient states are reported but never change `result` beyond rule 9 (A2 precedence note).
 5. **Mapping changes need a fixture.** The table is versioned in code (`mapping_version`), and that version is reported. Changing an entry requires a fixture or committed library output demonstrating the code.
 
@@ -427,7 +431,7 @@ SPEC §8.2: ordinary EXIF/XMP/IPTC outside any manifest goes in `unsigned_metada
 - SDK trust observations (status codes observed for specific fixtures and settings) are recorded separately from Litmus's policy.
 - **Litmus's policy is an explicit, empty, packaged production anchor list.** No statement about built-in anchors is made beyond what was observed.
 
-**D3 preferences (recorded, not implemented):** a minimal unsigned-metadata summary (§k); `--c2pa` off by default (§l).
+**D3 preferences (approved and implemented in D3):** a minimal unsigned-metadata summary (§k); `--c2pa` off by default (§l).
 
 **Certificate fallback: pending.**
 - If local certificate generation fails, report the exact failure and stop that branch.
@@ -487,3 +491,59 @@ interface). Actual checks are in `docs/decisions.md` and
   recovery on the same thread, with worker-owned cleanup. Timeout never
   cancels native work. Tests use injected short deadlines and blocked stubs;
   a real native call hanging for 120 seconds was not induced.
+
+## r) D3 approval and current evidence reconciliation (2026-10-30)
+
+Ryan approved `R1-D3-BUILD-PROMPT.md` in the continuation instruction, including
+offline installed-wheel verification using existing pinned runtime dependencies.
+D2 closure is reviewer-reported: Codex independently reviewed `0c6fa08`, with
+628 default tests, Ruff, pip check, both trap/control variants and bounded-worker
+checks passing, and a clean tree. This is distinct from fresh D3 builder checks.
+
+This section resolves the remaining earlier feasibility questions:
+
+- Settings: every read uses fresh `Settings.from_dict` and `Context`. D1 trust
+  effects and D2 remote effects were observed through that route; Settings.set
+  acceptance is not proof of effect. Production requests all A1.2 offline keys
+  plus verify_trust=true. Unknown setting keys remain silently accepted.
+- Trust resource: `src/litmus/c2pa/trust/production_trust_anchors.pem`, packaged
+  via setuptools and loaded by importlib.resources. It has six metadata headers
+  and zero certificates, not the initially proposed JSON format. Litmus refuses
+  nonempty production anchors and always maps production trust to unknown,
+  independently of SDK diagnostics. No global SDK built-in-anchor claim follows.
+- JSON: D1 real captures demonstrate active_manifest, manifests,
+  validation_results.activeManifest, ingredientDeltas and ingredient links.
+  Observed overall states include Valid, Trusted and Invalid. The mapper never
+  uses overall state as proof of integrity/signature/trust.
+- Mapping: D2 has 45 codes, with nine observed in real captures and 36 tested
+  only through constructed injection. The authoritative table is in interfaces.
+  Positive evidence must occur in success; invalid precedes not_checked.
+  Unknown active codes make both fields incomplete unless invalid. Attribution
+  uses manifest/assertion URLs; ingredient states never upgrade the active result.
+- Remote adapter: generic C2paError with the exact captured prefix
+  `Remote: must fetch remote manifests from url `, only at 0.38.0 / 0.91.0
+  with fetch explicitly disabled. Both Builder and XMP variants have passing
+  zero-connection/control pairs. No subtype-only assumption remains. These
+  observations do not establish network isolation or behavior for every URL.
+- Timestamp: the reviewer supplied C2PA 2.5 section 14.8, “Validate the time
+  stamp,” at https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp.
+  The builder did not independently fetch or verify that text. Timestamp
+  failures remain separate from claim-signature failures. No real TSA was used;
+  all project timestamp-validation cases remain explicitly constructed.
+- Fixtures: local certificate generation succeeded. Actual scripts are
+  `generate_c2pa_fixtures.py`, `capture_c2pa_outputs.py` and
+  `make_c2pa_constructed.py`. No third-party certificate fallback was needed
+  or adopted. Constructed fixture descriptions now attribute the citation to
+  the reviewer; underlying stores and old captured/evidence records are preserved.
+- Worker: the reviewed D2 worker already enforces one outstanding job, response
+  deadline, immediate busy result, same-thread recovery and worker-owned cleanup.
+  D3 adds reporting diagnostics only, without changing rule/worker semantics.
+- D3: `--c2pa {off,on}`, default off, is implemented for accepted image segments.
+  The old placeholder and golden bytes remain the default. Text-only/rejected
+  inputs do not initialize the SDK. Minimal unsigned metadata is included only
+  with enabled image C2PA and never changes origin results. See interfaces for
+  exact fields, errors, limitations and wheel verification.
+
+Remaining open work includes production anchors, licensing and later checkpoints.
+Changing the default to on is not authorized. Real timestamp validation,
+network isolation and Linux SDK execution remain undemonstrated.

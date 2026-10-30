@@ -2,7 +2,7 @@
  "constructed": true,
  "note": "CONSTRUCTED, NOT REAL SDK OUTPUT",
  "derived_from": "eval/results/r1d1_library_outputs/trusted_signer_jpg__production.json",
- "represents": "C2PA 2.5 \u00a714.8 'Validate the time stamp' (https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp); cited per Ryan's partial implementation; section/text UNVERIFIED in this session",
+ "represents": "C2PA 2.5 \u00a714.8 'Validate the time stamp' (https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp); citation supplied by the reviewer; builder did not independently fetch or verify the specification text; CONSTRUCTED policy evidence only",
  "change": "added timeStamp.malformed (informational)",
  "manifest_store": {
   "active_manifest": "urn:c2pa:8145489c-ac4d-4141-9969-93d65b6b15df",

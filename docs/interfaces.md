@@ -208,16 +208,20 @@ evidence and the report are unaffected, and the CLI exits 0. Any other
 exception during lexicon loading is not caught: it propagates out of the CLI
 (traceback, exit 1) before analysis starts.
 
-## C2PA internal D2 interface (production analysis disabled)
+## C2PA pipeline (D2) and opt-in image reports (D3)
 
 `litmus.c2pa.pipeline.analyze_c2pa(data, mime, *, config, policy=PRODUCTION_POLICY,
 worker=None, deadline=120.0, read=read_store, supported=None)` is an internal
 testable pipeline. Callers supply bytes already accepted by image ingestion;
-it does not reopen a path. It is not connected to `report.py` or the CLI.
+it does not reopen a path. D3 wraps it with `analyzer.analyze_image` and connects
+it to accepted image segments in `report.py` only with `--c2pa on`.
 Default image reports retain `image_origin_placeholder` and
-`c2pa_analyzer_disabled_in_r0`. D3 remains unimplemented.
+`c2pa_analyzer_disabled_in_r0`. Omitted and explicit `--c2pa off` produce the
+same bytes as the existing goldens; no native SDK or worker is initialized.
+Text-only and rejected inputs do not initialize the image analyzer even with on.
 
-`reader.read_store` returns `ReadOutcome(kind, store, reasons, detail)`.
+`reader.read_store` returns `ReadOutcome(kind, store, reasons, detail,
+settings_applied, read_seconds)`.
 Kinds are `store`, `no_credentials`, `remote_reference_only`, or `error`.
 Settings rejection gives `c2pa_settings_rejected`; other exceptions reach
 rule 2. The worker owns settings, context, input stream and reader, and closes
@@ -313,9 +317,10 @@ the paired timestamp successes; with absent/ignored timestamps and a
 credential validity code it is `current_time_check`, otherwise `unknown`.
 This is a policy interpretation of codes, not an independent clock or TSA
 verification. All real R1 fixtures have no TSA and map to timestamp `absent`.
-No real timestamp validation is demonstrated. C2PA 2.5 section 14.8 was named
-in the inherited partial generator, but its section/text remains UNVERIFIED
-in this offline work; the timestamp split follows Ryan's correction 2.
+No real timestamp validation is demonstrated. The reviewer supplied the
+[C2PA 2.5 section 14.8 citation](https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp).
+The builder did not independently fetch or verify the specification text;
+the timestamp split follows Ryan's correction 2 and the reviewed D2 policy.
 
 AI use is declared only in `c2pa.actions` or `c2pa.actions.v2` for these exact
 `digitalSourceType` values:
@@ -378,3 +383,86 @@ worker after both normal and timed-out requests, including error exits.
 Short injected deadlines and blocked stubs test these semantics; no real
 120-second native hang was induced. Daemon shutdown cannot guarantee native
 cleanup if the process exits while work is still running.
+
+### D3 report contract and errors
+
+`build_report` and `run_analysis` accept keyword-only `c2pa_enabled=False`.
+The CLI exposes `--c2pa {off,on}` (default off). With on, only accepted image
+segments replace the placeholder; text origin/quality and scoring hashes remain
+unchanged. C2PA is run from `Ingested.raw`/`mime`, without another path read.
+
+`OriginEvidence` uses `method_id=c2pa_provenance`, `method_version=1`, and null
+raw_score, score_direction and calibration. The D2 engine supplies result/reasons.
+The schema identifier remains `litmus-report/r0`; its existing provenance/details
+dictionaries support these additive opt-in values without changing default bytes.
+
+`provenance` fields:
+
+- `manifest_present`: embedded, none or remote_reference_only when established;
+  null when presence could not be established (for example timeout or busy);
+- `active`: normalized active record or null; `ingredients`: referenced records;
+- `mapping_version`, `policy` (production);
+- `trust_list`: name, version, SHA-256 of exact packaged bytes, anchor_count;
+- `library_versions`: c2pa_python and sdk;
+- `settings`: requested offline/trust configuration; confirmed application is
+  tracked separately in details;
+- `unsigned_metadata`: the minimal independent summary below.
+
+`details` includes rule number, diagnostic validation_state, status_entries,
+unmapped_status_codes, unattributed, other_manifests (unreferenced diagnostic
+records), declaring_ingredients where applicable, read_kind, read_detail,
+settings_applied, availability_notes and timings. Missing validation data is
+null/empty with an availability note; it is never inferred from rule outcome.
+
+`settings_applied=true` confirms successful settings construction and Context
+creation on the completed read path, not network-policy effect. False means
+settings were rejected. Null means unconfirmed (for example a busy request,
+timeout or unexpected exception); settings then describes intent only.
+`timings` uses seconds: read_seconds is worker read duration including settings
+and cleanup when returned; read_response_seconds is pipeline wall time;
+response_seconds is adapter wall time through metadata summary. Unknown read
+durations stay null, including after timeout: later native completion never
+retroactively modifies an emitted report.
+
+Every evidence record and enabled image report carries empty-trust,
+provenance-only, absence-not-human, offline remote-fetch, SDK-observation/policy
+and constructed-timestamp limitations, plus applicable D2 rule/timeout limits.
+Report-level placeholder wording is replaced only when image C2PA ran.
+
+The activation prerequisite is the explicit reviewed-offline-evidence constant
+in `c2pa/analyzer.py`, backed by review through 0c6fa08. It triggers no network
+probe or test suite at runtime. Unavailable evidence, invalid trust resources,
+SDK import failure or different library versions raise `C2paUnavailable`.
+The CLI exits 1 with stderr, no report, and no output-file write. Settings/read/
+mapping/discovery failures after initialization instead yield rule-2 error
+evidence; timeout/busy reasons are preserved. A valid emitted report exits 0
+even when an analyzer result is error. Argument errors exit 2. No enabled image
+failure silently returns the disabled placeholder.
+
+### Unsigned metadata
+
+`unsigned_metadata.label` is `unverifiable; editable; not evidence`.
+Its status is examined, partial or unavailable; notes explain failures.
+`exif` contains status (present/absent/unavailable), tag_count (null if unknown)
+and fields. Only Software, Make, Model and DateTime are included, converted to
+text and truncated to 256 code points. No timestamp validation is inferred.
+`xmp` contains status and byte_length, zero for absent and null if unavailable.
+Presence/absence is limited to what Pillow exposes in its info dictionary; no
+XMP parser or search for additional packets is used. EXIF/XMP failures are
+isolated independently. Metadata affects neither result/reasons nor signed
+declarations, trust or validation. It is inspected from in-memory bytes only.
+
+### Installed-wheel verification
+
+`scripts/verify_wheel_c2pa.py --output eval/results/r1d3_wheel_check.json` runs
+with the existing .venv interpreter. It builds with --no-index --no-deps
+--no-build-isolation, installs only Litmus into a fresh temporary --target,
+then launches the same interpreter with -I from outside the repository.
+Existing pinned runtime dependencies remain available in .venv site-packages;
+no dependencies are installed or downloaded. The fresh target is first on
+sys.path. Every loaded Litmus module must have its file under that target;
+runtime c2pa/Pillow must resolve inside the existing venv. This detects an
+editable checkout masking a packaging omission. The check verifies resource
+hash/emptiness, absence of test anchors/keys, enabled JPEG/PNG/WebP analysis,
+default golden equality and no model imports. pip freeze --all before/after
+must match. Temporary artifacts are left for review and their location recorded.

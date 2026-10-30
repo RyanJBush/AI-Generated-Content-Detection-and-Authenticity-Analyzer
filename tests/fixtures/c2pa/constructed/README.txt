@@ -9,8 +9,8 @@ in the mapping table. It tests policy, not SDK code emission.
 
 - timestamp_trusted_validated, timestamp_ignored_*, claim_signature_outside_validity,
   integrity_invalid_with_timestamp: C2PA 2.5 section 14.8 "Validate the time
-  stamp" was named in the inherited partial implementation. That section and
-  text remain UNVERIFIED in this session. The timestamp/signature separation
+  stamp" is a reviewer-supplied citation. The builder did not independently
+  fetch or verify the specification text. The timestamp/signature separation
   follows Ryan's correction 2 as Litmus policy. No real timestamp validation
   is demonstrated: all real fixtures were signed without a TSA.
 - unmapped_integrity_code, unmapped_unknown_family_code: Litmus mapping

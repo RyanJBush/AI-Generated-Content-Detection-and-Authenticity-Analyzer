@@ -1,0 +1,151 @@
+{
+  "checkpoint": "R1-D3",
+  "date": "2026-10-30",
+  "status": "implementation submitted; pending independent review",
+  "starting_head": "0c6fa08edeb856633e86a65667461c73b1708bca",
+  "approval": "Ryan approved docs/plans/R1-D3-BUILD-PROMPT.md and clarified offline wheel verification using existing pinned runtime dependencies.",
+  "d2_closure": {
+    "attribution": "Reviewer-reported by Ryan; not fresh builder results",
+    "reviewed_commit": "0c6fa08",
+    "result": "628 default tests, Ruff and pip check passed; both trap/control variants and bounded-worker checks passed; clean repository"
+  },
+  "checks": [
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m pytest -q",
+      "exit_code": 0,
+      "result": "660 passed, 20 deselected in 11.17s"
+    },
+    {
+      "cwd": "C:/Users/Ryano",
+      "command": "C:/Users/Ryano/Projects/litmus/.venv/Scripts/python.exe -m pytest C:/Users/Ryano/Projects/litmus/tests -q",
+      "exit_code": 0,
+      "result": "660 passed, 20 deselected in 11.45s"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m ruff check src tests scripts",
+      "exit_code": 0,
+      "result": "All checks passed!"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe -m pip check",
+      "exit_code": 0,
+      "result": "No broken requirements found."
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe scripts/audit_c2pa_d3.py --output eval/results/r1d3_non_ascii_audit.json",
+      "exit_code": 0,
+      "result": "PASS: 13 Python files, 2 comment/docstring findings, 0 violations",
+      "artifact": "eval/results/r1d3_non_ascii_audit.json"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": ".venv/Scripts/python.exe scripts/verify_wheel_c2pa.py --output eval/results/r1d3_wheel_check.json",
+      "exit_code": 0,
+      "result": "PASS; every loaded Litmus module from new target; existing pinned runtimes and venv distributions unchanged",
+      "artifact": "eval/results/r1d3_wheel_check.json"
+    },
+    {
+      "cwd": "C:/Users/Ryano/Projects/litmus",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "No whitespace errors; ordinary LF/CRLF notices only"
+    }
+  ],
+  "integration_tests_added": 32,
+  "production_default": "off",
+  "production_signer_trust": "unknown regardless of SDK diagnostic codes",
+  "default_report_bytes": "unchanged; omitted equals explicit off; original goldens preserved",
+  "text_origin_quality_preservation": "model-free stub and existing quality regressions passed; real models not run",
+  "round_trip": "JSON full-report round-trip and Segment/from_json/to_json preservation passed",
+  "image_report_artifact": "eval/results/r1d3_image_reports.json",
+  "remote_integration_tests": [
+    {
+      "fixture": "Builder remote_reference.jpg",
+      "production_rule": 4,
+      "production_connections": 0,
+      "positive_control_connections": 1,
+      "positive_control_requests": [
+        "/manifest.c2pa"
+      ],
+      "positive_control_http_status": 404,
+      "positive_control_rule": 2
+    },
+    {
+      "fixture": "existing XMP _remote_reference_jpeg construction",
+      "production_rule": 4,
+      "production_connections": 0,
+      "positive_control_connections": 1,
+      "positive_control_requests": [
+        "/manifest.c2pa"
+      ],
+      "positive_control_http_status": 404,
+      "positive_control_rule": 2
+    }
+  ],
+  "timestamp_citation": {
+    "attribution": "Supplied by the reviewer; builder did not independently fetch or verify specification text",
+    "reference": "C2PA 2.5 section 14.8, Validate the time stamp",
+    "url": "https://spec.c2pa.org/specifications/specifications/2.5/specs/C2PA_Specification.html#_validate_the_time_stamp",
+    "project_timestamp_evidence": "constructed only; real fixture timestamp states absent; no real TSA validation"
+  },
+  "preservation": {
+    "d1_d2_captured_and_verification_records": "unchanged",
+    "constructed_fixture_changes": "citation-description metadata only; underlying stores unchanged",
+    "d2_mapping_rules_worker_semantics": "preserved; reader/pipeline add report diagnostics only",
+    "new_dependencies": false,
+    "downloads": false
+  },
+  "limitations": [
+    "Zero attempted connections observed with passing controls covers exercised fixtures/settings/loopback destination only.",
+    "Remote message-prefix adapter remains fragile and pinned; version drift refuses production activation.",
+    "Response deadline is not native cancellation; process exit during a native call cannot guarantee cleanup.",
+    "Unsigned metadata presence/absence is limited to Pillow's exposed information.",
+    "An initial sandbox-only report capture failed SDK initialization with subprocess.Popen blocked; approved fresh-process runs outside the sandbox passed without weakening guards.",
+    "Independent D3 review has not yet occurred."
+  ],
+  "not_run": [
+    "20 slow/model-dependent tests",
+    "real-model C2PA on/off comparison",
+    "real TSA/timestamp validation",
+    "real 120-second native hang",
+    "Docker/network isolation",
+    "Linux SDK execution",
+    "RAID, calibration, image detector or UI work"
+  ],
+  "changed_files": [
+    "README.md",
+    "docs/decisions.md",
+    "docs/interfaces.md",
+    "docs/plans/R1-D-PLAN.md",
+    "docs/plans/R1-D3-BUILD-PROMPT.md",
+    "eval/results/r1d3_image_reports.json",
+    "eval/results/r1d3_non_ascii_audit.json",
+    "eval/results/r1d3_verification.json",
+    "eval/results/r1d3_wheel_check.json",
+    "scripts/audit_c2pa_d3.py",
+    "scripts/make_c2pa_constructed.py",
+    "scripts/verify_wheel_c2pa.py",
+    "src/litmus/c2pa/__init__.py",
+    "src/litmus/c2pa/analyzer.py",
+    "src/litmus/c2pa/metadata.py",
+    "src/litmus/c2pa/pipeline.py",
+    "src/litmus/c2pa/reader.py",
+    "src/litmus/cli.py",
+    "src/litmus/errors.py",
+    "src/litmus/report.py",
+    "tests/fixtures/c2pa/constructed/README.txt",
+    "tests/fixtures/c2pa/constructed/claim_signature_outside_validity.json",
+    "tests/fixtures/c2pa/constructed/integrity_invalid_with_timestamp.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_malformed.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_mismatch.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_outsideValidity.json",
+    "tests/fixtures/c2pa/constructed/timestamp_ignored_untrusted.json",
+    "tests/fixtures/c2pa/constructed/timestamp_trusted_validated.json",
+    "tests/test_c2pa_d3.py",
+    "tests/test_quality_report.py"
+  ]
+}

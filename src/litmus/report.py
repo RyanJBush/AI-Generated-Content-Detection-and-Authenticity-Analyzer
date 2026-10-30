@@ -1,8 +1,4 @@
-"""Report assembly with R0 placeholder analyzers (SPEC §4, §6.4; Addenda A5, B2).
-
-R0 analyzers never analyze anything: they return ``inconclusive`` or
-``not_supported`` with reasons. No detector, no C2PA analysis.
-"""
+"""Report assembly; optional text scoring, quality and image provenance."""
 import hashlib
 import os
 from typing import Any, Callable, Dict, List, Optional, Sequence
@@ -78,7 +74,8 @@ def image_origin_placeholder() -> OriginEvidence:
     )
 
 
-def _root_segment(ing: Ingested, text_origin: Optional[TextOrigin]) -> Segment:
+def _root_segment(ing: Ingested, text_origin: Optional[TextOrigin],
+                  c2pa_enabled: bool = False) -> Segment:
     if ing.text is not None:
         # Resolved at call time so the placeholder stays the default
         analyze_text = text_origin or text_origin_placeholder
@@ -94,6 +91,11 @@ def _root_segment(ing: Ingested, text_origin: Optional[TextOrigin]) -> Segment:
             origin=[analyze_text(ing.text)],
         )
     width, height = ing.image_size
+    if c2pa_enabled:
+        from litmus.c2pa.analyzer import analyze_image
+        origin = analyze_image(ing.raw, ing.mime)
+    else:
+        origin = image_origin_placeholder()
     return Segment(
         segment_id="s0",
         parent_id=None,
@@ -102,7 +104,7 @@ def _root_segment(ing: Ingested, text_origin: Optional[TextOrigin]) -> Segment:
         local_frame={"type": "pixels", "width": width, "height": height},
         content_sha256=_sha256(ing.raw),
         extraction={"status": "complete", "notes": list(ing.notes)},
-        origin=[image_origin_placeholder()],
+        origin=[origin],
     )
 
 
@@ -141,7 +143,8 @@ def _add_quality(segment: Segment, text: str, observers: Sequence) -> None:
 
 
 def build_report(path: str, text_origin: Optional[TextOrigin] = None,
-                 quality_observers: Optional[Sequence] = None) -> Dict[str, Any]:
+                 quality_observers: Optional[Sequence] = None, *,
+                 c2pa_enabled: bool = False) -> Dict[str, Any]:
     """text_origin: analyzer for text segments; None uses the R0 placeholder.
     quality_observers: constructed observers (litmus.quality.observers), run on
     text segments after origin; None (the default) runs none and leaves the
@@ -150,7 +153,7 @@ def build_report(path: str, text_origin: Optional[TextOrigin] = None,
 
     tree = SegmentTree()
     if ing.accepted:
-        root = _root_segment(ing, text_origin)
+        root = _root_segment(ing, text_origin, c2pa_enabled)
         if quality_observers is not None and ing.text is not None:
             _add_quality(root, ing.text, quality_observers)
         tree.add_segment(root)
@@ -159,6 +162,9 @@ def build_report(path: str, text_origin: Optional[TextOrigin] = None,
     segments = list(tree.segments.values())
     limitations = list(REPORT_LIMITATIONS if text_origin is None
                        else DETECTOR_REPORT_LIMITATIONS)
+    if segments and segments[0].origin[0].method_id == "c2pa_provenance":
+        limitations = ["no result in this report is a probability or a verdict",
+                       *segments[0].origin[0].limitations]
     if quality_observers is not None:
         limitations += QUALITY_REPORT_LIMITATIONS
 
@@ -179,10 +185,12 @@ def build_report(path: str, text_origin: Optional[TextOrigin] = None,
 
 
 def run_analysis(path: str, text_origin: Optional[TextOrigin] = None,
-                 quality_observers: Optional[Sequence] = None) -> Dict[str, Any]:
+                 quality_observers: Optional[Sequence] = None, *,
+                 c2pa_enabled: bool = False) -> Dict[str, Any]:
     """Build a report with the offline guards active for the whole analysis."""
     with offline_guards():
-        report = build_report(path, text_origin, quality_observers)
+        report = build_report(path, text_origin, quality_observers,
+                              c2pa_enabled=c2pa_enabled)
     report["offline"] = {
         "socket_guard": "loopback_only",
         "subprocess_guard": "blocked",

@@ -4,6 +4,7 @@ import os
 import sys
 from pathlib import Path
 
+from litmus.errors import C2paUnavailable
 from litmus.report import run_analysis
 
 
@@ -25,6 +26,10 @@ def _parser() -> argparse.ArgumentParser:
                          help="model directory (default: <repo>/models)")
     analyze.add_argument("--device", choices=["cuda", "cpu"],
                          help="scorer device (default: cuda if available)")
+    analyze.add_argument(
+        "--c2pa", choices=["off", "on"], default="off",
+        help="image provenance only (default: off); remote manifests are not fetched",
+    )
     analyze.add_argument(
         "--quality", choices=["off", "on"], default="off",
         help="text quality observers (default: off); quality observations do "
@@ -71,7 +76,12 @@ def main(argv=None) -> int:
         from litmus.quality.observers import build_observers
         quality_observers = build_observers()
 
-    report = run_analysis(args.file, text_origin, quality_observers)
+    try:
+        report = run_analysis(args.file, text_origin, quality_observers,
+                              c2pa_enabled=args.c2pa == "on")
+    except C2paUnavailable as exc:
+        print(f"litmus: {exc}", file=sys.stderr)
+        return 1
     text = json.dumps(report, indent=2) + "\n"
 
     if args.output:

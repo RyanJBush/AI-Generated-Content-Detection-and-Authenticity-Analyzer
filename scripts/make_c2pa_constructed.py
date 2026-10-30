@@ -21,8 +21,9 @@ REAL = ROOT / "eval" / "results" / "r1d1_library_outputs"
 OUT = ROOT / "tests" / "fixtures" / "c2pa" / "constructed"
 SPEC_14_8 = ("C2PA 2.5 \u00a714.8 'Validate the time stamp' "
              "(https://spec.c2pa.org/specifications/specifications/2.5/specs/"
-             "C2PA_Specification.html#_validate_the_time_stamp); cited per Ryan's "
-             "partial implementation; section/text UNVERIFIED in this session")
+             "C2PA_Specification.html#_validate_the_time_stamp); citation supplied "
+             "by the reviewer; builder did not independently fetch or verify "
+             "the specification text; CONSTRUCTED policy evidence only")
 POLICY_STRICT = ("Litmus mapping policy (docs/plans/R1-D-PLAN.md \u00a7c strictness "
                  "rules); not a C2PA specification requirement")
 POLICY_ATTRIBUTION = ("Litmus attribution policy (docs/plans/R1-D-PLAN.md \u00a7p "
