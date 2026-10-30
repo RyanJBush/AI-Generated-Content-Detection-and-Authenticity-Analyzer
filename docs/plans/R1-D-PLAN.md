@@ -1,6 +1,6 @@
 # R1-D plan — C2PA image provenance
 
-**Status: PROPOSED (not approved; plan only, no implementation).**
+**Status: D1 APPROVED 2026-10-30 (feasibility only). D2 and D3 remain PROPOSED (not approved).** Ryan's corrections of 2026-10-30 are in §p; where §p differs from earlier sections, §p governs.
 
 - **Drafted** 2026-10-30 on top of `4c3f42c` (R1-C2 closure record).
 - **Governing documents, in precedence order:**
@@ -35,7 +35,8 @@
 - **Per-analyzer timeout: 120 s per segment (SPEC §6.2).** Nothing implements a timeout yet. A repository search for `timeout` in `src/litmus` found none outside the scorer.
   - **Proposal:** run the library read (Reader construction plus JSON retrieval) in a worker thread (`threading`; subprocesses stay forbidden, A1.2), and wait with `join(timeout)`.
   - On expiry, the segment gets rule 2 (`error`), with reason `c2pa_timeout` in `reasons` and the label `c2pa_error`.
-  - **Limitation:** a native call cannot be cancelled. The thread is a daemon and is abandoned; it keeps running until the process exits. The CLI exits after writing the report. This limitation is stated in the report's limitations whenever a timeout occurs.
+  - **Superseded by §p Correction 3.** The timeout is a response deadline, not cancellation: one dedicated worker per process, at most one outstanding task, and `c2pa_worker_busy` while a timed-out task still runs.
+  - **Limitation:** a native call cannot be cancelled. A timed-out task keeps running on the worker until it finishes. This limitation is stated in the report's limitations whenever a timeout occurs.
   - The timeout value is a constant, and tests can inject a smaller one.
 
 ## b) Manifest model (SPEC §8.2)
@@ -96,17 +97,18 @@
 | `signingCredential.untrusted` | failure or informational | `signer_trust = untrusted` if anchors are configured; `unknown` if the list is empty |
 | `timeStamp.validated`, `timeStamp.trusted`, `timeStamp.untrusted`, `signingCredential.ocsp.skipped`, `signingCredential.ocsp.notRevoked` | any | no field effect; recorded in `details` |
 | `signingCredential.ocsp.revoked` | failure | `signature = invalid` |
-| `timeStamp.mismatch`, `timeStamp.outsideValidity` | failure | `signature = invalid` |
+| `timeStamp.mismatch`, `timeStamp.outsideValidity` | failure | **superseded by §p Correction 2:** recorded as a timestamp state, separate from `signature`; not by itself `signature = invalid` |
 | `signingCredential.ocsp.inaccessible` | any | no field effect; recorded. It is expected only if OCSP were attempted, which settings forbid (§f). |
 | `general.error`, `algorithm.unsupported`, `claim.missing`, `claim.multiple`, `manifest.missing`, `manifest.inaccessible`, `manifest.multipleParents`, `assertion.cbor.invalid` | failure | `integrity = not_checked` and `signature = not_checked`, unless already `invalid` |
-| `assertion.action.ingredientMismatch`, `ingredient.*` codes | failure/any | recorded; applied to the ingredient record (below), never to the active manifest's fields |
+| `assertion.action.ingredientMismatch` | failure | **context-aware (§p Correction 1):** on the active claim, it affects the active manifest (`integrity = invalid`, pending D2 confirmation); on an ingredient's claim, it affects that ingredient's record |
+| `ingredient.*` codes | failure/any | applied to the manifest the code belongs to (§p Correction 1); recorded |
 
 Absent from `c2pa_c.dll`, so not used: `claimSignature.outsideValidity`, `signingCredential.revoked`, `algorithm.deprecated`.
 
 **Strictness rules (proposed):**
 1. **Positive evidence required.**
    - `integrity = valid` requires at least one hard-binding `*.match` code and no `invalid` code.
-   - `signature = valid` requires `claimSignature.validated` and `claimSignature.insideValidity`, and no `invalid` code.
+   - `signature = valid` requires `claimSignature.validated` and `claimSignature.insideValidity`, and no `invalid` code. Per §p Correction 2, `insideValidity` does not by itself prove a verified signing time; signing-time verification is reported separately.
    - Otherwise the field is `not_checked`.
 2. **Unmapped or unrecognized codes.** Any status code on the active manifest that is not in the table above sets both `integrity` and `signature` to `not_checked`, unless already `invalid`. This leads to rule 6, `inconclusive` / `validation_incomplete`. The code is listed in `details.unmapped_status_codes`.
 3. **Invalid wins.** `invalid` beats `not_checked`, matching rule order (5 before 6).
@@ -396,6 +398,40 @@ SPEC §8.2: ordinary EXIF/XMP/IPTC outside any manifest goes in `unsigned_metada
 3. Fixture fallback if self-generated certificates are rejected: c2pa-python repository test certificates (after a license check), or constructed outputs only.
 4. The eventual production trust list (post-R1). R1 ships an empty list.
 5. Licensing remains **OPEN — pending Ryan's decision**.
+
+## p) Approval and corrections (Ryan, 2026-10-30)
+
+**Approval:** 2026-10-30: Ryan approved R1-D1 (feasibility) only; D2/D3 not approved.
+
+**Correction 1 — context-aware mapping.**
+- Validation codes are mapped by the manifest and assertion they belong to.
+- An `assertion.action.ingredientMismatch` on the **active** claim affects the active manifest. It must not be discarded as an ingredient-only issue.
+- D1 captures each status entry together with the manifest it was reported for (active vs ingredient, by label) and any assertion URL, so that D2 can map by context.
+
+**Correction 2 — timestamps.**
+- A timestamp failure need not invalidate the claim signature, and an `insideValidity` status does not by itself prove a verified signing time. The D2 mapping treats them separately:
+  - `signature`: claim signature verification and credential status.
+  - A separate timestamp state: whether a signing time was verified by a trusted timestamp. With no TSA in R1 fixtures, it is expected to be absent.
+- **Specification source: UNVERIFIED.** No copy of the C2PA specification is available offline in this environment, and network access is not permitted. The specification section this relies on must be cited when D2 is planned; until then the claim is recorded as Ryan's instruction, not as a verified reading.
+
+**Correction 3 — timeout is a response deadline, not cancellation.**
+- **One dedicated worker per process** runs C2PA reads.
+- **At most one outstanding C2PA task.** The analyzer waits up to the deadline (SPEC §6.2: 120 s) for its result.
+- **On expiry** the segment gets `error` / `c2pa_timeout`. The task is not cancelled and keeps running on the worker.
+- **While a timed-out task is still running**, new C2PA requests return `error` / `c2pa_worker_busy` immediately instead of queuing.
+- **Ownership:** the task's input buffer, streams and library handles are owned by the worker and released when the task finishes, whether or not anyone is still waiting.
+- **No accumulation of threads after timeouts:** the worker is never replaced while busy.
+
+**Correction 4 — trust claims.**
+- One untrusted fixture does not prove the SDK has no built-in anchors.
+- SDK trust observations (status codes observed for specific fixtures and settings) are recorded separately from Litmus's policy.
+- **Litmus's policy is an explicit, empty, packaged production anchor list.** No statement about built-in anchors is made beyond what was observed.
+
+**D3 preferences (recorded, not implemented):** a minimal unsigned-metadata summary (§k); `--c2pa` off by default (§l).
+
+**Certificate fallback: pending.**
+- If local certificate generation fails, report the exact failure and stop that branch.
+- No third-party certificate or fixture files are added (this replaces the §j fallback 1 for now).
 
 ## o) Effort (ESTIMATE) and risks
 

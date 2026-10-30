@@ -669,3 +669,15 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 - These results were reported by the reviewer. They are recorded as reported and were not run by the agent for this entry.
 - `847ae13` was checked with `git cat-file -t` and returned `commit`.
 - **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`, so there is nothing to record verbatim. Nothing is inferred from the agent's self-identification.
+
+## 2026-10-30 — R1-D1 approval and R1-D plan corrections
+
+- **2026-10-30: Ryan approved R1-D1 (feasibility) only; D2/D3 not approved.** `a4e6df1` (plan) was checked with `git cat-file -t` and returned `commit`.
+- **Corrections** (full text in `docs/plans/R1-D-PLAN.md` §p; they govern where they differ from earlier sections):
+  1. **Context-aware mapping.** Validation codes are mapped by the manifest and assertion they belong to. An `assertion.action.ingredientMismatch` on the active claim affects the active manifest.
+  2. **Timestamps.** A timestamp failure need not invalidate the claim signature, and `insideValidity` does not by itself prove a verified signing time; D2 treats them separately. The supporting C2PA specification section is **UNVERIFIED**: no copy is available offline, and network access is not permitted.
+  3. **Timeout is a response deadline.** One dedicated worker per process; at most one outstanding C2PA task; `c2pa_worker_busy` while a timed-out task still runs; the worker owns and releases the task's buffers and handles; threads do not accumulate.
+  4. **Trust claims.** SDK trust observations are recorded separately from Litmus's policy, which is an explicit, empty, packaged production anchor list.
+- **D3 preferences (recorded, not implemented):** a minimal unsigned-metadata summary; `--c2pa` off by default.
+- **Certificate fallback: pending.** If local generation fails, the exact failure is reported and that branch stops. No third-party files are added.
+- **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
