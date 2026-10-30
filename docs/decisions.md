@@ -386,3 +386,103 @@ Commits checked with `git cat-file -t` (all `commit`): `3b0db47` (planning),
 ### Not in the R1-B1 corrections
 
 - No RAID access, no calibration, no R1-B2 benchmarking.
+
+## 2026-10-30 — Checkpoint R1-B2 (synthetic runtime and GPU-memory benchmark)
+
+`9a32191` (R1-B1 closed) was checked with `git cat-file -t` and returned `commit`.
+
+### Backend routing: still UNVERIFIED
+
+- The R1-B2 instruction's backend line is the unfilled placeholder
+  `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`. There is nothing to record
+  verbatim, so routing stays **unverified**. Nothing is inferred from the
+  agent's self-identification.
+
+### Preconditions (log: `eval/results/logs/r1b2_preflight.log`)
+
+- HEAD was `9a32191` and the tree was clean.
+- `nvidia-smi` showed no running processes. The compute-apps query returned the
+  header only. `ollama ps` listed no loaded model.
+- AC power `Online` (battery charging), power plan `Balanced`
+  (`381b4222-f694-41f0-9685-ff5bb260df2e`).
+- In a fresh process, the execution profile validated as complete
+  (`profile_failures == {}`), with `cuda_initialized_before_settings = false`.
+  `scoring_config_hash` was `eb2db0e9d79c6d4e4b119a4466e901ee5264344e0ed516ea0777cc4222d0ab97`.
+
+### Inputs and method
+
+- `scripts/r1b2_inputs.py` generates 10 seeded word-salad texts at each of 64,
+  128, 256 and 512 tokens (base seed 20261030), using a built-in word list and
+  no dataset text.
+- Each text was re-tokenized after writing (production `tokenize_window`) and
+  has exactly its target count. SHA-256 values are in
+  `eval/inputs/r1b2/manifest.json`. A logged regeneration produced
+  byte-identical files.
+- `scripts/benchmark_r1b2.py` calls the production functions (`load_pair`,
+  `forward_logits`, `binoculars_statistics`, `BinocularsAnalyzer`). Definitions
+  are recorded in the results JSON.
+- The run used 5 untimed warmup scoring calls per length, then 3 timed passes
+  over 10 texts (30 timed calls per length and phase). Each length block ran
+  under `offline_guards()`.
+- An earlier unlogged dry run, written to a scratch directory, checked that the
+  script works. Its numbers are not used.
+
+### Measured results (`eval/results/r1b2_benchmark.json`; log `eval/results/logs/r1b2_benchmark.log`)
+
+All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
+
+| Tokens | Tokenization min/median/p90 | Scoring min/median/p90 | End-to-end min/median/p90 | Peak allocated | Peak reserved |
+|---|---|---|---|---|---|
+| 64  | 0.20 / 0.23 / 0.26 | 43.82 / 48.84 / 57.13 | 45.28 / 49.84 / 58.10 | 4,226,335,744 B | 4,469,030,912 B |
+| 128 | 0.31 / 0.34 / 0.37 | 52.56 / 55.92 / 60.26 | 55.36 / 56.68 / 60.76 | 4,454,008,320 B | 4,951,375,872 B |
+| 256 | 0.51 / 0.54 / 0.58 | 99.54 / 101.57 / 111.80 | 100.63 / 103.18 / 114.97 | 4,920,756,736 B | 5,899,288,576 B |
+| 512 | 0.88 / 0.93 / 1.02 | 203.13 / 214.90 / 226.43 | 205.00 / 218.49 / 225.47 | 5,854,253,568 B | 7,774,142,464 B |
+
+- **Model load, 3 fresh processes:** 4.006 s, 3.690 s, 3.712 s. The measuring
+  process's own load took 3.651 s. Imports of torch and transformers were timed
+  separately (about 2.3 s per process).
+- **Memory:** allocated after load 3,953,704,960 B, reserved after load
+  4,194,304,000 B. Total VRAM 8,585,216,000 B. Peak reserved at 512 tokens is
+  about 90.6% of total VRAM.
+- **Errors and consistency:** 0 scorer errors and 0 guard failures. Every text
+  gave a single distinct score across all its scoring and end-to-end calls.
+  Every end-to-end result was `inconclusive` / `no calibration for this
+  configuration`.
+- **File cache:** the model files had been read minutes earlier (Step 0 and the
+  dry run), so all four loads are warm-cache loads. A cold-cache load was not
+  measured.
+- **GPU clocks:** the SM clock fell from 2625 MHz before the 64-token block to
+  2010–2190 MHz in the later blocks, with temperature 47–67 °C and power up to
+  79.75 W of the 80 W cap (nvidia-smi samples between blocks). This was not
+  controlled.
+
+### ESTIMATE: sample size (not measured; every number below is an ESTIMATE)
+
+- **Per-text cost:** `c` = measured end-to-end p90 at 512 tokens = 0.22547 s
+  (ESTIMATE, applied to every RAID text). RAID lengths are UNMEASURED.
+  Production truncates at 512 tokens, so per-text scoring cost is bounded at
+  512 tokens. Shorter texts would cost less.
+- **Per group:** `k` texts, with `k = 2` clean-only (1 human + 1 machine) or
+  `k = 5` with 3 attacked variants. Scoring time is `T(G) = G · k · c`, plus one
+  model load `L` (measured maximum 4.006 s).
+- **Groups for a budget `B`:** `G = floor(B / (k · c))` (ESTIMATE):
+
+| Scoring budget B | Clean-only (k=2) | Clean + attacks (k=5) |
+|---|---|---|
+| 0.5 h | 3,991 | 1,596 |
+| 1 h | 7,983 | 3,193 |
+| 2 h | 15,966 | 6,386 |
+| 4 h | 31,933 | 12,773 |
+
+- **Design lower bound:** dev human texts = 0.3 · G ≥ 200, so G ≥ 667. An
+  ASSUMED 20% exclusion margin (too_short, missing variants, errors), which is
+  not measured, gives G ≥ 834 (ESTIMATE).
+- **PROPOSED, pending Ryan's decision:** N_target = 1,000 groups (300 dev human
+  texts). Clean + attacks is 5,000 texts, for an ESTIMATE of 1,127 s (18.8 min)
+  scoring plus about 4 s load. This fits the 0.5 h candidate budget with
+  about 1.6× headroom. Clean-only is an ESTIMATE of 7.5 min.
+
+### Not in R1-B2
+
+- No RAID acquisition, no calibration, no quality observers, no C2PA work.
+- Docker isolation: not run.

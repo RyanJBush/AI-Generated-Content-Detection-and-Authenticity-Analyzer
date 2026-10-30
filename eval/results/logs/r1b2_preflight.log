@@ -1,0 +1,45 @@
+start: 2026-10-30T10:34:47-04:00
+$ git rev-parse --short HEAD
+9a32191
+exit: 0
+$ nvidia-smi
+Fri Oct 30 10:34:47 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 572.60                 Driver Version: 572.60         CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce RTX 4060 ...  WDDM  |   00000000:01:00.0 Off |                  N/A |
+| N/A   45C    P0             13W /   80W |       0MiB /   8188MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+exit: 0
+$ nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv
+pid, process_name, used_gpu_memory [MiB]
+exit: 0
+$ ollama ps
+NAME    ID    SIZE    PROCESSOR    CONTEXT    RUNNER    UNTIL 
+exit: 0
+$ powercfg /getactivescheme
+Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)exit: 0
+$ powershell PowerStatus
+
+
+PowerLineStatus     : Online
+BatteryChargeStatus : High, Charging
+BatteryLifePercent  : 0.9
+
+
+
+exit: 0
+end: 2026-10-30T10:34:48-04:00

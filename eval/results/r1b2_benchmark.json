@@ -1,0 +1,1931 @@
+{
+ "checkpoint": "R1-B2",
+ "started": "2026-10-30T10:34:52.311-04:00",
+ "finished": "2026-10-30T10:35:47.846-04:00",
+ "command": "C:\\Users\\Ryano\\Projects\\litmus\\.venv\\Scripts\\python.exe scripts/benchmark_r1b2.py",
+ "definitions": {
+  "timer": "time.perf_counter()",
+  "p90": "nearest rank: the ceil(0.9*n)-th smallest value",
+  "model_load": "load_pair(device='cuda') (tokenizer + both models from models/, local_files_only, settings applied before CUDA init) + torch.cuda.synchronize() + profile_failures() == {} and both models on GPU in eval mode; torch and transformers imports timed separately",
+  "tokenization": "the production tokenizer call (add_special_tokens=False, split_special_tokens=True, offsets) alone",
+  "scoring": "synchronize; forward_logits x2 (IDs to GPU); binoculars_statistics (float32 log-softmax, full-vocabulary reductions, validation guards, scalars to host); synchronize",
+  "end_to_end": "BinocularsAnalyzer(text) with the loaded pair, between two synchronize calls: tokenization, settings re-read, scoring, OriginEvidence assembly (includes hashing the 7 source files for scoring_config); excludes model load and input file I/O",
+  "warmup": "5 untimed scoring calls per length",
+  "timed": "3 passes x 10 texts per length",
+  "memory": "torch.cuda.reset_peak_memory_stats() before each length block; max_memory_allocated / max_memory_reserved after it",
+  "offline": "each length block runs under litmus.offline.offline_guards()"
+ },
+ "system": {
+  "cpu": "Intel(R) Core(TM) i7-14650HX",
+  "ram_bytes": 16869634048,
+  "os": "Windows-11-10.0.26100-SP0",
+  "python": "3.13.7",
+  "power": {
+   "ac_line": "online (AC)",
+   "battery_percent": 90,
+   "battery_flag": 9,
+   "power_plan": "Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)"
+  },
+  "compute_apps_before": {
+   "exit": 0,
+   "output": "pid, process_name, used_gpu_memory [MiB]"
+  },
+  "gpu_at_start": {
+   "time": "2026-10-30T10:34:53.035-04:00",
+   "exit": 0,
+   "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+   "value": "45, 236 MHz, 8000 MHz, 13.24 W, P0, 0 MiB"
+  },
+  "gpu_total_vram_bytes": 8585216000
+ },
+ "execution_profile": {
+  "device_type": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "nvidia_driver_version": "572.60",
+  "cuda_runtime": "12.4",
+  "torch_version": "2.6.0+cu124",
+  "transformers_version": "4.57.6",
+  "tokenizers_version": "0.22.2",
+  "batch_size": 1,
+  "reduction_dtype": "float32",
+  "os_family": "Windows",
+  "cuda_initialized_before_settings": false,
+  "attn_implementation": "eager",
+  "matmul_allow_tf32": false,
+  "cudnn_allow_tf32": false,
+  "float32_matmul_precision": "highest",
+  "deterministic_algorithms": true,
+  "cublas_workspace_config": ":4096:8",
+  "weight_dtype": "float32"
+ },
+ "execution_profile_failures": {},
+ "scoring_config_hash": "eb2db0e9d79c6d4e4b119a4466e901ee5264344e0ed516ea0777cc4222d0ab97",
+ "source_sha256": "a3573c4f11e31c54449ae136ea6f5d5493419e1a43d2f4d6b664dc532f351363",
+ "inputs": {
+  "dir": "eval/inputs/r1b2",
+  "manifest_sha256": "9d34f29d1936ddff7def86fcae2e475d25136e9390c764635cf5abdd1af7e3b4",
+  "base_seed": 20261030
+ },
+ "model_load_fresh_processes": [
+  {
+   "process": 1,
+   "exit": 0,
+   "load_seconds": 4.005858299991814,
+   "import_seconds": 2.314905799998087,
+   "profile_failures": {},
+   "models_on_gpu_eval": true,
+   "memory_allocated_after_load": 3953704960,
+   "memory_reserved_after_load": 4194304000,
+   "started": "2026-10-30T10:34:53.131-04:00",
+   "finished": "2026-10-30T10:34:59.452-04:00",
+   "pid": 39432
+  },
+  {
+   "process": 2,
+   "exit": 0,
+   "load_seconds": 3.6903162999951746,
+   "import_seconds": 2.292024599999422,
+   "profile_failures": {},
+   "models_on_gpu_eval": true,
+   "memory_allocated_after_load": 3953704960,
+   "memory_reserved_after_load": 4194304000,
+   "started": "2026-10-30T10:35:00.066-04:00",
+   "finished": "2026-10-30T10:35:06.049-04:00",
+   "pid": 31760
+  },
+  {
+   "process": 3,
+   "exit": 0,
+   "load_seconds": 3.711606299999403,
+   "import_seconds": 2.3455667000089306,
+   "profile_failures": {},
+   "models_on_gpu_eval": true,
+   "memory_allocated_after_load": 3953704960,
+   "memory_reserved_after_load": 4194304000,
+   "started": "2026-10-30T10:35:06.670-04:00",
+   "finished": "2026-10-30T10:35:12.728-04:00",
+   "pid": 36852
+  }
+ ],
+ "model_load_measuring_process": {
+  "load_seconds": 3.6512946000002557,
+  "import_seconds": 2.19631759999902,
+  "profile_failures": {},
+  "models_on_gpu_eval": true,
+  "memory_allocated_after_load": 3953704960,
+  "memory_reserved_after_load": 4194304000
+ },
+ "lengths": [
+  {
+   "length": 64,
+   "gpu_before": {
+    "time": "2026-10-30T10:35:19.145-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "47, 2625 MHz, 7000 MHz, 21.53 W, P3, 4103 MiB"
+   },
+   "started": "2026-10-30T10:35:19.145-04:00",
+   "memory_allocated_before_scoring": 3953704960,
+   "memory_reserved_before_scoring": 4194304000,
+   "finished": "2026-10-30T10:35:22.674-04:00",
+   "peak_memory_allocated": 4226335744,
+   "peak_memory_reserved": 4469030912,
+   "gpu_after": {
+    "time": "2026-10-30T10:35:22.714-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "59, 2610 MHz, 8000 MHz, 72.77 W, P0, 4375 MiB"
+   },
+   "summary_seconds": {
+    "tokenization": {
+     "n": 30,
+     "min": 0.00020200001017656177,
+     "median": 0.000225349998800084,
+     "mean": 0.0002286666659832311,
+     "p90": 0.0002584999892860651,
+     "max": 0.0002764999953797087
+    },
+    "scoring": {
+     "n": 30,
+     "min": 0.04381640000792686,
+     "median": 0.04883844999858411,
+     "mean": 0.05037827333289897,
+     "p90": 0.05713270000705961,
+     "max": 0.06104980000236537
+    },
+    "end_to_end": {
+     "n": 30,
+     "min": 0.04528099999879487,
+     "median": 0.0498428499995498,
+     "mean": 0.05193234666900632,
+     "p90": 0.05810330000531394,
+     "max": 0.0840953000006266
+    }
+   },
+   "raw_seconds": {
+    "tokenization": [
+     0.00026780000189319253,
+     0.0002442999975755811,
+     0.00023320000036619604,
+     0.00022020000324118882,
+     0.00021040000137872994,
+     0.00026020000223070383,
+     0.00023409999266732484,
+     0.0002091999922413379,
+     0.00021330000890884548,
+     0.00020200001017656177,
+     0.0002764999953797087,
+     0.0002415999915683642,
+     0.00023009999131318182,
+     0.00021340000967029482,
+     0.0002184999902965501,
+     0.00023499999952036887,
+     0.000221800000872463,
+     0.00021299999207258224,
+     0.00020640000002458692,
+     0.00022600000374950469,
+     0.0002297000028192997,
+     0.00023499999952036887,
+     0.00023859999782871455,
+     0.0002246999938506633,
+     0.000222100003156811,
+     0.0002584999892860651,
+     0.0002128000051015988,
+     0.00022190000163391232,
+     0.00021240000205580145,
+     0.00022729999909643084
+    ],
+    "scoring": [
+     0.05524510001123417,
+     0.048519699994358234,
+     0.05142020000494085,
+     0.051238300002296455,
+     0.050202800004626624,
+     0.057227599987527356,
+     0.0481627999979537,
+     0.047529699993901886,
+     0.047331499998108484,
+     0.05709909999859519,
+     0.048068999996758066,
+     0.04890329999034293,
+     0.047336499992525205,
+     0.06104980000236537,
+     0.04877360000682529,
+     0.04677689999516588,
+     0.04543349999585189,
+     0.05585330000030808,
+     0.05553530000906903,
+     0.05713270000705961,
+     0.05971739999949932,
+     0.04733200000191573,
+     0.053224500006763265,
+     0.04922400000214111,
+     0.045402799994917586,
+     0.044021399997291155,
+     0.04616239998722449,
+     0.04433889999927487,
+     0.04926770000020042,
+     0.04381640000792686
+    ],
+    "end_to_end": [
+     0.05429590000130702,
+     0.0840953000006266,
+     0.050471499998820946,
+     0.04904030000034254,
+     0.055939300000318326,
+     0.054223700004513375,
+     0.04564369999570772,
+     0.05442930001299828,
+     0.04562840001017321,
+     0.04820290001225658,
+     0.05075939999369439,
+     0.05810330000531394,
+     0.06588990001182538,
+     0.04724070000520442,
+     0.04776099999435246,
+     0.0503350000071805,
+     0.0480768999987049,
+     0.04649300000164658,
+     0.046989800001028925,
+     0.0557622999913292,
+     0.05182930000592023,
+     0.05840360000729561,
+     0.05012539999734145,
+     0.05276939999021124,
+     0.04816590000700671,
+     0.04607229999965057,
+     0.049094400004833005,
+     0.04728720001003239,
+     0.04956030000175815,
+     0.04528099999879487
+    ]
+   },
+   "score_consistency": {
+    "texts": 10,
+    "texts_with_one_distinct_score": 10
+   },
+   "calls": [
+    {
+     "pass": 1,
+     "file": "len064_00.txt",
+     "scoring_score": 1.0477797985076904,
+     "e2e_raw_score": 1.0477797985076904,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_01.txt",
+     "scoring_score": 1.123326063156128,
+     "e2e_raw_score": 1.123326063156128,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_02.txt",
+     "scoring_score": 1.0599628686904907,
+     "e2e_raw_score": 1.0599628686904907,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_03.txt",
+     "scoring_score": 1.085097312927246,
+     "e2e_raw_score": 1.085097312927246,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_04.txt",
+     "scoring_score": 1.0535986423492432,
+     "e2e_raw_score": 1.0535986423492432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_05.txt",
+     "scoring_score": 0.9805497527122498,
+     "e2e_raw_score": 0.9805497527122498,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_06.txt",
+     "scoring_score": 1.0981007814407349,
+     "e2e_raw_score": 1.0981007814407349,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_07.txt",
+     "scoring_score": 1.0634241104125977,
+     "e2e_raw_score": 1.0634241104125977,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_08.txt",
+     "scoring_score": 1.0908550024032593,
+     "e2e_raw_score": 1.0908550024032593,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len064_09.txt",
+     "scoring_score": 1.0396817922592163,
+     "e2e_raw_score": 1.0396817922592163,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_00.txt",
+     "scoring_score": 1.0477797985076904,
+     "e2e_raw_score": 1.0477797985076904,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_01.txt",
+     "scoring_score": 1.123326063156128,
+     "e2e_raw_score": 1.123326063156128,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_02.txt",
+     "scoring_score": 1.0599628686904907,
+     "e2e_raw_score": 1.0599628686904907,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_03.txt",
+     "scoring_score": 1.085097312927246,
+     "e2e_raw_score": 1.085097312927246,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_04.txt",
+     "scoring_score": 1.0535986423492432,
+     "e2e_raw_score": 1.0535986423492432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_05.txt",
+     "scoring_score": 0.9805497527122498,
+     "e2e_raw_score": 0.9805497527122498,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_06.txt",
+     "scoring_score": 1.0981007814407349,
+     "e2e_raw_score": 1.0981007814407349,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_07.txt",
+     "scoring_score": 1.0634241104125977,
+     "e2e_raw_score": 1.0634241104125977,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_08.txt",
+     "scoring_score": 1.0908550024032593,
+     "e2e_raw_score": 1.0908550024032593,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len064_09.txt",
+     "scoring_score": 1.0396817922592163,
+     "e2e_raw_score": 1.0396817922592163,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_00.txt",
+     "scoring_score": 1.0477797985076904,
+     "e2e_raw_score": 1.0477797985076904,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_01.txt",
+     "scoring_score": 1.123326063156128,
+     "e2e_raw_score": 1.123326063156128,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_02.txt",
+     "scoring_score": 1.0599628686904907,
+     "e2e_raw_score": 1.0599628686904907,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_03.txt",
+     "scoring_score": 1.085097312927246,
+     "e2e_raw_score": 1.085097312927246,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_04.txt",
+     "scoring_score": 1.0535986423492432,
+     "e2e_raw_score": 1.0535986423492432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_05.txt",
+     "scoring_score": 0.9805497527122498,
+     "e2e_raw_score": 0.9805497527122498,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_06.txt",
+     "scoring_score": 1.0981007814407349,
+     "e2e_raw_score": 1.0981007814407349,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_07.txt",
+     "scoring_score": 1.0634241104125977,
+     "e2e_raw_score": 1.0634241104125977,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_08.txt",
+     "scoring_score": 1.0908550024032593,
+     "e2e_raw_score": 1.0908550024032593,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len064_09.txt",
+     "scoring_score": 1.0396817922592163,
+     "e2e_raw_score": 1.0396817922592163,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    }
+   ]
+  },
+  {
+   "length": 128,
+   "gpu_before": {
+    "time": "2026-10-30T10:35:22.797-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "59, 2610 MHz, 8000 MHz, 50.75 W, P0, 4375 MiB"
+   },
+   "started": "2026-10-30T10:35:22.797-04:00",
+   "memory_allocated_before_scoring": 3987259392,
+   "memory_reserved_before_scoring": 4469030912,
+   "finished": "2026-10-30T10:35:26.529-04:00",
+   "peak_memory_allocated": 4454008320,
+   "peak_memory_reserved": 4951375872,
+   "gpu_after": {
+    "time": "2026-10-30T10:35:26.559-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "62, 2265 MHz, 8000 MHz, 75.96 W, P0, 4835 MiB"
+   },
+   "summary_seconds": {
+    "tokenization": {
+     "n": 30,
+     "min": 0.00031209998996928334,
+     "median": 0.00033650000113993883,
+     "mean": 0.0003481966666489219,
+     "p90": 0.0003696000057971105,
+     "max": 0.00048550000065006316
+    },
+    "scoring": {
+     "n": 30,
+     "min": 0.052560099997208454,
+     "median": 0.0559164999940549,
+     "mean": 0.05680851666693343,
+     "p90": 0.0602599999983795,
+     "max": 0.06921480000892188
+    },
+    "end_to_end": {
+     "n": 30,
+     "min": 0.05535900000541005,
+     "median": 0.05667655000434024,
+     "mean": 0.05761794666905189,
+     "p90": 0.06076089999987744,
+     "max": 0.06491070000629406
+    }
+   },
+   "raw_seconds": {
+    "tokenization": [
+     0.00035859999479725957,
+     0.00034980000054929405,
+     0.0003728000010596588,
+     0.0003358999965712428,
+     0.0003460000007180497,
+     0.00033710000570863485,
+     0.00036029999318998307,
+     0.0003617000038502738,
+     0.0003696000057971105,
+     0.0003404000017326325,
+     0.0004174000059720129,
+     0.00033579999580979347,
+     0.00031289999606087804,
+     0.0003296000068075955,
+     0.00032300000020768493,
+     0.0003252000024076551,
+     0.0003315999929327518,
+     0.00033090000215452164,
+     0.0003284999984316528,
+     0.0003648999991128221,
+     0.00032390000706072897,
+     0.00032419999479316175,
+     0.0003660000074887648,
+     0.00031209998996928334,
+     0.00033260000054724514,
+     0.00035119999665766954,
+     0.0003569999971659854,
+     0.00048550000065006316,
+     0.0003302999975858256,
+     0.0003311000036774203
+    ],
+    "scoring": [
+     0.05514460000267718,
+     0.0602599999983795,
+     0.05362469999818131,
+     0.0545055999973556,
+     0.05845850000332575,
+     0.056157400002120994,
+     0.06921480000892188,
+     0.054828899999847636,
+     0.057785700002568774,
+     0.062385199998971075,
+     0.052560099997208454,
+     0.05597950000083074,
+     0.055853499987279065,
+     0.05438260000664741,
+     0.05787850001070183,
+     0.05547649999789428,
+     0.05308559999684803,
+     0.05603149998933077,
+     0.05726169999979902,
+     0.054023499993490987,
+     0.05511570000089705,
+     0.05565470000146888,
+     0.05638569999428,
+     0.057693599999765866,
+     0.05624470001203008,
+     0.05450530000962317,
+     0.06682789999467786,
+     0.05646570000681095,
+     0.054625799995847046,
+     0.055838000000221655
+    ],
+    "end_to_end": [
+     0.05808610000531189,
+     0.056786400004057214,
+     0.05637110001407564,
+     0.06076089999987744,
+     0.05702880000171717,
+     0.057055199999012984,
+     0.05766960000619292,
+     0.06338220000907313,
+     0.05626060000213329,
+     0.06491070000629406,
+     0.057113100003334694,
+     0.05562400000053458,
+     0.05656670000462327,
+     0.056103900002199225,
+     0.05606370000168681,
+     0.0597972999967169,
+     0.06370800000149757,
+     0.05626420000044163,
+     0.05636790000426117,
+     0.055949899993720464,
+     0.0572083000006387,
+     0.059719099997892044,
+     0.05562110000755638,
+     0.05535900000541005,
+     0.05592870000691619,
+     0.056184000000939704,
+     0.05625530000543222,
+     0.057087099994532764,
+     0.05596359999617562,
+     0.05734189999930095
+    ]
+   },
+   "score_consistency": {
+    "texts": 10,
+    "texts_with_one_distinct_score": 10
+   },
+   "calls": [
+    {
+     "pass": 1,
+     "file": "len128_00.txt",
+     "scoring_score": 1.0425498485565186,
+     "e2e_raw_score": 1.0425498485565186,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_01.txt",
+     "scoring_score": 1.0157631635665894,
+     "e2e_raw_score": 1.0157631635665894,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_02.txt",
+     "scoring_score": 1.0340027809143066,
+     "e2e_raw_score": 1.0340027809143066,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_03.txt",
+     "scoring_score": 1.0138133764266968,
+     "e2e_raw_score": 1.0138133764266968,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_04.txt",
+     "scoring_score": 1.0290921926498413,
+     "e2e_raw_score": 1.0290921926498413,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_05.txt",
+     "scoring_score": 1.0323207378387451,
+     "e2e_raw_score": 1.0323207378387451,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_06.txt",
+     "scoring_score": 1.0273106098175049,
+     "e2e_raw_score": 1.0273106098175049,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_07.txt",
+     "scoring_score": 1.0304583311080933,
+     "e2e_raw_score": 1.0304583311080933,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_08.txt",
+     "scoring_score": 1.025380253791809,
+     "e2e_raw_score": 1.025380253791809,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len128_09.txt",
+     "scoring_score": 0.9899852871894836,
+     "e2e_raw_score": 0.9899852871894836,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_00.txt",
+     "scoring_score": 1.0425498485565186,
+     "e2e_raw_score": 1.0425498485565186,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_01.txt",
+     "scoring_score": 1.0157631635665894,
+     "e2e_raw_score": 1.0157631635665894,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_02.txt",
+     "scoring_score": 1.0340027809143066,
+     "e2e_raw_score": 1.0340027809143066,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_03.txt",
+     "scoring_score": 1.0138133764266968,
+     "e2e_raw_score": 1.0138133764266968,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_04.txt",
+     "scoring_score": 1.0290921926498413,
+     "e2e_raw_score": 1.0290921926498413,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_05.txt",
+     "scoring_score": 1.0323207378387451,
+     "e2e_raw_score": 1.0323207378387451,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_06.txt",
+     "scoring_score": 1.0273106098175049,
+     "e2e_raw_score": 1.0273106098175049,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_07.txt",
+     "scoring_score": 1.0304583311080933,
+     "e2e_raw_score": 1.0304583311080933,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_08.txt",
+     "scoring_score": 1.025380253791809,
+     "e2e_raw_score": 1.025380253791809,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len128_09.txt",
+     "scoring_score": 0.9899852871894836,
+     "e2e_raw_score": 0.9899852871894836,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_00.txt",
+     "scoring_score": 1.0425498485565186,
+     "e2e_raw_score": 1.0425498485565186,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_01.txt",
+     "scoring_score": 1.0157631635665894,
+     "e2e_raw_score": 1.0157631635665894,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_02.txt",
+     "scoring_score": 1.0340027809143066,
+     "e2e_raw_score": 1.0340027809143066,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_03.txt",
+     "scoring_score": 1.0138133764266968,
+     "e2e_raw_score": 1.0138133764266968,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_04.txt",
+     "scoring_score": 1.0290921926498413,
+     "e2e_raw_score": 1.0290921926498413,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_05.txt",
+     "scoring_score": 1.0323207378387451,
+     "e2e_raw_score": 1.0323207378387451,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_06.txt",
+     "scoring_score": 1.0273106098175049,
+     "e2e_raw_score": 1.0273106098175049,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_07.txt",
+     "scoring_score": 1.0304583311080933,
+     "e2e_raw_score": 1.0304583311080933,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_08.txt",
+     "scoring_score": 1.025380253791809,
+     "e2e_raw_score": 1.025380253791809,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len128_09.txt",
+     "scoring_score": 0.9899852871894836,
+     "e2e_raw_score": 0.9899852871894836,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    }
+   ]
+  },
+  {
+   "length": 256,
+   "gpu_before": {
+    "time": "2026-10-30T10:35:26.651-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "62, 2265 MHz, 8000 MHz, 74.11 W, P0, 4835 MiB"
+   },
+   "started": "2026-10-30T10:35:26.651-04:00",
+   "memory_allocated_before_scoring": 3987259392,
+   "memory_reserved_before_scoring": 4951375872,
+   "finished": "2026-10-30T10:35:33.470-04:00",
+   "peak_memory_allocated": 4920756736,
+   "peak_memory_reserved": 5899288576,
+   "gpu_after": {
+    "time": "2026-10-30T10:35:33.558-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "58, 2010 MHz, 8000 MHz, 78.88 W, P0, 5739 MiB"
+   },
+   "summary_seconds": {
+    "tokenization": {
+     "n": 30,
+     "min": 0.0005133999948156998,
+     "median": 0.0005429000011645257,
+     "mean": 0.0005800566679681652,
+     "p90": 0.0005782999942312017,
+     "max": 0.0014586000033887103
+    },
+    "scoring": {
+     "n": 30,
+     "min": 0.09954490000382066,
+     "median": 0.10156830000050832,
+     "mean": 0.10403820000065025,
+     "p90": 0.11179769999580458,
+     "max": 0.12077330000465736
+    },
+    "end_to_end": {
+     "n": 30,
+     "min": 0.10062689999176655,
+     "median": 0.10318360000383109,
+     "mean": 0.10548833999976827,
+     "p90": 0.11497070000041276,
+     "max": 0.13015700000687502
+    }
+   },
+   "raw_seconds": {
+    "tokenization": [
+     0.0005687000084435567,
+     0.000534999999217689,
+     0.0005534999945666641,
+     0.0005520999984582886,
+     0.0005209999944781885,
+     0.0005499999970197678,
+     0.0014586000033887103,
+     0.0005342000076780096,
+     0.0005422999965958297,
+     0.0005535999953281134,
+     0.0005476999940583482,
+     0.0006267999997362494,
+     0.0005238000012468547,
+     0.0005782999942312017,
+     0.0005133999948156998,
+     0.0005352000007405877,
+     0.0005357000045478344,
+     0.0005412000027718022,
+     0.0005379000067478046,
+     0.0005302000063238665,
+     0.0005338000046322122,
+     0.0005777000042144209,
+     0.000557100007426925,
+     0.0006382999999914318,
+     0.0005435000057332218,
+     0.0005314000009093434,
+     0.0005450000026030466,
+     0.00056080000649672,
+     0.0005384999967645854,
+     0.0005364000098779798
+    ],
+    "scoring": [
+     0.10207159999117721,
+     0.09954490000382066,
+     0.10278119999566115,
+     0.0998196000000462,
+     0.10331430000951514,
+     0.10032479999063071,
+     0.10044140000536572,
+     0.10067040000285488,
+     0.10127949999878183,
+     0.10233550000702962,
+     0.10247830000298563,
+     0.10024140001041815,
+     0.0999283999990439,
+     0.10075880000658799,
+     0.1013336000032723,
+     0.1013770999998087,
+     0.10175950000120793,
+     0.10042460000840947,
+     0.10115780000342056,
+     0.10001929999270942,
+     0.10031460000027437,
+     0.11668839999765623,
+     0.10618729999987409,
+     0.10316629998851568,
+     0.11128440000175033,
+     0.12077330000465736,
+     0.10452379999333061,
+     0.11327570000139531,
+     0.11179769999580458,
+     0.11107250000350177
+    ],
+    "end_to_end": [
+     0.10281059998669662,
+     0.10343659999489319,
+     0.10543960001086816,
+     0.10260810000181664,
+     0.10269830000470392,
+     0.10331570000562351,
+     0.10166729999764357,
+     0.10100509999028873,
+     0.1046615999948699,
+     0.10143949999473989,
+     0.10230020000017248,
+     0.10099050001008436,
+     0.10068309999769554,
+     0.10062689999176655,
+     0.10305150000203867,
+     0.10129229999438394,
+     0.1014671000011731,
+     0.10223400000541005,
+     0.10495170000649523,
+     0.1038224999938393,
+     0.13015700000687502,
+     0.10355020000133663,
+     0.1076621999964118,
+     0.10495219999575056,
+     0.11497070000041276,
+     0.10159900000144262,
+     0.11165049999544863,
+     0.11681800000951625,
+     0.1043950000021141,
+     0.11839319999853615
+    ]
+   },
+   "score_consistency": {
+    "texts": 10,
+    "texts_with_one_distinct_score": 10
+   },
+   "calls": [
+    {
+     "pass": 1,
+     "file": "len256_00.txt",
+     "scoring_score": 1.0354337692260742,
+     "e2e_raw_score": 1.0354337692260742,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_01.txt",
+     "scoring_score": 1.0037987232208252,
+     "e2e_raw_score": 1.0037987232208252,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_02.txt",
+     "scoring_score": 1.0540704727172852,
+     "e2e_raw_score": 1.0540704727172852,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_03.txt",
+     "scoring_score": 1.038849949836731,
+     "e2e_raw_score": 1.038849949836731,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_04.txt",
+     "scoring_score": 1.015360951423645,
+     "e2e_raw_score": 1.015360951423645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_05.txt",
+     "scoring_score": 1.0188623666763306,
+     "e2e_raw_score": 1.0188623666763306,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_06.txt",
+     "scoring_score": 1.0035498142242432,
+     "e2e_raw_score": 1.0035498142242432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_07.txt",
+     "scoring_score": 0.9528824090957642,
+     "e2e_raw_score": 0.9528824090957642,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_08.txt",
+     "scoring_score": 1.0211658477783203,
+     "e2e_raw_score": 1.0211658477783203,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len256_09.txt",
+     "scoring_score": 1.0479944944381714,
+     "e2e_raw_score": 1.0479944944381714,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_00.txt",
+     "scoring_score": 1.0354337692260742,
+     "e2e_raw_score": 1.0354337692260742,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_01.txt",
+     "scoring_score": 1.0037987232208252,
+     "e2e_raw_score": 1.0037987232208252,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_02.txt",
+     "scoring_score": 1.0540704727172852,
+     "e2e_raw_score": 1.0540704727172852,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_03.txt",
+     "scoring_score": 1.038849949836731,
+     "e2e_raw_score": 1.038849949836731,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_04.txt",
+     "scoring_score": 1.015360951423645,
+     "e2e_raw_score": 1.015360951423645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_05.txt",
+     "scoring_score": 1.0188623666763306,
+     "e2e_raw_score": 1.0188623666763306,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_06.txt",
+     "scoring_score": 1.0035498142242432,
+     "e2e_raw_score": 1.0035498142242432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_07.txt",
+     "scoring_score": 0.9528824090957642,
+     "e2e_raw_score": 0.9528824090957642,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_08.txt",
+     "scoring_score": 1.0211658477783203,
+     "e2e_raw_score": 1.0211658477783203,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len256_09.txt",
+     "scoring_score": 1.0479944944381714,
+     "e2e_raw_score": 1.0479944944381714,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_00.txt",
+     "scoring_score": 1.0354337692260742,
+     "e2e_raw_score": 1.0354337692260742,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_01.txt",
+     "scoring_score": 1.0037987232208252,
+     "e2e_raw_score": 1.0037987232208252,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_02.txt",
+     "scoring_score": 1.0540704727172852,
+     "e2e_raw_score": 1.0540704727172852,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_03.txt",
+     "scoring_score": 1.038849949836731,
+     "e2e_raw_score": 1.038849949836731,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_04.txt",
+     "scoring_score": 1.015360951423645,
+     "e2e_raw_score": 1.015360951423645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_05.txt",
+     "scoring_score": 1.0188623666763306,
+     "e2e_raw_score": 1.0188623666763306,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_06.txt",
+     "scoring_score": 1.0035498142242432,
+     "e2e_raw_score": 1.0035498142242432,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_07.txt",
+     "scoring_score": 0.9528824090957642,
+     "e2e_raw_score": 0.9528824090957642,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_08.txt",
+     "scoring_score": 1.0211658477783203,
+     "e2e_raw_score": 1.0211658477783203,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len256_09.txt",
+     "scoring_score": 1.0479944944381714,
+     "e2e_raw_score": 1.0479944944381714,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    }
+   ]
+  },
+  {
+   "length": 512,
+   "gpu_before": {
+    "time": "2026-10-30T10:35:33.607-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "58, 2010 MHz, 8000 MHz, 71.82 W, P0, 5739 MiB"
+   },
+   "started": "2026-10-30T10:35:33.607-04:00",
+   "memory_allocated_before_scoring": 3987259392,
+   "memory_reserved_before_scoring": 5899288576,
+   "finished": "2026-10-30T10:35:47.816-04:00",
+   "peak_memory_allocated": 5854253568,
+   "peak_memory_reserved": 7774142464,
+   "gpu_after": {
+    "time": "2026-10-30T10:35:47.845-04:00",
+    "exit": 0,
+    "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+    "value": "67, 2190 MHz, 8000 MHz, 79.75 W, P0, 7527 MiB"
+   },
+   "summary_seconds": {
+    "tokenization": {
+     "n": 30,
+     "min": 0.0008846999990055338,
+     "median": 0.0009332499976153485,
+     "mean": 0.0009432899988799666,
+     "p90": 0.0010221999982604757,
+     "max": 0.001112400001147762
+    },
+    "scoring": {
+     "n": 30,
+     "min": 0.2031342999980552,
+     "median": 0.21490170000470243,
+     "mean": 0.21669530000071974,
+     "p90": 0.22642540000379086,
+     "max": 0.2321335999877192
+    },
+    "end_to_end": {
+     "n": 30,
+     "min": 0.20500329999777023,
+     "median": 0.21848964999662712,
+     "mean": 0.21738848666573177,
+     "p90": 0.2254696000018157,
+     "max": 0.23202379999565892
+    }
+   },
+   "raw_seconds": {
+    "tokenization": [
+     0.0009415999957127497,
+     0.0009106999932555482,
+     0.0009137000015471131,
+     0.0009213000012096018,
+     0.000953099995967932,
+     0.0009324999991804361,
+     0.0010221999982604757,
+     0.0009021000005304813,
+     0.0009177000029012561,
+     0.0009356999944429845,
+     0.0009264999971492216,
+     0.0009076999995158985,
+     0.0010366000060457736,
+     0.000933999996050261,
+     0.0008876999927451834,
+     0.0009174000006169081,
+     0.0009131999977398664,
+     0.0009432999941054732,
+     0.0008846999990055338,
+     0.001112400001147762,
+     0.0008959999977378175,
+     0.001047199999447912,
+     0.00094449998869095,
+     0.0009808000031625852,
+     0.0009585999941918999,
+     0.0009158000029856339,
+     0.000912799994694069,
+     0.0009387000027345493,
+     0.0009350000036647543,
+     0.0009552000119583681
+    ],
+    "scoring": [
+     0.21935459999076556,
+     0.2234753999946406,
+     0.2036004999972647,
+     0.21569949999684468,
+     0.22458629999891855,
+     0.21192560000054073,
+     0.20778409999911673,
+     0.21309399999154266,
+     0.21437350001360755,
+     0.22642540000379086,
+     0.2031342999980552,
+     0.22158480000507552,
+     0.2136127999983728,
+     0.22270660000503995,
+     0.221099200003664,
+     0.21842580000520684,
+     0.2154298999957973,
+     0.2053108000109205,
+     0.2142557999904966,
+     0.21364560000074562,
+     0.21150440000928938,
+     0.21857290000480134,
+     0.2136434999993071,
+     0.21929130000353325,
+     0.2101571000093827,
+     0.2134481999964919,
+     0.21243660000618547,
+     0.2321335999877192,
+     0.23044440000376198,
+     0.22970250000071246
+    ],
+    "end_to_end": [
+     0.21352799999294803,
+     0.2184197999886237,
+     0.23202379999565892,
+     0.21927419998974074,
+     0.227090300002601,
+     0.20589720000862144,
+     0.21292259999609087,
+     0.21421679999912158,
+     0.2192489999870304,
+     0.21895219999714755,
+     0.2052079999994021,
+     0.20944960000633728,
+     0.21857539999473374,
+     0.2172366000013426,
+     0.21838730000308715,
+     0.22944000001007225,
+     0.22268360000452958,
+     0.2254696000018157,
+     0.21855950000463054,
+     0.22444910000194795,
+     0.2231573000026401,
+     0.21827769999799784,
+     0.20554850000189617,
+     0.218876500002807,
+     0.22188839998852927,
+     0.21778920000360813,
+     0.20985050000308547,
+     0.20691069999884348,
+     0.20500329999777023,
+     0.22331989998929203
+    ]
+   },
+   "score_consistency": {
+    "texts": 10,
+    "texts_with_one_distinct_score": 10
+   },
+   "calls": [
+    {
+     "pass": 1,
+     "file": "len512_00.txt",
+     "scoring_score": 1.0038838386535645,
+     "e2e_raw_score": 1.0038838386535645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_01.txt",
+     "scoring_score": 1.0104464292526245,
+     "e2e_raw_score": 1.0104464292526245,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_02.txt",
+     "scoring_score": 0.9967485070228577,
+     "e2e_raw_score": 0.9967485070228577,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_03.txt",
+     "scoring_score": 1.0055100917816162,
+     "e2e_raw_score": 1.0055100917816162,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_04.txt",
+     "scoring_score": 0.9991292953491211,
+     "e2e_raw_score": 0.9991292953491211,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_05.txt",
+     "scoring_score": 1.0085586309432983,
+     "e2e_raw_score": 1.0085586309432983,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_06.txt",
+     "scoring_score": 1.0531498193740845,
+     "e2e_raw_score": 1.0531498193740845,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_07.txt",
+     "scoring_score": 0.9796457886695862,
+     "e2e_raw_score": 0.9796457886695862,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_08.txt",
+     "scoring_score": 1.012911081314087,
+     "e2e_raw_score": 1.012911081314087,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 1,
+     "file": "len512_09.txt",
+     "scoring_score": 1.0013078451156616,
+     "e2e_raw_score": 1.0013078451156616,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_00.txt",
+     "scoring_score": 1.0038838386535645,
+     "e2e_raw_score": 1.0038838386535645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_01.txt",
+     "scoring_score": 1.0104464292526245,
+     "e2e_raw_score": 1.0104464292526245,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_02.txt",
+     "scoring_score": 0.9967485070228577,
+     "e2e_raw_score": 0.9967485070228577,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_03.txt",
+     "scoring_score": 1.0055100917816162,
+     "e2e_raw_score": 1.0055100917816162,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_04.txt",
+     "scoring_score": 0.9991292953491211,
+     "e2e_raw_score": 0.9991292953491211,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_05.txt",
+     "scoring_score": 1.0085586309432983,
+     "e2e_raw_score": 1.0085586309432983,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_06.txt",
+     "scoring_score": 1.0531498193740845,
+     "e2e_raw_score": 1.0531498193740845,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_07.txt",
+     "scoring_score": 0.9796457886695862,
+     "e2e_raw_score": 0.9796457886695862,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_08.txt",
+     "scoring_score": 1.012911081314087,
+     "e2e_raw_score": 1.012911081314087,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 2,
+     "file": "len512_09.txt",
+     "scoring_score": 1.0013078451156616,
+     "e2e_raw_score": 1.0013078451156616,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_00.txt",
+     "scoring_score": 1.0038838386535645,
+     "e2e_raw_score": 1.0038838386535645,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_01.txt",
+     "scoring_score": 1.0104464292526245,
+     "e2e_raw_score": 1.0104464292526245,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_02.txt",
+     "scoring_score": 0.9967485070228577,
+     "e2e_raw_score": 0.9967485070228577,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_03.txt",
+     "scoring_score": 1.0055100917816162,
+     "e2e_raw_score": 1.0055100917816162,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_04.txt",
+     "scoring_score": 0.9991292953491211,
+     "e2e_raw_score": 0.9991292953491211,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_05.txt",
+     "scoring_score": 1.0085586309432983,
+     "e2e_raw_score": 1.0085586309432983,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_06.txt",
+     "scoring_score": 1.0531498193740845,
+     "e2e_raw_score": 1.0531498193740845,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_07.txt",
+     "scoring_score": 0.9796457886695862,
+     "e2e_raw_score": 0.9796457886695862,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_08.txt",
+     "scoring_score": 1.012911081314087,
+     "e2e_raw_score": 1.012911081314087,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    },
+    {
+     "pass": 3,
+     "file": "len512_09.txt",
+     "scoring_score": 1.0013078451156616,
+     "e2e_raw_score": 1.0013078451156616,
+     "e2e_result": "inconclusive",
+     "e2e_reasons": [
+      "no calibration for this configuration"
+     ]
+    }
+   ]
+  }
+ ],
+ "errors": [],
+ "gpu_at_end": {
+  "time": "2026-10-30T10:35:47.906-04:00",
+  "exit": 0,
+  "query": "temperature.gpu,clocks.sm,clocks.mem,power.draw,pstate,memory.used",
+  "value": "67, 2190 MHz, 8000 MHz, 75.50 W, P0, 7527 MiB"
+ }
+}

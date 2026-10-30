@@ -1,0 +1,18 @@
+command: .venv/Scripts/python.exe scripts/benchmark_r1b2.py
+cwd: C:/Users/Ryano/Projects/litmus
+start: 2026-10-30T10:34:52-04:00
+[load process 1] exit=0 load_seconds=4.005858299991814
+[load process 2] exit=0 load_seconds=3.6903162999951746
+[load process 3] exit=0 load_seconds=3.711606299999403
+[length 64] 10 texts
+  tokenization: median=0.0002s p90=0.0003s  scoring: median=0.0488s p90=0.0571s  end_to_end: median=0.0498s p90=0.0581s
+[length 128] 10 texts
+  tokenization: median=0.0003s p90=0.0004s  scoring: median=0.0559s p90=0.0603s  end_to_end: median=0.0567s p90=0.0608s
+[length 256] 10 texts
+  tokenization: median=0.0005s p90=0.0006s  scoring: median=0.1016s p90=0.1118s  end_to_end: median=0.1032s p90=0.1150s
+[length 512] 10 texts
+  tokenization: median=0.0009s p90=0.0010s  scoring: median=0.2149s p90=0.2264s  end_to_end: median=0.2185s p90=0.2255s
+errors: 0
+wrote C:\Users\Ryano\Projects\litmus\eval\results\r1b2_benchmark.json
+end: 2026-10-30T10:35:48-04:00
+exit: 0
