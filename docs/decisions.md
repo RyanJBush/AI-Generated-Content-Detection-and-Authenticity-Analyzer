@@ -681,3 +681,74 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 - **D3 preferences (recorded, not implemented):** a minimal unsigned-metadata summary; `--c2pa` off by default.
 - **Certificate fallback: pending.** If local generation fails, the exact failure is reported and that branch stops. No third-party files are added.
 - **Backend routing:** still UNVERIFIED. The instruction's backend line is the unfilled placeholder `[PASTE THE /status PROVIDER AND MODEL LINES HERE]`.
+
+## 2026-10-30 — Checkpoint R1-D1 (C2PA feasibility; analysis still disabled)
+
+Production C2PA analysis stays **disabled**. The CLI image report is unchanged: golden bytes, `image_origin_placeholder`, reason `c2pa_analyzer_disabled_in_r0`. There is no mapping, no rule engine and no CLI flag (D2/D3 not approved).
+
+### Production trust list and settings builder
+
+- **Trust list:** `src/litmus/c2pa/trust/production_trust_anchors.pem` is packaged (`pyproject.toml` package-data; `-text`) and loaded via `importlib.resources`.
+  - Header: name, version 1, date 2026-10-30, license "OPEN — pending Ryan's decision", policy, format.
+  - Zero certificates. This is Litmus's policy (§p Correction 4); it is not a claim about the SDK.
+- **Settings builder:** `src/litmus/c2pa/settings.py`.
+  - `production_config()` returns the A1.2 keys plus `verify.verify_trust = true`. It refuses a non-empty production list.
+  - `test_anchor_config(pems)` is the only path that adds `trust.trust_anchors`.
+  - Configs are applied with `c2pa.Settings.from_dict` (`c2pa/c2pa.py`: `from_dict` → `from_json` → `update` → native `c2pa_settings_update_from_string`) and `c2pa.Context(settings=...)`.
+  - The builder's contents are **not evidence of effect** (unknown keys are silently accepted, R0).
+- **SDK observation: `Settings.set` vs `from_dict` for trust.** Same `trusted_signer` fixture, same test root PEM:
+  - `Settings.set("trust.trust_anchors", <json string>)` and `Settings.set("trust.user_anchors", ...)` left `signingCredential.untrusted` / `Valid`.
+  - `Settings.from_dict({"trust": {"trust_anchors": pem}})` gave `signingCredential.trusted` ("signing certificate trusted, found in [system_anchors] trust anchors") / `Trusted`.
+  - `from_dict` with `user_anchors` gave "found in [user_anchors] trust anchors".
+  - Test: `test_settings_set_trust_anchors_had_no_observed_effect`. The cause was not investigated. The builder uses `from_dict` for every key, so the offline evidence below was re-established through that route.
+
+### Certificates and fixtures
+
+- **Certificate generation: succeeded.** The library accepted locally generated certificates both for signing and for validation; nothing was rejected.
+  - Generated with `cryptography`: ECDSA P-256, ES256.
+  - Test root → intermediate → signer, plus a separate untrusted root → signer.
+  - Validity 2026-01-01 to 2046-01-01 (stated in `tests/fixtures/c2pa/pki/README.txt` and `manifest.json`).
+  - End-entity profile: BasicConstraints CA=false (critical), KeyUsage digitalSignature (critical), EKU emailProtection, SKI, AKI.
+  - No TSA (`ta_url=None`). No third-party files.
+- **Fixtures:** produced by `scripts/generate_c2pa_fixtures.py` into `tests/fixtures/c2pa/`, with SHA-256 values and generator parameters in `manifest.json`.
+  - The remote-reference fixture points at `http://127.0.0.1:47811/manifest.c2pa`.
+  - Signing used the offline settings plus `builder.thumbnail.enabled = false`. That setting's effect was observed as smaller outputs (for example, `trusted_signer.webp` went from 610,198 to 4,158 bytes).
+
+### Captured library output (`eval/results/r1d1_library_outputs/`)
+
+`scripts/capture_c2pa_outputs.py` captured 24 reads: 12 fixtures × 2 configurations. Log: `eval/results/logs/r1d1_capture.log`. Observations:
+
+- **No manifest** (JPEG, PNG, WebP): `_C2paManifestNotFound`, "ManifestNotFound: no JUMBF data found".
+- **Remote reference:** a generic `C2paError` (not the `RemoteManifest` subclass), message "Remote: must fetch remote manifests from url http://127.0.0.1:47811/manifest.c2pa". Plan §e: D2 needs an approved detection rule.
+- **Valid signed fixtures, production config:** state `Valid`.
+  - success: `assertion.dataHash.match`, `assertion.hashedURI.match`, `claimSignature.insideValidity`, `claimSignature.validated`;
+  - informational: `signingCredential.ocsp.skipped`;
+  - failure: `signingCredential.untrusted`.
+- **Same fixtures with the test anchor:** state `Trusted`; `signingCredential.trusted` appears in success, and nothing is in failure. This holds for the trusted, active-AI and ingredient fixtures in every format.
+- **Tampered:** state `Invalid`; failure includes `assertion.dataHash.mismatch`, and the signature codes remain in success.
+- **Ingredient-only:** two manifests (active plus the ingredient's).
+  - The ingredient's `relationship` is `componentOf` and its title is `active_ai_declared.jpg`.
+  - The ingredient's own manifest shows `trainedAlgorithmicMedia`.
+  - `ingredientDeltas[0]` (keyed by the ingredient assertion URI) lists `ingredient.manifest.validated`, plus `signingCredential.trusted` with the test anchor.
+- **No `timeStamp.*` codes in any output** (no TSA). Correction 2 states therefore have no real fixture yet.
+
+### Offline evidence (Addendum B4)
+
+- **Zero attempted connections observed (with passing control)**, for `remote_reference.jpg` with the settings applied by `production_config()` / `from_dict`:
+  - Trap: **0** connections.
+  - Positive control (`verify.remote_manifest_fetch = true`, `core.allowed_network_hosts = ["127.0.0.1:47811"]`): **1** connection, `GET /manifest.c2pa`.
+  - Tests: `test_remote_reference_zero_connections_with_production_settings`, `test_remote_reference_positive_control_reaches_trap`.
+  - Valid for this fixture and configuration only.
+- **Passes under network isolation:** not run. Docker isolation was not run and nothing was pulled.
+
+### Test-anchor effect (SDK observations, not policy claims)
+
+- `trusted_signer.jpg`:
+  - with the test anchor: `signingCredential.trusted`, `Trusted`;
+  - production settings: `signingCredential.untrusted`, `Valid`.
+- `untrusted_signer.jpg` with the test anchor: `signingCredential.untrusted`, `Valid`.
+- Nothing is concluded about built-in SDK anchors beyond these observations.
+
+### Non-ASCII audit exception (pre-existing)
+
+- `tests/conftest.py:11` has a U+00A7 (`§`) in the comment `# SPEC §7: ...`, from `18c7cbc` (R0). It is a comment, not a string literal, and is unchanged. It is listed because `conftest.py` changed in R1-D1 (trap port parameter).
