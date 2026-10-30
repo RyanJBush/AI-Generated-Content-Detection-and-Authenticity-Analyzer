@@ -612,3 +612,39 @@ Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyp
 - **2026-10-30: R1-C1 closed.** Independent review (Codex) of `1891140`: 387 default tests passed; Ruff passed; a fresh installed-wheel check outside the repository passed resource, hash, loader, matcher, and model-stack isolation checks; repository clean. Ryan approved starting R1-C2.
 - These results were reported by the reviewer and by Ryan. They are recorded as reported and were not run by the agent for this entry.
 - `1891140` was checked with `git cat-file -t` and returned `commit`.
+## 2026-10-30 — Checkpoint R1-C2 (text quality observers, `--quality`)
+
+- **Observers:** `src/litmus/quality/observers.py` (`observer_version = "1"`): `stock_phrases`, `hedges`, `repeated_word_3grams`, `claim_phrases_to_inspect`, in that report order. Fields, notes format, the 1,000-span cap and error behavior are in `docs/interfaces.md` ("Text quality observations (R1-C2)").
+- **Integration:** `litmus analyze FILE --quality {off,on}`, default `off`. Off constructs and runs nothing; the default-suite tests check that output is byte-identical to the committed golden files. With `on`, origin is computed first, text segments get four observations, image segments keep `quality: []`, and six quality limitations are appended to the report.
+- **Scoring hash unaffected:** `report.py`, `cli.py` and `litmus/quality/*` are not in the `scoring_config_hash` source list.
+
+### Implementation choices
+
+- **Claim note:** the plan's two claim notes are one note, `label=phrase to inspect; not evidence that a claim is unsupported`, as worded in the C2 prompt.
+- **Errors:** an exception yields `error=<exception class name>` (class name only, no message text). An invalid packaged lexicon yields `lexicon_invalid=<reason>`.
+- **Construction before analysis:** with `--quality on`, the CLI constructs the observers (lexicon load and compile) before analysis starts.
+- **Limitations on non-text input:** with `on`, the quality limitations are appended to every report, including reports with only image segments.
+
+### Installed-wheel check (agent run)
+
+- Run in `C:\Users\Ryano\AppData\Local\Temp\litmus-c2-7aae6b9c-203e-4968-99c3-235f1b1c8587` (left in place).
+- `scripts/verify_wheel_lexicons.py` gained check (f): construct and run all four observers from the installed package on a fixed sample. Expected counts: 2 / 3 / 8 / 2.
+- Result: PASS, 0 failures.
+
+### Quality benchmark (agent run)
+
+`scripts/benchmark_quality.py` writes `eval/results/r1c2_quality_benchmark.json`; the console log is `eval/results/logs/r1c2_quality_benchmark.log`.
+
+- **Machine:** Intel Core i7-14650HX, 16,869,634,048 bytes RAM, Windows 11 (10.0.26100), Python 3.13.7. On battery (56%), Balanced power plan.
+- **Method:** 1 warmup and 5 timed runs per input. Median total (word index plus four observers) at 200,000 code points:
+  - typical prose: 0.2106 s;
+  - adversarial high-match: 0.1978 s.
+- **Flags:** none against the 5 s target.
+- **Caveat:** the typical-prose input repeats one paragraph, so nearly every word 3-gram repeats. Its `repeated_word_3grams` count is not representative of real prose.
+- **Not measured:** timing on AC power.
+
+### Not in C2
+
+- No RAID data, calibration, C2PA, UI or origin-scoring changes.
+- No optimization.
+- Lexicon licensing remains OPEN — pending Ryan's decision.

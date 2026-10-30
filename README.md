@@ -17,6 +17,15 @@ Litmus reports **evidence**, not verdicts.
 - **Local and offline.** Analysis runs on your machine with outbound connections blocked; models load only from local files; remote Content Credentials are not fetched. Analyzed content is never sent over the network.
 - **Not for punitive decisions.** Detection methods have known false-positive and evasion problems. Do not use Litmus as the sole basis for academic, employment, legal, or moderation decisions.
 
+## Text quality observations: limitations
+
+Opt-in with `litmus analyze FILE --quality on` (default `off`).
+
+- **No AI-origin claim.** Quality observations count surface patterns (stock phrases, hedges, repeated word 3-grams, claim phrases to inspect). They do not establish AI origin and never affect origin results.
+- **English-oriented, provisional lexicons (v1).** The lexicons were drafted with AI assistance and reviewed by Ryan; their entries and counts are not evaluated against any corpus.
+- **Word counts assume space-separated scripts.** Text without spaces (for example CJK) counts each run as one word, so rates are not comparable across scripts.
+- **Lexicon licensing: OPEN — pending Ryan's decision.**
+
 ## Planned releases (PROPOSED)
 
 | Release | Scope | Effort (estimate) |

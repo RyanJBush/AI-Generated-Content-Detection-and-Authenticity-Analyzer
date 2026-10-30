@@ -134,3 +134,66 @@ Threshold application is not implemented (R1-F); a matching file would yield
 `n_target_tokens`, `tokenizer_vocab_size`, `model_output_dim`,
 `scoring_config_hash`, `scoring_config` (the hashed fields, which include the
 execution profile), `execution_profile_complete`, `execution_profile_failures`.
+
+## Text quality observations (R1-C2)
+
+Opt-in, model-free observations of what a text segment contains. **Quality
+observations do not establish AI origin and never affect origin results.**
+
+### `--quality {off,on}`
+
+- `off` (the default): no observer is constructed or run. The report is
+  byte-identical to the report without quality support: every segment has
+  `"quality": []` and `limitations` is unchanged (checked against the golden
+  files; `--quality off` output equals the output with the flag omitted).
+- `on`: the four observers are constructed (lexicons loaded and validated)
+  before analysis starts. Origin evidence is computed first; then each **text**
+  segment gets four observations, in the order below, from its decoded text
+  alone. Image segments keep `"quality": []`. The report's `limitations` gains
+  the quality limitations (`report.QUALITY_REPORT_LIMITATIONS`), including
+  "quality observations do not establish AI origin and never affect origin
+  results", "quality lexicons are English-oriented and provisional (v1)" and
+  "quality word counts assume space-separated scripts; ...".
+
+### Observer IDs (`observer_version = "1"`)
+
+| `observer_id` | What is counted |
+|---|---|
+| `stock_phrases` | matches of the packaged `stock_phrases` lexicon |
+| `hedges` | matches of the packaged `hedges` lexicon |
+| `repeated_word_3grams` | every occurrence of a word 3-gram whose casefolded key occurs at least twice (consecutive words of the word index; crosses punctuation and line breaks; no stop-word filtering) |
+| `claim_phrases_to_inspect` | matches of the packaged `claim_phrases_to_inspect` lexicon |
+
+Lexicon matching is case-insensitive on the original text, leftmost-longest
+and non-overlapping, with word-boundary lookarounds (R1-C1 entry compiler).
+
+### Record fields
+
+- `count`: exact number of matches (never capped).
+- `status`: `observed` if `count > 0`, else `none_found`; `error` on failure.
+- `rate_per_100_words`: `count / words * 100`, where `words` is the word-index
+  count of the segment text; `null` when the text has zero words.
+- `spans`: `[start, end)` code-point offsets into the decoded segment text, in
+  order; at most **1,000** (the span cap) are listed.
+
+### `notes` format
+
+Fixed `key=value` strings, in this order:
+
+1. `observer_version=1`
+2. lexicon observers only: `lexicon_name=<name>`, `lexicon_version=<n>`,
+   `lexicon_sha256=<sha256 of the packaged file bytes>`
+3. `spans_truncated=true|false` (true when `count` exceeds 1,000), then
+   `spans_reported=<number of spans listed>`
+4. `claim_phrases_to_inspect` only:
+   `label=phrase to inspect; not evidence that a claim is unsupported`
+
+### Error behavior
+
+Each observer runs in its own `try/except`. An exception yields that
+observer's record with `status = "error"`, `count = null`,
+`rate_per_100_words = null`, `spans = []` and notes
+`["observer_version=1", "error=<exception class name>"]`; the other observers'
+records and the origin evidence are unchanged, and the CLI still exits 0. A
+packaged lexicon that fails validation gives the same error record with the
+note `lexicon_invalid=<reason>` instead of `error=...`.

@@ -1,0 +1,15 @@
+[typical_prose 10000] words=1719 counts={'stock_phrases': 14, 'hedges': 14, 'repeated_word_3grams': 1717, 'claim_phrases_to_inspect': 14}
+  word_index: median=0.0023s max=0.0036s  stock_phrases: median=0.0019s max=0.0052s  hedges: median=0.0020s max=0.0043s  repeated_word_3grams: median=0.0028s max=0.0046s  claim_phrases_to_inspect: median=0.0019s max=0.0032s  total: median=0.0107s max=0.0209s
+[typical_prose 50000] words=8594 counts={'stock_phrases': 71, 'hedges': 71, 'repeated_word_3grams': 8591, 'claim_phrases_to_inspect': 71}
+  word_index: median=0.0106s max=0.0109s  stock_phrases: median=0.0090s max=0.0116s  hedges: median=0.0097s max=0.0105s  repeated_word_3grams: median=0.0118s max=0.0135s  claim_phrases_to_inspect: median=0.0086s max=0.0092s  total: median=0.0497s max=0.0553s
+[typical_prose 200000] words=34376 counts={'stock_phrases': 284, 'hedges': 284, 'repeated_word_3grams': 34374, 'claim_phrases_to_inspect': 284}
+  word_index: median=0.0445s max=0.0643s  stock_phrases: median=0.0368s max=0.0407s  hedges: median=0.0398s max=0.0451s  repeated_word_3grams: median=0.0494s max=0.0598s  claim_phrases_to_inspect: median=0.0340s max=0.0353s  total: median=0.2106s max=0.2315s
+[adversarial_high_match 10000] words=1668 counts={'stock_phrases': 263, 'hedges': 351, 'repeated_word_3grams': 1665, 'claim_phrases_to_inspect': 175}
+  word_index: median=0.0021s max=0.0021s  stock_phrases: median=0.0014s max=0.0014s  hedges: median=0.0019s max=0.0019s  repeated_word_3grams: median=0.0020s max=0.0033s  claim_phrases_to_inspect: median=0.0016s max=0.0016s  total: median=0.0090s max=0.0103s
+[adversarial_high_match 50000] words=8335 counts={'stock_phrases': 1315, 'hedges': 1755, 'repeated_word_3grams': 8333, 'claim_phrases_to_inspect': 877}
+  word_index: median=0.0109s max=0.0269s  stock_phrases: median=0.0072s max=0.0144s  hedges: median=0.0098s max=0.0157s  repeated_word_3grams: median=0.0102s max=0.0187s  claim_phrases_to_inspect: median=0.0080s max=0.0083s  total: median=0.0461s max=0.0715s
+[adversarial_high_match 200000] words=33334 counts={'stock_phrases': 5263, 'hedges': 7017, 'repeated_word_3grams': 33332, 'claim_phrases_to_inspect': 3508}
+  word_index: median=0.0450s max=0.0511s  stock_phrases: median=0.0294s max=0.0349s  hedges: median=0.0408s max=0.0461s  repeated_word_3grams: median=0.0455s max=0.0503s  claim_phrases_to_inspect: median=0.0322s max=0.0330s  total: median=0.1978s max=0.2030s
+construction: 0.0660s
+flagged: []
+wrote C:\Users\Ryano\Projects\litmus\eval\results\r1c2_quality_benchmark.json
