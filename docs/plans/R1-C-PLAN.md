@@ -1,11 +1,11 @@
 # R1-C plan — Text quality observers
 
-**Status: PROPOSED — not approved.** Plan only; no observer code exists.
+**Status: APPROVED 2026-10-30 (at 2b52db7), with adjustments recorded in docs/decisions.md.** See "2026-10-30 — R1-C plan approval" there; the adjustments are also summarized in §j below.
 
 - **Drafted** 2026-10-30 on top of `6b94138`. **Revision 2**, 2026-10-30, on top of `22aa1db`, following Ryan's revision instruction.
 - **Governing documents:** R1-PLAN-CORRECTIONS-A.md > R1-PLAN.md > SPEC-v0.3-ADDENDUM-B.md > SPEC-v0.3-ADDENDUM-A.md > SPEC.md.
 - **Status labels:**
-  - **RECOMMENDED — pending Ryan's approval:** a proposal that is in this plan's design but not yet approved. All are listed in §h.1.
+  - **APPROVED 2026-10-30:** formerly "APPROVED 2026-10-30". All are listed in §h.1.
   - **OPEN:** still undecided (§h.2).
 
 Python facts cited below were checked on the project interpreter (CPython 3.13.7, stdlib `re`) on 2026-10-30. Anything not checked is labeled.
@@ -33,7 +33,7 @@ No `result`, score, threshold, or calibration (SPEC §4.3).
 - It receives the decoded segment text, a precomputed word index (§c) and nothing else. It has no access to the `Segment`, the report or any `OriginEvidence`.
 - The report builder computes origin evidence first, then runs observers, then appends to `segment.quality`.
 
-**Image segments (RECOMMENDED — pending Ryan's approval).** Image segments keep `quality: []`. No `not_supported` records are emitted in R1 (SPEC §4.1: quality is text only in R1).
+**Image segments (APPROVED 2026-10-30).** Image segments keep `quality: []`. No `not_supported` records are emitted in R1 (SPEC §4.1: quality is text only in R1).
 
 **Import isolation.** The quality-observer modules (`litmus.quality.*`) and the lexicon loader must not import `torch`, `transformers` or the scorer stack (`litmus.scorer.*`). Test: a fresh `python -I` subprocess, used in tests only:
 1. Imports `litmus.quality`.
@@ -56,7 +56,7 @@ Fixtures: text with matches in every observer; whitespace-only text; an image fi
 
 ## b) Observers (SPEC §8.3)
 
-**Ship all four observers with the small lexicons in §d (RECOMMENDED — pending Ryan's approval).**
+**Ship all four observers with the small lexicons in §d (APPROVED 2026-10-30).**
 
 | Observer | Definition | `count` |
 |---|---|---|
@@ -68,8 +68,8 @@ Fixtures: text with matches in every observer; whitespace-only text; an image fi
 **Repeated 3-grams: span rules.**
 - Every occurrence of a repeated 3-gram is one span: from the start of its first word to the end of its third word. The 1,000-span cap (§c) applies.
 - Occurrences may overlap within this observer (e.g. `"x x x x"` has `(x,x,x)` at word positions 0 and 1), because every occurrence is reported. The lexicon overlap policy (§c) does not apply here.
-- **Crossing boundaries (RECOMMENDED — pending Ryan's approval):** word 3-grams are sequences of words under the word regex and may cross punctuation and line breaks. There is no sentence segmentation.
-- **Stop words (RECOMMENDED — pending Ryan's approval):** no stop-word filtering, so `"one of the"` counts.
+- **Crossing boundaries (APPROVED 2026-10-30):** word 3-grams are sequences of words under the word regex and may cross punctuation and line breaks. There is no sentence segmentation.
+- **Stop words (APPROVED 2026-10-30):** no stop-word filtering, so `"one of the"` counts.
 
 **Claim phrases are not evidence.**
 - Every `claim_phrases_to_inspect` record carries the notes `label=phrase to inspect` and `note=not evidence that any claim is unsupported`.
@@ -105,14 +105,14 @@ WORD      = WORD_CHAR+ (?: JOINER WORD_CHAR+ )*
 - A space in an entry matches `\s+`. Python `\s` is Unicode whitespace; U+200B is not `\s` (checked).
 - An apostrophe in an entry matches `['’]`, and a hyphen matches `[-‐‑]`.
 - Other characters are matched literally (`re.escape`).
-- **Contractions (RECOMMENDED — pending Ryan's approval):** a contraction matches only if it is listed explicitly as an entry. There is no automatic expansion: `it is important to note` does not match `it's important to note` unless that form is also listed.
+- **Contractions (APPROVED 2026-10-30):** a contraction matches only if it is listed explicitly as an entry. There is no automatic expansion: `it is important to note` does not match `it's important to note` unless that form is also listed.
 - Boundaries, using fixed-width lookarounds only:
   ```
   (?<!WORD_CHAR)(?<!WORD_CHAR JOINER)  <entry>  (?!WORD_CHAR)(?!JOINER WORD_CHAR)
   ```
   A match therefore never starts or ends inside a `WORD`. `perhaps` does not match inside `perhaps-not` or `perhapsx`, but it does match in `perhaps, not` and `"perhaps"`. This is Litmus's word definition, not `\b`, which treats `_` as a word character and splits combining marks.
 
-**Overlap policy (RECOMMENDED — pending Ryan's approval).**
+**Overlap policy (APPROVED 2026-10-30).**
 - Leftmost-longest, non-overlapping, scanned left to right, within each lexicon observer.
 - Implementation: one alternation with entries ordered by (word count descending, character length descending, entry text ascending), run with `finditer`. Python alternation takes the first alternative that matches at the leftmost position, so the longest entry wins at each start.
 - Example: with entries `it is important to note` and `important`, the text `it is important to note` gives 1 match.
@@ -130,7 +130,7 @@ WORD      = WORD_CHAR+ (?: JOINER WORD_CHAR+ )*
 - For lexicon observers, `text[start:end]` equals the matched surface text exactly (`m.start()`, `m.end()` on the original string). For 3-grams, the slice is the original text from the first word's start to the third word's end.
 - Spans are sorted by (start, end) and contain no duplicates.
 
-**Span cap (RECOMMENDED — pending Ryan's approval).**
+**Span cap (APPROVED 2026-10-30).**
 - At most **1,000** spans per observer per segment: the first 1,000 in (start, end) order.
 - `count` stays exact.
 - Every record carries `spans_truncated=true|false` and `spans_reported=<n>` in `notes`.
@@ -158,7 +158,7 @@ WORD      = WORD_CHAR+ (?: JOINER WORD_CHAR+ )*
 ```
 # name: hedges
 # version: 1
-# author: drafted by the AI coding assistant for the Litmus project; pending Ryan's review
+# author: drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan
 # license: OPEN — pending Ryan's decision
 # date: 2026-10-30
 # source: written for Litmus; not derived from any published list
@@ -177,7 +177,7 @@ it seems
 - an entry is not one or more `WORD`s (§c) separated by single ASCII spaces;
 - an entry contains a control character, a Cf (zero-width or format) character, or `#`.
 
-**Notes format (RECOMMENDED — pending Ryan's approval).**
+**Notes format (APPROVED 2026-10-30).**
 - Lexicon SHA-256 and observer version are recorded in `notes` in a fixed order and format, with no schema change to SPEC §4.3:
   ```
   observer_version=1
@@ -193,7 +193,7 @@ it seems
 - R1-F's freeze record (SPEC §10.9) lists all lexicon hashes.
 - Observer code is **not** added to `scoring_config_hash`, because quality observations are not part of origin scoring.
 
-**Proposed lexicon contents v1 (small; drafted by the AI coding assistant for Ryan's review).**
+**Lexicon contents v1 (PROVISIONAL, approved 2026-10-30; drafted with AI assistance (Claude Code), reviewed by Ryan).**
 - These are common English expressions written for this plan, not copied, scraped or derived from any published or copyrighted list.
 - They describe surface patterns, not quality or origin.
 
@@ -220,7 +220,7 @@ it seems
 | shed light on | tends to | |
 | unlock the potential | to some extent | |
 
-- **Omit `may` (RECOMMENDED — pending Ryan's approval):** `may` is not in `hedges`, because the month "May" is case-insensitively identical.
+- **Omit `may` (APPROVED 2026-10-30):** `may` is not in `hedges`, because the month "May" is case-insensitively identical.
 - **Contractions:** per §c, only contraction forms that are listed match. `in today's` is listed as written.
 
 **Planned packaging verification (to run at implementation time, not now).** These commands use the existing venv's pip and setuptools, no build isolation and no new packages. The temporary environment is outside the repository, and every command after the build runs from a working directory outside the repository:
@@ -326,7 +326,7 @@ All tests below are in the default suite, model-free, run under the socket guard
 
 ## g) Report and UI integration
 
-**CLI report (RECOMMENDED — pending Ryan's approval: opt-in).**
+**CLI report (APPROVED 2026-10-30: opt-in).**
 - Quality observers are **off by default**. They are enabled with the flag **`--quality {off,on}`** (default `off`), which mirrors `--text-origin`.
 - With the default, reports are unchanged and the R0 golden files stay valid.
 - With `--quality on`:
@@ -342,7 +342,7 @@ All tests below are in the default suite, model-free, run under the socket guard
 
 ## h) Decisions
 
-### h.1 RECOMMENDED — pending Ryan's approval
+### h.1 APPROVED 2026-10-30 (formerly RECOMMENDED)
 
 1. Ship all four observers with the proposed small lexicons (§b, §d).
 2. Omit `may` from the `hedges` lexicon (§d).
@@ -355,14 +355,14 @@ All tests below are in the default suite, model-free, run under the socket guard
 9. Quality observers are opt-in through `--quality {off,on}`, default `off` (§g).
 10. Image segments keep `quality: []`, with no `not_supported` records in R1 (§a).
 
-### h.2 OPEN — for Ryan
+### h.2 Former open items: status after the 2026-10-30 approval
 
-1. **Final lexicon contents:** the three v1 lists in §d, to be reviewed entry by entry.
-2. **Licensing:** the lexicon `license` header value and the repository license. Both are `OPEN — pending Ryan's decision`, and none is chosen here.
-3. **Lexicon authorship line:** the final `author` wording once Ryan has reviewed the lexicons. The draft reads "drafted by the AI coding assistant for the Litmus project; pending Ryan's review".
-4. **Performance target:** whether 5 s per 200,000 code points (ESTIMATE) is the R1-C acceptance target, and what follows if the measured value exceeds it (accept and document, or optimize before acceptance).
-5. **Scripts without word spaces:** keep the documented limitation (a CJK or Thai run counts as one word, so rates are not meaningful), or report `rate_per_100_words = null` when a segment is predominantly in such scripts. Recommendation: keep the limitation in R1.
-6. **Default after R1-H:** whether `--quality` becomes `on` by default when the UI ships. That would require one deliberate golden-file regeneration.
+1. **Lexicon contents:** the v1 lists are approved as PROVISIONAL. Later changes bump the lexicon version.
+2. **Licensing: still OPEN.** The repository and lexicon licenses remain "OPEN — pending Ryan's decision". No license has been chosen or applied.
+3. **Authorship: decided.** The line reads "drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan".
+4. **Performance: decided.** 5 s per 200,000 code points is a benchmark target. If it is exceeded, the measurements and the cause are reported for review before R1-C closes.
+5. **Scripts without word spaces: decided.** The language and word-count limitations are kept, with no language-detection feature.
+6. **Default after R1-H: deferred to R1-H.**
 
 ## i) Effort (ESTIMATE) and checkpoints
 
@@ -403,3 +403,12 @@ All tests below are in the default suite, model-free, run under the socket guard
     - documentation is updated.
 
 **Out of scope for R1-C:** RAID data, calibration, C2PA, UI implementation (R1-H), and any change to origin scoring or `scoring_config_hash`.
+
+## j) Plan adjustments (approved 2026-10-30)
+
+1. **Import isolation in C1:** C1 checks cover only the C1 components (`import litmus`, `litmus.quality` and its loader, word index and entry compiler). Constructing and running all four observers under the import-isolation check is part of C2.
+2. **Installed-wheel verification:**
+   - Uses a unique temporary directory (`$env:TEMP\litmus-c1-<GUID>`) outside the repository.
+   - Runs a committed assertion script (`scripts/verify_wheel_lexicons.py`) with `python -I` from a working directory outside the repository.
+   - The script checks that the package location is inside the temporary venv, the exact lexicon resource names, the SHA-256 of each lexicon against the source values passed in, that the loader validates each lexicon, and that torch and transformers are absent while the C1 modules import.
+   - It exits nonzero on any failure. The temporary directory is left in place.

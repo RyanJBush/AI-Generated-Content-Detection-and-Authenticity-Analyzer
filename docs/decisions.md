@@ -542,3 +542,32 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
   acquisition. N_target approval is not acquisition approval.
 - **Backend routing:** still UNVERIFIED. The instruction's backend line is the
   unfilled placeholder.
+
+## 2026-10-30 — R1-C plan approval
+
+`2b52db7` was checked with `git cat-file -t` and returned `commit`.
+
+**2026-10-30: Ryan approved the R1-C plan at 2b52db7.** Recorded from Ryan's instruction message of 2026-10-30.
+
+- **The ten §h.1 recommendations are APPROVED:**
+  1. Ship all four observers with the small lexicons.
+  2. Omit `may` from `hedges`.
+  3. Contractions match only when listed.
+  4. Leftmost-longest, non-overlapping matching within each observer.
+  5. Lexicon SHA-256 and observer version in `notes` (fixed format, no schema change).
+  6. No stop-word filtering.
+  7. Word 3-grams may cross punctuation and line breaks.
+  8. Spans capped at 1,000 per observer, with an exact count and truncation reported in `notes`.
+  9. Opt-in via `--quality {off,on}`, default `off`.
+  10. Image segments keep `quality: []`.
+- **Lexicon entries:** the entries proposed in the plan are approved as **provisional v1**.
+- **Attribution:** the lexicons were drafted with AI assistance (Claude Code) for the Litmus project and reviewed by Ryan.
+- **Licensing:** the repository and lexicon licenses remain "OPEN — pending Ryan's decision". No license has been chosen or applied.
+- **Performance:** 5 s per 200,000 code points is a benchmark target. If it is exceeded, the measurements and the cause are reported for review before R1-C closes.
+- **Language:** the language and word-count limitations are kept. There is no language-detection feature.
+- **`--quality` default:** the default after R1-H is deferred to R1-H.
+- **Plan adjustments:**
+  1. C1 import-isolation checks cover only C1 components. Constructing and running all four observers is checked in C2.
+  2. Installed-wheel verification uses a unique temporary directory and an assertion script that exits nonzero on failure (plan §j).
+- **Plan status:** "APPROVED 2026-10-30 (at 2b52db7), with adjustments recorded in docs/decisions.md".
+- **Backend routing:** still UNVERIFIED. No `/status` output has been supplied.
