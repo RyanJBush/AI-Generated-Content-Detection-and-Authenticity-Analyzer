@@ -1,0 +1,26 @@
+# name: stock_phrases
+# version: 1
+# author: drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan
+# license: OPEN — pending Ryan's decision
+# date: 2026-10-30
+# source: written for Litmus; not derived from any published list
+a myriad of
+a testament to
+at the end of the day
+delve into
+ever-evolving
+first and foremost
+game changer
+in conclusion
+in the realm of
+in today's fast-paced world
+it goes without saying
+it is important to note
+last but not least
+navigate the complexities
+needless to say
+pave the way
+plays a crucial role
+rich tapestry
+shed light on
+unlock the potential

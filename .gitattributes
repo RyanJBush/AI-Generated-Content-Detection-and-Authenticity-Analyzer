@@ -5,3 +5,5 @@ R1-PLAN.md -text
 R1-PLAN-CORRECTIONS-A.md -text
 # Synthetic scorer input, hashed in reports
 eval/inputs/** -text
+# R1-C lexicons are hashed byte-for-byte: never convert line endings
+src/litmus/quality/lexicons/** -text

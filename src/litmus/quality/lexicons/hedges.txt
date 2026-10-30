@@ -1,0 +1,27 @@
+# name: hedges
+# version: 1
+# author: drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan
+# license: OPEN — pending Ryan's decision
+# date: 2026-10-30
+# source: written for Litmus; not derived from any published list
+# 'may' is deliberately omitted (the month "May" matches case-insensitively).
+appears to
+arguably
+could be
+generally
+in some cases
+it appears that
+it is possible that
+it seems
+kind of
+likely
+might
+perhaps
+possibly
+probably
+relatively
+seems to
+somewhat
+sort of
+tends to
+to some extent

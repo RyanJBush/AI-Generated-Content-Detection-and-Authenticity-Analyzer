@@ -571,3 +571,38 @@ All times are in milliseconds, n = 30 per cell. p90 is the nearest-rank p90.
   2. Installed-wheel verification uses a unique temporary directory and an assertion script that exits nonzero on failure (plan §j).
 - **Plan status:** "APPROVED 2026-10-30 (at 2b52db7), with adjustments recorded in docs/decisions.md".
 - **Backend routing:** still UNVERIFIED. No `/status` output has been supplied.
+
+## 2026-10-30 — Checkpoint R1-C1 (lexicons, loader, word index, entry compiler)
+
+`fc789b2` (R1-C plan approval record) was checked with `git cat-file -t` and returned `commit`.
+
+### Packaged lexicons (provisional v1)
+
+Lexicon files are under `src/litmus/quality/lexicons/`, are package data in `pyproject.toml`, and are marked `-text` in `.gitattributes`. The SHA-256 values are of the raw file bytes:
+
+| File | Version | Entries | SHA-256 |
+|---|---|---|---|
+| `claim_phrases_to_inspect.txt` | 1 | 14 | `6ef25f0591733bd04d317d29fbdf82bba1dd311dea6b2eb320c45cfd260ee705` |
+| `hedges.txt` | 1 | 20 | `d2625f88fa1b9ac4b784590fa3e16128791e35c71ee606f8cfd079123da09805` |
+| `stock_phrases.txt` | 1 | 20 | `781b44148b65ac55fa394cc87ab8947e36f13e3ed7d56d3ff8045251c974d637` |
+
+- **Header:** each file says `author: drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan` and `license: OPEN — pending Ryan's decision`.
+- **Hedges:** `hedges.txt` has a comment line recording that `may` is omitted.
+- **Tests:** a default-suite test checks that each committed lexicon's version, entry count and SHA-256 match this table.
+
+### Implementation choices
+
+- **Duplicates:** two entries are also duplicates if they differ only in apostrophe variants (`'` vs U+2019) or hyphen variants (`-`, U+2010, U+2011). Both would compile to the same pattern, so this is stricter than casefold alone.
+- **Strict file format:** the validator also rejects a BOM, carriage returns (LF only), non-UTF-8 bytes, and entries containing control or format characters or `#`.
+- **Resource names:** lexicon names are restricted to `[a-z][a-z0-9_]*` before any resource lookup.
+
+### Tooling note: escapes written as literal characters
+
+- While writing C1, the file-writing tool stored `\uXXXX` escapes as the literal characters, including invisible ones (U+200B, U+200D, combining marks, unassigned code points at the block edges).
+- All new C1 files were rewritten mechanically so that non-docstring string literals use escapes again. The parsed AST was identical before and after for every file.
+- An audit of all tracked `.py` files found one pre-existing literal U+200B: the `zero_width_space` fixture in `scripts/tokenizer_checks.py` (R1-A). It is intentional and behaves correctly. It was left unchanged because it is out of C1 scope.
+
+### Not in C1
+
+- Observers, report/CLI integration and `--quality` are C2.
+- No RAID data, calibration, C2PA work or origin-scoring changes.

@@ -1,0 +1,20 @@
+# name: claim_phrases_to_inspect
+# version: 1
+# author: drafted with AI assistance (Claude Code) for the Litmus project; reviewed by Ryan
+# license: OPEN — pending Ryan's decision
+# date: 2026-10-30
+# source: written for Litmus; not derived from any published list
+according to experts
+data shows
+evidence suggests
+experts agree
+experts say
+it has been proven
+it is well known that
+it is widely accepted
+research has shown
+research shows
+scientists say
+statistics show
+studies have shown
+studies show
