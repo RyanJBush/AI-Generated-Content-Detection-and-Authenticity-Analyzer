@@ -1,6 +1,6 @@
 # R1-D plan — C2PA image provenance
 
-**Status: D1 and D2 CLOSED; D3 APPROVED by Ryan on 2026-10-30; implementation submitted for independent review.** The approved scope is `R1-D3-BUILD-PROMPT.md`. Sections p–r supersede earlier planning statements; section r reconciles current implementation and evidence.
+**Status: D1, D2, D3 and R1-D CLOSED.** Ryan supplied independent Codex review of `d7ed91f` and instructed closure on 2026-10-30. The approved D3 scope is `R1-D3-BUILD-PROMPT.md`. Sections p–s supersede earlier planning statements; section s records reviewer-reported closure. R1-E has its own separate 2026-10-31 approval in `R1-E-PLAN.md`; D closure itself grants no later-checkpoint permission.
 
 Sections a–o retain original design discussion and feasibility questions for
 traceability. Remaining PROPOSED/UNVERIFIED wording there is historical; use
@@ -547,3 +547,16 @@ This section resolves the remaining earlier feasibility questions:
 Remaining open work includes production anchors, licensing and later checkpoints.
 Changing the default to on is not authorized. Real timestamp validation,
 network isolation and Linux SDK execution remain undemonstrated.
+
+## s) R1-D3 and R1-D closure (reviewer-reported, 2026-10-30)
+
+Ryan reported Codex's independent review of `d7ed91f`: 660 default tests, Ruff,
+pip check, whitespace and a fresh installed-wheel check passed. The reviewer
+recommended closing D3 and R1-D, and Ryan instructed recording closure.
+These results are recorded as reviewer-reported; they were not rerun by the
+builder for this closure entry. D1 and D2 were already closed.
+
+C2PA remains opt-in, default off. Empty production anchors, constructed-only
+timestamp coverage and the scoped nature of trap observations remain unchanged.
+No network-isolation, real TSA, calibration or image-detector claim is added.
+R1-E planning does not authorize RAID acquisition or pipeline implementation.

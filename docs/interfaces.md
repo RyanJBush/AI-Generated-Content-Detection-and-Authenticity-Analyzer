@@ -466,3 +466,159 @@ editable checkout masking a packaging omission. The check verifies resource
 hash/emptiness, absence of test anchors/keys, enabled JPEG/PNG/WebP analysis,
 default golden equality and no model imports. pip freeze --all before/after
 must match. Temporary artifacts are left for review and their location recorded.
+
+## R1-E data preparation (no scoring)
+
+**Execution status: STOP, not complete/accepted.** The cumulative acquisition
+payload cap is not proven because redirect bodies bypass the current counter.
+See the budget-verification finding under observed population below.
+
+Authority and constants: `docs/plans/R1-E-PLAN.md`, approved 2026-10-31.
+Seed 20261030, target 1,000 source groups; one pinned train.csv only. Scripts
+use the existing venv; neither the report CLI nor scorer behavior is changed.
+Local raw CSV, indexes and text blobs live under ignored `data/raid/`.
+
+### Acquisition
+
+`.venv/Scripts/python.exe scripts/acquire_raid.py --preflight-only` checks the
+revision-specific public API. Without that option it repeats preflight, then
+downloads the approved artifact, accepting it only after exact size/SHA-256
+verification. The expected revision, size and hash are constants in
+`data_prep/acquisition.py`; there is no mutable-main or alternate-host fallback.
+The approval and the builder's actual preflight are distinct evidence records.
+
+`data/raid/transfer.json` durably journals cumulative usage across invocations.
+Before each read it charges a reservation; unused/interrupted reservations are
+not refunded. `charged_bytes` is thus a conservative upper bound on payload
+potentially received, while `received_bytes` counts bytes returned by successful
+read calls, including metadata responses. No request may consume beyond the
+remaining 13,000,000,000-byte ceiling. No automatic whole-file retry is performed.
+Partial file resume requires verified range/status/length semantics and the same
+immutable identity. HTTPS redirects are restricted to Hugging Face serving hosts;
+only hosts, never signed query secrets, are retained in the receipt.
+
+Acquisition requires at least 30,000,000,000 bytes free. Data/manifest directories
+are monitored against 25,000,000,000 bytes with a 64 MiB reserve for source/docs,
+small test/telemetry artifacts and journal overhead. Writes are checked in bounded
+batches; large files are renamed on acceptance without a second full copy.
+Old/partial artifacts are preserved and included in the budget. Identity or budget
+failure aborts rather than accepting a partial artifact or changing the pin.
+
+### Metadata and selection
+
+`schema.iter_csv` requires exactly the documented eleven column names, handles
+quoted embedded newlines, uses strict UTF-8 with optional file-level BOM removal
+(recorded), and caps any CSV field at 16 MiB. Extra/missing/malformed columns or
+ambiguous duplicate row IDs abort the run. It preserves generation string content
+including embedded CR/LF; no Unicode, case, whitespace or attack normalization.
+
+The SQLite index contains only id, source_id, adv_source_id, model, decoding,
+repetition_penalty, attack and domain. IDs are treated as exact nonempty opaque
+strings, not normalized or re-generated UUIDs. Metadata strings have bounded
+length. Transport necessarily passes through text cells; the selector cannot
+access generation, title or prompt content. All rows/categories and EOF completion
+are counted. Unknown models/settings are not silently treated as clean candidates.
+
+`keys.key(tag,seed,id)` is SHA-256 of compact UTF-8 JSON [tag,integer seed,string
+id], ensure_ascii=False. Tags SELECT, SPLIT and ROW are exactly the approved CA1
+strings. Selection uses only SELECT ordering within domain, ROW clean/attack
+tie-breaking, and independent SPLIT first-eight-byte dev assignment (<0.30).
+The function rejects bool/non-integer seeds and non-string IDs.
+
+`selection.select_groups` finds sources with one clean human and at least one
+clean machine, rejects ambiguous domain/human identity, and assigns quotas to
+sorted present (domain,generator) cells. Round-robin assignment is source-unique;
+exhausted cells are not reallocated. It selects one clean machine per source,
+not one per generator. No text/split-based ranking or refill is allowed.
+
+`attach_attacks` joins only approved attack labels to the chosen clean machine's
+id, validates all parent/source/domain/generator/settings metadata, then chooses
+at most one row per parent/type by ROW key and id. Mismatches and unused ties are
+recorded. The candidate ledger is written before selected generation eligibility.
+
+### Tokenizer eligibility and cleanup
+
+`text.load_local_tokenizer` loads only existing pinned observer tokenizer assets
+with local_files_only=True, after checking tokenizer.json identity; it never calls
+load_pair or loads model weights. Assets, tokenizer configuration and pinned
+library versions are manifest inputs. `preparation_guards` runs in fresh processes,
+blocks weights/scorer/model imports and all socket connections, and records attempts.
+Transformers' model-framework availability is disabled for this tokenizer-only path.
+
+`assess` preserves exact generation text, checks NUL/control/length/whitespace
+rules, and calls the existing tokenize_window with the approved 64/512 limits.
+raw_text_sha256 hashes exact generation UTF-8 bytes. scored_window_sha256 hashes
+compact JSON of retained integer token IDs. Tokenization is not detector scoring.
+No filenames/extensions are used for row eligibility.
+
+`cleanup` removes every raw/window collision participant across different source
+groups, including same-split collisions, then drops incomplete clean pairs and
+orphan attacks. Within-group raw/window attack no-ops remain if their clean pair
+survives, and are counted. There is one ordered cleanup pass, no replacement or
+test-to-dev movement. Fewer than 200 surviving development human texts marks the
+future 5% calibration count gate false; no calibration is created in E either way.
+
+### Scientific identity and verification
+
+`scripts/prepare_raid.py --run-id primary` and `--run-id repeat` create separate
+local output directories and tracked metadata ledgers under eval/manifests/r1e/.
+Existing runs are refused rather than overwritten. Raw and selected texts never
+enter the tracked ledgers. Scientific identity includes dataset, tokenizer,
+preprocessing and preparation-source byte hashes, tagged keys, eligible-frame and
+full metadata-index semantic hashes, ledger hashes, per-split hashes and actual
+eligible development-human count. Full metadata-index identity is the SHA-256
+of compact JSON arrays of the eight indexed fields plus LF, ordered by id.
+
+Ledgers are canonical UTF-8/LF, sorted by source/role/attack/id where applicable.
+The manifest is an envelope containing payload plus SHA-256(canonical payload),
+so its digest does not recursively include itself. Acquisition receipts, paths,
+elapsed/CPU time, process memory and disk observations are outside scientific
+identity. Counts include marginals and explicit zero-filled joint slice tables;
+selection shortfalls, eligibility/duplicate/pair losses and attack no-ops remain
+separate. A complete candidate-row accounting is asserted before writing results.
+
+`scripts/verify_raid_manifest.py --run-id primary --compare-repeat` restricts
+verification to the approved study constants. It checks all ledger/source/tokenizer
+identities, reconstructs selection from the semantic-hash-checked metadata index,
+rescans the verified raw CSV to EOF, recomputes every selected text's eligibility
+and hashes, compares retained local blobs to the actual CSV generation, reruns
+cleanup and asserts all parent/group/split/count invariants. It also requires
+byte equality for all primary/repeat scientific files. Network and weights remain
+blocked. Synthetic tests cover altered raw input, text blobs, ledgers, manifests,
+tokenizer identity, repeated IDs and protected existing run directories.
+
+This interface supplies no scores, thresholds, calibration or test metrics.
+R1-F/R1-G remain gated separately after independent R1-E review.
+
+### Observed approved R1-E population
+
+**Budget-verification stop:** the current acquisition adapter delegates redirect
+handling to urllib, whose handler consumes redirect bodies outside Budget.read.
+The existing receipt counts API/artifact reads, not those bodies. Full cumulative
+transfer compliance cannot be established from this receipt; an actual overrun
+has not been shown. R1-E is not complete/accepted, and the adapter must not be
+reused for acquisition before this issue is reviewed. See
+`eval/results/r1e_redirect_budget_audit.json`. Frozen source and receipts remain
+unchanged to preserve evidence; no further data preparation/acquisition followed
+the finding. The already-running read-only verifier was allowed to finish.
+
+The pinned CSV header is id, adv_source_id, source_id, model, decoding,
+repetition_penalty, attack, domain, title, prompt, generation. All 5,615,820
+row IDs were unique, strict UTF-8 parsing reached EOF, and no file BOM was
+present. There are 13,371 clean human sources; each clean human has empty
+decoding/penalty settings and identical id/source_id/adv_source_id. The file has
+the eleven documented attack methods plus clean `none`, not twelve adversarial
+methods. Exact observed label totals are in primary/counts.json.
+
+The approved selection filled all 88 cell quotas: 1,000 groups/5,000 candidate
+rows, initially 306 dev groups and 694 test groups. After eligibility, collision
+removal and pair cleanup: 973 groups/4,845 rows, comprising 298 dev groups/1,484
+rows and 675 test groups/3,361 rows. There are 973 clean human/machine pairs,
+973 homoglyph, 953 paraphrase and 973 zero_width_space rows. No refill occurred.
+The 298 eligible development humans satisfy only the future count prerequisite;
+they are not a calibrated sample or evidence of valid scores.
+
+Primary/repeat scientific outputs and verification records are indexed in
+`eval/results/r1e_verification.json`. Ignored text blobs preserve exact generation
+UTF-8 bytes; consumers must avoid newline/Unicode normalization when checking
+their raw identities. Raw/index/blob contents remain local, outside Git.

@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "base": "d7ed91f",
+  "scope": "changed and new Python files; comments/docstrings inventoried",
+  "files": [
+    "scripts/acquire_raid.py",
+    "scripts/prepare_raid.py",
+    "scripts/verify_raid_manifest.py",
+    "src/litmus/data_prep/__init__.py",
+    "src/litmus/data_prep/acquisition.py",
+    "src/litmus/data_prep/cleanup.py",
+    "src/litmus/data_prep/guards.py",
+    "src/litmus/data_prep/keys.py",
+    "src/litmus/data_prep/manifest.py",
+    "src/litmus/data_prep/pipeline.py",
+    "src/litmus/data_prep/resources.py",
+    "src/litmus/data_prep/schema.py",
+    "src/litmus/data_prep/selection.py",
+    "src/litmus/data_prep/text.py",
+    "src/litmus/data_prep/verification.py",
+    "tests/test_raid_acquisition.py",
+    "tests/test_raid_keys.py",
+    "tests/test_raid_manifest.py",
+    "tests/test_raid_preparation.py",
+    "tests/test_raid_tokenizer.py"
+  ],
+  "findings": [],
+  "violations": []
+}

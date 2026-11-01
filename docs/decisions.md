@@ -991,3 +991,179 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   guarantee cleanup. Constructor-internal failed-handle cleanup belongs to the
   SDK. Version/prefix-dependent remote classification remains fragile.
 - D3 is submitted for independent review, not marked independently accepted.
+
+## 2026-10-30 — R1-D3 and R1-D closure; R1-E planning only
+
+- **D3 and R1-D closed, reviewer-reported.** Ryan supplied Codex's independent
+  review of `d7ed91f`: 660 default tests, Ruff, pip check, whitespace checks and
+  a fresh installed-wheel check passed. The reviewer recommended closing D3
+  and R1-D; Ryan instructed recording closure. These are reviewer-reported
+  results, not checks rerun by the builder for this documentation entry.
+- `d7ed91f` was checked with `git cat-file -t` and returned `commit`. Planning
+  began at `d7ed91fc949087cee271ac51dcc058bc2a115f48` with a clean working tree.
+  No repository AGENTS.md was found. Existing implementation and D1–D3 evidence
+  records are preserved. C2PA remains opt-in, default off.
+- Ryan authorized an R1-E preparation plan and acquisition approval request
+  **for independent review only**. No dataset payload download, pipeline
+  implementation, selection, scoring, calibration, test evaluation or UI work
+  is authorized by this instruction. N_target=1,000 source groups remains the
+  existing approval; it is not acquisition permission.
+- Saved proposed documents: `docs/plans/R1-E-PLAN.md` and
+  `docs/plans/R1-E-ACQUISITION-APPROVAL.md`. Seed 20261030, acquisition budgets,
+  pin/identity verification, attack multiplicity tie policy and implementation
+  phases are proposals awaiting approval. The plan uses independent CA1 tags,
+  source-unique cell quotas, grouped dev/test, exact raw/window deduplication,
+  ordered pair cleanup and a reproducible count/exclusion manifest. It forbids
+  scoring in E and preserves the ≥200 eligible dev-human gate for future 5%
+  calibration; 1% calibration remains disabled.
+- **Metadata/documentation research only:** inspected authors' public RAID
+  repository, dataset card, revision/file metadata and loader/license source.
+  No CSV payload was fetched. Proposed dataset pin is
+  `liamdugan/raid@865cac74188466cb0c3b7574a10204007b57a459`, train.csv only.
+  The publisher advertises 11,779,491,051 bytes and SHA-256
+  `52f04ceebc126064e68fbd22d8b736964065745464f4bfd52e488150b49f84e4`.
+  The immutable file-addition commit and current file page supply those values;
+  the selected revision's tree is verified, but its exact pointer/API could
+  not be retrieved by the browser. Future approved acquisition must confirm
+  the revision-specific pointer before transferring the payload. No local
+  payload integrity or raw schema/population verification is claimed.
+- The official card declares MIT; underlying source-corpus redistribution terms
+  were not fully audited. The request is local evaluation only, no raw-text
+  publication or project-license decision. Official mutable direct CSV URLs
+  are documented but not an automatic fallback for the pinned route.
+- **Pre-E gap:** CA1 key implementation/tests are absent from the checkout.
+  The plan makes their verification a prerequisite before acquisition/selection;
+  no code was written to fill that gap in this planning-only task.
+- Current local disk observation: 419,241,680,896 bytes free on C:. Proposed
+  acquisition requires rechecking ≥30 GB free, limits cumulative payload transfer
+  to 13 GB and incremental task artifacts to 25 GB. Costs/times in the plan
+  are estimates, not measured acquisition or preparation results.
+- Runtime tests, installed-wheel checks and scorer/model calls were not run
+  for this documentation-only task. Source URLs and explicit unknowns are
+  recorded in the plan. No new dependencies or data directories were created.
+
+## 2026-10-31 — R1-E approval and execution scope
+
+- Ryan approved `docs/plans/R1-E-PLAN.md` and the bounded acquisition request,
+  authorizing E0–E6 data preparation only. Explicitly approved: seed 20261030,
+  N_target=1,000 source groups, proposed attack tie-break/hash encodings,
+  metadata-only selection and no refill after exclusions.
+- Approved file: train.csv only, revision
+  `865cac74188466cb0c3b7574a10204007b57a459`, 11,779,491,051 bytes, SHA-256
+  `52f04ceebc126064e68fbd22d8b736964065745464f4bfd52e488150b49f84e4`.
+  Limits: 13,000,000,000 cumulative payload bytes; at least 30 GB free before
+  acquisition; at most 25 GB incremental task artifacts. Local evaluation only,
+  no raw-text redistribution or Git inclusion. No paid services/dependencies.
+- **Reviewer-reported:** Ryan stated Codex independently confirmed the pinned
+  revision's API metadata matches the approved size/hash. This supersedes the
+  planning uncertainty; it is not a builder-run preflight. The builder must
+  repeat identity preflight before transfer and verify downloaded length/hash.
+- Starting HEAD remains `d7ed91f`. The pending README, decisions and D-plan
+  edits plus the two untracked R1-E planning documents are preserved. No
+  repository AGENTS.md was found. CA1 must be implemented and verified first;
+  raw-data ignore rules must precede acquisition. Final outcomes are recorded
+  separately after execution, without treating prior recaps as completion.
+- Stop on approved identity, schema, budget or reproducibility failures.
+  No scoring, calibration, test evaluation, UI or scope expansion is authorized.
+
+## 2026-10-31 — R1-E implementation and measured preparation results
+
+- E0 was verified before acquisition: nine CA1 tests passed; combined key and
+  initial acquisition tests passed (12). Fixed goldens, literal-byte oracle,
+  Unicode/type/boundary/order tests use independent select/split/row tags.
+  Synthetic selection from 100,000 IDs produced 303/1,000 dev assignments,
+  within the predeclared [240,360] tolerance; seed 20261030 was not changed.
+  `eval/results/r1e_ca1.json` preserves this prerequisite evidence.
+- `/data/` was ignored before transfer. The builder repeated the approved
+  revision-specific API preflight, then accepted one train.csv after matching
+  length 11,779,491,051 and SHA-256
+  `52f04ceebc126064e68fbd22d8b736964065745464f4bfd52e488150b49f84e4`.
+  This is builder-observed evidence in preflight/acquisition receipts, distinct
+  from the earlier reviewer-reported metadata confirmation. No mutable fallback,
+  publisher test/extra artifact, automatic retry or duplicate raw copy was used.
+- Measured acquisition: 1,828.064 s, 426,871,160,832 bytes free before transfer,
+  11,779,495,917 received HTTP payload bytes including metadata, and conservative
+  charged usage 11,781,588,203 bytes against the 13,000,000,000 cap. Charging is
+  durable before reads and never refunds unused reservations, so it bounds
+  potentially received payload across interruptions for Budget.read calls only;
+  the redirect-body gap discovered below limits the cumulative-budget claim.
+  The only redirect host
+  observed was us.aws.cdn.hf.co. Signed redirect query strings were not saved.
+- Full strict UTF-8 CSV scan: 5,615,820 unique row IDs, EOF reached, no file BOM.
+  Eleven attack methods plus clean `none` were observed, each with 467,985 rows.
+  All eight allowed domains and eleven generator labels were present, plus
+  `human`; exact settings/label counts are in primary/counts.json. The 13,371
+  clean human rows each have empty decoding/penalty settings and matching
+  id/source_id/adv_source_id. No critical schema ambiguity was encountered.
+- Metadata selection found 13,371 eligible sources and 88 cells. Every quota
+  filled: first 32 sorted cells at 12, remaining 56 at 11; no reallocation or
+  shortfall. Frozen candidates: 1,000 source groups/5,000 rows, 306 dev and
+  694 test groups. All three requested attacks were available for each chosen
+  parent; no multiplicity tie or parent mismatch occurred for those attachments.
+  Selection never inspected generation/title/prompt content. The CSV parser
+  necessarily decoded transport text before discarding unselected content.
+- Eligibility excluded 72 short texts: 5 human, 20 machine, 41 paraphrase,
+  3 homoglyph and 3 zero_width_space. Raw/window collision channels identified
+  the same two human rows in different source groups; both were removed.
+  Counts record two channel records, not four distinct row participants.
+  Ordered clean-pair cleanup removed another 81 rows. Total exclusions: 155;
+  group attrition: 27. No refill, split movement or seed/target change occurred.
+- Retained: 973 groups/4,845 rows, with 973 clean human/machine pairs, 973
+  homoglyph, 953 paraphrase and 973 zero_width_space rows. Dev: 298 groups and
+  1,484 rows; test: 675 groups and 3,361 rows. No cross-group raw/window equality
+  remains. Within-group attack no-ops were retained: zero raw, one window;
+  the all-role within-group equality audit found that same window equality.
+  Zero-filled slice/cell tables, exclusions, collisions and no-ops are retained.
+- The existing pinned observer tokenizer was used locally without weights,
+  scoring imports, torch/TensorFlow, CUDA or network. Real run guards and the
+  exact tokenizer-only test provide observations; they are not an OS sandbox.
+  Local blobs preserve exact UTF-8 generation bytes, including embedded newlines
+  and attack characters. Raw CSV, metadata indexes and blobs remain ignored.
+- 298 eligible development human texts satisfy only the numerical ≥200
+  prerequisite for possible future 5% calibration. No scores, thresholds,
+  calibration or test evaluation were produced. The 1% calibration remains
+  disabled. R1-F/R1-G require separate authorization after independent review.
+- Remaining limits: one pinned train artifact and one approved seed; domain
+  membership is an English-oriented proxy, not row-language verification.
+  Underlying source-corpus rights were not exhaustively audited; MIT is the
+  publisher's dataset declaration and local use remains the approved scope.
+  No raw-text redistribution, project-license decision or dependency change.
+  Production analyzers/default reports and prior D1–D3 evidence are preserved.
+- **STOP — full cumulative acquisition budget is not proven.** Final source
+  inspection found that urllib's HTTPRedirectHandler.http_error_302 invokes
+  fp.read() before following a redirect. ArtifactRedirect delegates to that
+  implementation, so redirect bodies bypass Budget.read. A synthetic adapter
+  probe consumed 23 body bytes with unchanged durable counters and no network;
+  see `eval/results/r1e_redirect_budget_audit.json`. The actual redirect-body
+  length was not captured during acquisition. Counted API/artifact reads remain
+  below 13 GB, and no actual overrun is established, but they do not prove the
+  approved cumulative limit. Earlier broad counter descriptions are narrowed
+  by this finding. R1-E is stopped and not complete/accepted despite valid raw
+  identity and prepared outputs. No reacquisition, source patch or new data
+  preparation was performed after the finding. The in-flight read-only verifier
+  may finish; all work/evidence is preserved for independent review. A later
+  fix alone cannot retrospectively measure the missing redirect-body bytes.
+- The in-flight raw-backed verifier completed exit 0 / PASS in 332.295 s:
+  raw length/SHA-256, source/tokenizer/index identities, reconstructed selection,
+  5,615,820 rows to EOF, all 5,000 candidate text assessments, 4,845 retained
+  blob comparisons, cleanup and parent/split/count invariants passed. All seven
+  primary/repeat scientific files are byte-identical; manifest payload SHA-256
+  is `8f0a36e95e9745e27bd444b94fe96381c5c0cd98744b2abd52bd2a6ce579c5d9`.
+  Both preparation runs and verifier reported zero connection, weight-access
+  or forbidden-import attempts. Primary/repeat elapsed 447.237/634.764 s and
+  CPU 351.969/521.656 s; peak working sets 491,020,288/492,400,640 bytes.
+  Raw plus both local runs and manifests totaled 14,213,226,786 bytes; including
+  the 64 MiB small-artifact reserve, 14,280,335,650 bytes (<25 GB). This is a
+  storage observation, not a cure for the separate transfer-accounting gap.
+- Checks on frozen source: inside defaults 700 passed/21 deselected (14.95 s);
+  outside-repository defaults 700 passed/21 deselected (15.47 s); exact local
+  tokenizer-only slow test 1 passed (2.21 s); synthetic E slice 40 passed (1.60 s).
+  Ruff passed, pip check reported no broken requirements, scoped source audit
+  passed (20 Python files, zero findings/violations), and whitespace checks
+  passed. Exact commands and limitations are in eval/results/r1e_verification.json.
+  These green checks did not cover redirect-body budget accounting; the focused
+  audit above exposes that gap. No full model/GPU slow suite, real-data scoring,
+  calibration, test evaluation or fresh installed-wheel check was run for E.
+- Work is committed for independent review with **R1-E STOPPED, not complete or
+  closed**. Existing D1–D3 closure/evidence and pending planning documentation
+  are preserved. No source patch or new data operation followed the finding.

@@ -12,3 +12,13 @@ src/litmus/c2pa/trust/** -text
 # R1-D1 C2PA fixtures, PKI and captured library output are hashed
 tests/fixtures/c2pa/** -text
 eval/results/r1d1_library_outputs/** -text
+# R1-E ledgers/results are verified byte-for-byte after checkout.
+eval/manifests/r1e/** -text
+eval/results/r1e_*.json -text
+# R1-E source byte identities use stable LF files (no semantic scorer change).
+src/litmus/data_prep/*.py text eol=lf
+src/litmus/config.py text eol=lf
+src/litmus/scorer/tokenize.py text eol=lf
+scripts/acquire_raid.py text eol=lf
+scripts/prepare_raid.py text eol=lf
+scripts/verify_raid_manifest.py text eol=lf
