@@ -13,8 +13,50 @@ from litmus.data_prep.schema import indexed_rows, iter_csv, metadata
 from litmus.data_prep.selection import attach_attacks, select_groups
 from litmus.data_prep.text import assess
 
+# Only the acquisition correction and its verifier/CLI seam may differ from
+# the historical preparation. Selection, eligibility and cleanup must match.
+RECONCILABLE_SOURCE_CHANGES = frozenset(
+    (
+        "src/litmus/data_prep/acquisition.py",
+        "src/litmus/data_prep/verification.py",
+        "scripts/verify_raid_manifest.py",
+    )
+)
 
-def verify(repo, run_id, tokenizer, identity, *, raw=None):
+
+def verify_source_version(repo, envelope, reconciliation=None):
+    historical = envelope["payload"]["source_sha256"]
+    current = prep.source_identity(repo)
+    if reconciliation is None:
+        if historical != current:
+            raise PrepError("preparation_source_identity_changed")
+        return {"mode": "exact_preparation_source_match"}
+    record = json.loads(reconciliation.read_text(encoding="utf-8"))
+    changed = {
+        p
+        for p in historical.keys() | current.keys()
+        if historical.get(p) != current.get(p)
+    }
+    if (
+        record.get("schema_version") != 1
+        or record.get("historical_manifest_sha256") != envelope["manifest_sha256"]
+        or record.get("historical_source_sha256") != historical
+        or record.get("verification_source_sha256") != current
+        or set(historical) != set(current)
+        or record.get("changed_sources") != sorted(changed)
+        or not changed <= RECONCILABLE_SOURCE_CHANGES
+    ):
+        raise PrepError("source_reconciliation_mismatch")
+    return {
+        "mode": "explicit_historical_source_reconciliation",
+        "record_sha256": file_hash(reconciliation),
+        "historical_manifest_sha256": envelope["manifest_sha256"],
+        "changed_sources": sorted(changed),
+        "historical_generation_source_identity_unchanged": True,
+    }
+
+
+def verify(repo, run_id, tokenizer, identity, *, raw=None, source_reconciliation=None):
     started = time.monotonic()
     output = repo / "eval/manifests/r1e" / run_id
     local = repo / "data/raid/prepared" / run_id
@@ -22,8 +64,7 @@ def verify(repo, run_id, tokenizer, identity, *, raw=None):
     payload = envelope["payload"]
     if payload["tokenizer"] != identity:
         raise PrepError("verification_tokenizer_identity_mismatch")
-    if payload["source_sha256"] != prep.source_identity(repo):
-        raise PrepError("preparation_source_identity_changed")
+    source_version = verify_source_version(repo, envelope, source_reconciliation)
     raw = raw or repo / "data/raid" / payload["dataset"]["revision"] / "train.csv"
     if raw.stat().st_size != payload["dataset"]["bytes"] or (
         file_hash(raw) != payload["dataset"]["sha256"]
@@ -110,6 +151,7 @@ def verify(repo, run_id, tokenizer, identity, *, raw=None):
         "selected_texts_recomputed": len(seen),
         "retained_text_blobs_verified": len(retained),
         "manifest_sha256": envelope["manifest_sha256"],
+        "source_version": source_version,
         "elapsed_seconds": time.monotonic() - started,
     }
 

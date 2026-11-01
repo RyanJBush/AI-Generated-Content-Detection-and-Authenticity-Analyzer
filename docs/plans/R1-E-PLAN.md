@@ -21,6 +21,16 @@ planning session, not the current execution state. Ryan's approval above and
 the execution evidence supersede those status statements without changing the
 approved selection procedure. R1-F and R1-G remain separately gated.
 
+**Approved follow-up exception:** Ryan subsequently accepted only the specific
+historical transfer-accounting uncertainty and authorized an offline downloader
+correction plus explicit source-version reconciliation. This supersedes the
+operational STOP above, not the historical uncertainty: **the original transfer
+is not proven to have met the 13 GB cap**. Original receipts, scientific files
+and generation-source hashes are preserved. Existing data/selection are retained;
+no reacquisition, further network requests or real-data reselection is permitted.
+R1-E remains pending independent review. Follow-up evidence is separate in
+`eval/results/r1e_budget_fix_verification.json`; prior evidence is not rewritten.
+
 ## Authority and boundary
 
 Baseline: `d7ed91fc949087cee271ac51dcc058bc2a115f48`. Ryan supplied independent

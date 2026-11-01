@@ -6,6 +6,14 @@ Ryan also reported reviewer confirmation of the revision-specific API byte/hash
 metadata; the builder must independently repeat preflight before transfer.
 No scoring, calibration, test evaluation, UI or new dependencies are authorized.
 
+**Narrow historical exception:** Ryan subsequently accepted the uncertainty in
+`r1e_redirect_budget_audit.json`, not proof of original transfer-cap compliance.
+He authorized an offline correction and source-version reconciliation, retaining
+the existing data/outputs with no reacquisition or further network requests.
+R1-E remains pending independent review. The execution update below describes
+the original b2d24da stop, not the corrected downloader; the original counters
+and receipts remain unchanged. See `r1e_budget_fix_verification.json` for follow-up.
+
 **Execution update (2026-10-31):** the builder repeated revision-specific API
 preflight immediately before transfer, then verified all 11,779,491,051 local
 bytes against the approved SHA-256. See `eval/manifests/r1e/preflight.json` and

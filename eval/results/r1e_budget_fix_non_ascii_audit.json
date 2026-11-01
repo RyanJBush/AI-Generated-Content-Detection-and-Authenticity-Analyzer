@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "base": "b2d24da",
+  "scope": "changed and new Python files; comments/docstrings inventoried",
+  "files": [
+    "scripts/verify_raid_manifest.py",
+    "src/litmus/data_prep/acquisition.py",
+    "src/litmus/data_prep/verification.py",
+    "tests/test_raid_acquisition.py",
+    "tests/test_raid_manifest.py"
+  ],
+  "findings": [],
+  "violations": []
+}

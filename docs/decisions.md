@@ -1167,3 +1167,80 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
 - Work is committed for independent review with **R1-E STOPPED, not complete or
   closed**. Existing D1–D3 closure/evidence and pending planning documentation
   are preserved. No source patch or new data operation followed the finding.
+
+## R1-E follow-up — accepted historical uncertainty and offline budget correction
+
+- **Ryan's narrow exception:** Ryan accepted the specific historical uncertainty
+  recorded in `eval/results/r1e_redirect_budget_audit.json`. This does **not**
+  establish that the original transfer stayed below 13,000,000,000 payload bytes
+  and must never be treated as proof of compliance. The original transfer's
+  redirect-body count remains unknown; no actual overrun has been established.
+  Original counters, receipts, scientific manifests and historical source hashes
+  remain unchanged. Keep the existing verified dataset and prepared outputs.
+- Authorized follow-up: correct redirect/error response accounting, add offline
+  regressions, explicitly reconcile historical versus corrected verifier sources,
+  commit evidence, then stop for independent review. No reacquisition, further
+  network requests, real-data reselection, scoring, calibration, test evaluation,
+  new dependencies or additional scope. R1-E remains pending that review.
+- **Reviewer-reported, not rerun as a full default suite here:** Ryan stated
+  Codex independently confirmed 700 default tests, Ruff and pip check pass,
+  the raw approved length/hash, manifest invariants, repeat-file equality and
+  retained text-blob hashes. This attribution does not rehabilitate the original
+  transfer accounting. The builder's new checks are reported separately below.
+- Baseline at follow-up: clean master at
+  `b2d24daba14b80a0cc25c524045e7f713a0363b9`. No AGENTS.md was found. Root cause:
+  urllib's redirect handler drained live bodies outside Budget.read; default
+  HTTPError could also expose a live response body. Code change is necessary at
+  those response handlers; merely changing final-response reads cannot close
+  either path. The original 23-byte offline probe remains historical evidence.
+- Correction: redirect statuses 301/302/303/307/308 and default HTTP errors share
+  bounded 64 KiB draining through the same durable Budget used by API/artifact
+  reads. Every real response closes even if storage/transfer budget or read fails.
+  Before redirect following, urllib receives an empty surrogate, never the live
+  drained stream. Errors expose status-only PrepError. No retry or refund path
+  was added. Unused/EOF reservations remain conservatively charged; a budget
+  exhaustion stops before following another URL or consuming more body bytes.
+- Offline regressions run the real urllib opener/error/redirect handler chain
+  with in-memory HTTPS response fixtures and a failing socket-connect guard.
+  They cover all redirect aliases, seven error statuses, chained redirects then
+  an error, prior payload reducing remaining allowance, budget exhaustion,
+  interrupted reads, durable reopening, closure and malformed/disallowed redirects.
+  Initial prerequisite tests failed before implementation; corrected paths pass.
+  No actual HTTP request or connection was made by these tests.
+- Historical verifier handling: unchanged default behavior rejects differing
+  preparation source hashes. The explicit reconciliation record binds the exact
+  original manifest digest and all 17 historical/current source hashes. Only
+  acquisition.py, verification.py and scripts/verify_raid_manifest.py may differ;
+  the source-path set must remain identical. Even a matching reconciliation file
+  cannot authorize selection/eligibility/cleanup changes. New receipts label
+  historical generation separately from current verification and hash the record.
+  The CLI requires a new --output with reconciliation and refuses any existing
+  output path, preserving the original verification receipt.
+- No original scientific identity or selection was regenerated. The reconciliation
+  file and follow-up receipts live separately under `eval/results/r1e_budget_fix_*`.
+  Synthetic tests cover explicit opt-in success, default rejection, stale/current
+  source hashes, wrong historical manifest/source maps, unauthorized changes,
+  changed path sets and protected receipt paths. These tests do not relax the
+  requirement for independent review of the correction or close R1-E.
+- Builder follow-up verification: RAID model-free slice inside the repository
+  **68 passed, 1 deselected in 6.62 s**; outside **68 passed, 1 deselected in
+  5.72 s**. The first outside run hit sandbox-denied pytest temp-directory setup
+  (26 passed, 42 setup errors, 1 deselected); the permitted rerun passed without
+  source changes. Ruff passed; pip check found no broken requirements; scoped
+  Unicode audit passed (5 Python files, zero findings/violations); whitespace
+  checks passed. Exact commands/results are in the separate follow-up evidence.
+- Read-only existing-data/source audit passed: raw approved size/SHA-256,
+  manifest invariants, all seven primary/repeat scientific file bytes, and
+  4,845 retained blob hashes in **each** run. All 26 originally tracked R1-E
+  evidence files remained byte-identical to b2d24da, including historical
+  receipts, manifests, source maps and the original failure audit. Default
+  source mismatch was rejected and explicit reconciliation passed for both
+  manifests. Audit guards recorded zero connections, weight accesses and
+  forbidden imports. See `r1e_budget_fix_source_verification.json`.
+- No full default suite was rerun for this correction: it includes loopback
+  network controls, excluded under the no-further-network instruction. No full
+  raw-backed verifier/selection reconstruction, real selection/tokenization,
+  model/GPU tests, installed-wheel check, scoring, calibration or test evaluation
+  was rerun. Synthetic full-verifier integration and actual source-version/
+  preservation checks cover the changed seam. The historical transfer cap remains
+  **unproven**, and R1-E remains **pending independent review** after this commit.

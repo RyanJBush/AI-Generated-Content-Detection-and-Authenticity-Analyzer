@@ -469,9 +469,10 @@ must match. Temporary artifacts are left for review and their location recorded.
 
 ## R1-E data preparation (no scoring)
 
-**Execution status: STOP, not complete/accepted.** The cumulative acquisition
-payload cap is not proven because redirect bodies bypass the current counter.
-See the budget-verification finding under observed population below.
+**Execution status: pending independent review.** Ryan accepted the original
+redirect-body accounting uncertainty; historical cumulative transfer-cap
+compliance remains unproven. The downloader correction was verified offline.
+No further acquisition/network requests are authorized by this exception.
 
 Authority and constants: `docs/plans/R1-E-PLAN.md`, approved 2026-10-31.
 Seed 20261030, target 1,000 source groups; one pinned train.csv only. Scripts
@@ -577,7 +578,7 @@ identity. Counts include marginals and explicit zero-filled joint slice tables;
 selection shortfalls, eligibility/duplicate/pair losses and attack no-ops remain
 separate. A complete candidate-row accounting is asserted before writing results.
 
-`scripts/verify_raid_manifest.py --run-id primary --compare-repeat` restricts
+`scripts/verify_raid_manifest.py --run-id primary --compare-repeat --output NEW_PATH` restricts
 verification to the approved study constants. It checks all ledger/source/tokenizer
 identities, reconstructs selection from the semantic-hash-checked metadata index,
 rescans the verified raw CSV to EOF, recomputes every selected text's eligibility
@@ -587,20 +588,45 @@ byte equality for all primary/repeat scientific files. Network and weights remai
 blocked. Synthetic tests cover altered raw input, text blobs, ledgers, manifests,
 tokenizer identity, repeated IDs and protected existing run directories.
 
+The verifier refuses an existing receipt path, including its default path.
+After the budget correction, historical generation-source hashes intentionally
+differ from the running verifier sources. Default mismatch rejection remains.
+Explicit `--source-reconciliation eval/results/r1e_budget_fix_source_reconciliation.json`
+requires a new `--output` and validates exact historical/current source maps,
+the original scientific manifest digest, identical source-path sets, and a
+changed-path list limited to acquisition.py, verification.py and the verifier
+script. Selection, tokenizer eligibility and cleanup source changes are rejected
+even if a reconciliation file claims to allow them. The receipt identifies
+historical generation versus current verification and hashes the reconciliation
+record. Neither manifests nor their historical source identities are rewritten.
+
+Redirect bodies (301/302/303/307/308) and default HTTP error bodies are now drained
+in 64 KiB bounded reads through the same durable Budget as API/artifact reads.
+Real bodies close on success, exhaustion or read failure, before another redirect
+request. urllib receives an empty surrogate instead of the live redirect body;
+default HTTP errors expose a status-only PrepError. All redirect status aliases
+are overridden explicitly.
+Unspent reservations, including EOF probes, remain charged; exhausting the budget
+may stop a response even if its remaining bytes would be empty. No automatic
+retry/refund is added. Offline fixtures exercise the actual urllib handler chain,
+including chained redirects/errors and prior payload reducing the allowance.
+
 This interface supplies no scores, thresholds, calibration or test metrics.
 R1-F/R1-G remain gated separately after independent R1-E review.
 
 ### Observed approved R1-E population
 
-**Budget-verification stop:** the current acquisition adapter delegates redirect
+**Historical budget-verification stop (b2d24da):** that acquisition adapter delegated redirect
 handling to urllib, whose handler consumes redirect bodies outside Budget.read.
 The existing receipt counts API/artifact reads, not those bodies. Full cumulative
 transfer compliance cannot be established from this receipt; an actual overrun
-has not been shown. R1-E is not complete/accepted, and the adapter must not be
-reused for acquisition before this issue is reviewed. See
+has not been shown. Ryan accepted this specific uncertainty, not compliance.
+R1-E remains pending independent review. See
 `eval/results/r1e_redirect_budget_audit.json`. Frozen source and receipts remain
-unchanged to preserve evidence; no further data preparation/acquisition followed
-the finding. The already-running read-only verifier was allowed to finish.
+unchanged at that stop to preserve evidence; the subsequent correction explicitly
+reconciles changed acquisition/verifier sources without replacing historical
+hashes. No real selection or further acquisition/network request followed the
+exception. The already-running read-only verifier finished at the original stop.
 
 The pinned CSV header is id, adv_source_id, source_id, model, decoding,
 repetition_penalty, attack, domain, title, prompt, generation. All 5,615,820

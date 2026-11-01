@@ -18,7 +18,14 @@ from litmus.data_prep.verification import compare_runs, verify
 
 @pytest.fixture
 def prepared(tmp_path, monkeypatch):
-    monkeypatch.setattr(pipeline, "source_identity", lambda root: {"unit": "synthetic"})
+    monkeypatch.setattr(
+        pipeline,
+        "source_identity",
+        lambda root: {
+            "unit": "synthetic",
+            "src/litmus/data_prep/acquisition.py": "historical",
+        },
+    )
     raw = tmp_path / "synthetic.csv"
     with raw.open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, COLUMNS)
@@ -119,3 +126,101 @@ assert 'torch' not in sys.modules
         [sys.executable, "-I", "-c", code], capture_output=True, text=True, timeout=30
     )
     assert result.returncode == 0, result.stderr
+
+
+def reconciliation_case(prepared, monkeypatch):
+    root, _, _, _, _ = prepared
+    envelope, _, _ = validate_manifest(root / "eval/manifests/r1e/unit1")
+    historical = envelope["payload"]["source_sha256"]
+    current = {**historical, "src/litmus/data_prep/acquisition.py": "corrected"}
+    monkeypatch.setattr(pipeline, "source_identity", lambda root: current)
+    record = {
+        "schema_version": 1,
+        "historical_manifest_sha256": envelope["manifest_sha256"],
+        "historical_source_sha256": historical,
+        "verification_source_sha256": current,
+        "changed_sources": ["src/litmus/data_prep/acquisition.py"],
+    }
+    path = root / "reconciliation.json"
+    path.write_text(json.dumps(record), encoding="utf-8")
+    return path, record
+
+
+def test_historical_source_requires_explicit_exact_reconciliation(
+    prepared, monkeypatch
+):
+    root, raw, tokenizer, identity, _ = prepared
+    output = root / "eval/manifests/r1e/unit1"
+    before = {p.name: p.read_bytes() for p in output.iterdir()}
+    path, _ = reconciliation_case(prepared, monkeypatch)
+    with pytest.raises(PrepError, match="preparation_source_identity_changed"):
+        verify(root, "unit1", tokenizer, identity, raw=raw)
+    result = verify(
+        root, "unit1", tokenizer, identity, raw=raw, source_reconciliation=path
+    )
+    assert result["status"] == "PASS"
+    assert (
+        result["source_version"]["mode"] == "explicit_historical_source_reconciliation"
+    )
+    assert result["source_version"]["record_sha256"] == file_hash(path)
+    assert before == {p.name: p.read_bytes() for p in output.iterdir()}
+
+
+@pytest.mark.parametrize(
+    "change", ["manifest", "historical", "current", "list", "selection", "extra"]
+)
+def test_reconciliation_does_not_ignore_source_tampering(prepared, monkeypatch, change):
+    from litmus.data_prep.verification import verify_source_version
+
+    root, _, _, _, _ = prepared
+    path, record = reconciliation_case(prepared, monkeypatch)
+    current = dict(record["verification_source_sha256"])
+    if change == "manifest":
+        record["historical_manifest_sha256"] = "wrong"
+    elif change == "historical":
+        record["historical_source_sha256"] = {"unit": "wrong"}
+    elif change == "current":
+        current["src/litmus/data_prep/acquisition.py"] = "changed again"
+    elif change == "list":
+        record["changed_sources"] = []
+    elif change == "selection":
+        current["unit"] = "changed selection"
+        record["verification_source_sha256"] = dict(current)
+        record["changed_sources"] = sorted(
+            ["unit", "src/litmus/data_prep/acquisition.py"]
+        )
+    else:
+        current["extra"] = "new source"
+        record["verification_source_sha256"] = dict(current)
+        record["changed_sources"] = sorted(
+            ["extra", "src/litmus/data_prep/acquisition.py"]
+        )
+    monkeypatch.setattr(pipeline, "source_identity", lambda root: current)
+    path.write_text(json.dumps(record), encoding="utf-8")
+    envelope, _, _ = validate_manifest(root / "eval/manifests/r1e/unit1")
+    with pytest.raises(PrepError, match="source_reconciliation_mismatch"):
+        verify_source_version(root, envelope, path)
+
+
+def test_verifier_cli_requires_separate_receipt_and_preserves_existing(tmp_path):
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    script = root / "scripts/verify_raid_manifest.py"
+    first = subprocess.run(
+        [sys.executable, str(script), "--source-reconciliation", "unused.json"],
+        capture_output=True,
+        text=True,
+    )
+    assert first.returncode == 2
+    assert "requires a new --output" in first.stderr
+    output = tmp_path / "existing.json"
+    output.write_bytes(b"original receipt")
+    second = subprocess.run(
+        [sys.executable, str(script), "--output", str(output)],
+        capture_output=True,
+        text=True,
+    )
+    assert second.returncode != 0
+    assert "verification_receipt_already_exists" in second.stderr
+    assert output.read_bytes() == b"original receipt"

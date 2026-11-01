@@ -1,6 +1,7 @@
 """Approved single-artifact acquisition with durable transfer/storage ceilings."""
 
 import hashlib
+import io
 import json
 import os
 import shutil
@@ -118,9 +119,40 @@ def validate_metadata(value):
     return {"revision": REVISION, "path": "train.csv", "bytes": SIZE, "sha256": SHA256}
 
 
+def drain_response(response, budget):
+    """Consume intermediate bodies only through durable, bounded reads."""
+    try:
+        while budget.read(response, 64 * 1024):
+            pass
+    finally:
+        response.close()
+
+
+class BudgetHTTPErrorHandler(urllib.request.HTTPDefaultErrorHandler):
+    def __init__(self, budget):
+        self.budget = budget
+
+    def http_error_default(self, req, fp, code, msg, headers):
+        drain_response(fp, self.budget)
+        # Do not expose a live, unbudgeted body or signed URL via HTTPError.
+        raise PrepError(f"http_response_error:{code}")
+
+
 class ArtifactRedirect(urllib.request.HTTPRedirectHandler):
-    def __init__(self):
+    def __init__(self, budget):
+        self.budget = budget
         self.hosts = []
+
+    def http_error_302(self, req, fp, code, msg, headers):
+        drain_response(fp, self.budget)
+        if "location" not in headers and "uri" not in headers:
+            raise PrepError("redirect_location_missing")
+        # urllib's redirect implementation calls fp.read() without a bound.
+        # It may now consume only this empty surrogate; the real body is closed.
+        with io.BytesIO() as empty:
+            return super().http_error_302(req, empty, code, msg, headers)
+
+    http_error_301 = http_error_303 = http_error_307 = http_error_308 = http_error_302
 
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         parsed = urllib.parse.urlsplit(newurl)
@@ -141,8 +173,8 @@ def acquire(repo: Path, *, preflight_only=False):
     root = repo / "data/raid"
     manifest_dir = repo / "eval/manifests/r1e"
     budget = Budget(root, extra_roots=(manifest_dir,), reserve=64 * 1024 * 1024)
-    redirects = ArtifactRedirect()
-    opener = urllib.request.build_opener(redirects)
+    redirects = ArtifactRedirect(budget)
+    opener = urllib.request.build_opener(redirects, BudgetHTTPErrorHandler(budget))
     start = time.monotonic()
     request = urllib.request.Request(API, headers={"Cache-Control": "no-cache"})
     with opener.open(request, timeout=60) as response:

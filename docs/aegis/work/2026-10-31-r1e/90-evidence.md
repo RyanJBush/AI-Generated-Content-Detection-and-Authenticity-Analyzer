@@ -1,5 +1,20 @@
 # R1-E execution evidence index
 
+Follow-up status: Ryan accepted the specific historical uncertainty (not cap
+compliance) and authorized an offline correction; R1-E remains pending independent
+review. New evidence: eval/results/r1e_budget_fix_verification.json,
+r1e_budget_fix_source_reconciliation.json and r1e_budget_fix_source_verification.json.
+Original execution status below describes b2d24da and is preserved historically.
+
+Follow-up evidence strength: correction target/RAID regression 68 passed inside
+and outside, Ruff/pip/Unicode/whitespace pass; exact source reconciliation and
+original-evidence preservation pass on existing outputs. No live-network proof
+was attempted; original transfer-cap compliance remains unknown. Confidence B
+for this bounded offline correction, no acceptance claim for R1-E. The full
+default suite with loopback controls and real selection reconstruction were not
+rerun. Work is submitted via the containing follow-up commit; repository/commit
+receipt is reported after Git readback, with no task-created branch/worktree.
+
 Status: STOP, not complete/accepted: redirect bodies bypass acquisition counters;
 the cumulative transfer cap is not proven. Actual overrun is not established.
 Primary/repeat preparation and final read-only verifier passed.

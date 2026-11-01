@@ -1,7 +1,9 @@
 # Current R1-E checkpoint
 
-State: STOP on budget-verification gap; no completion/acceptance claim.
-Baseline HEAD: d7ed91f, master. No commits created for E yet.
+Current follow-up: Ryan accepted the specific historical uncertainty, never as
+proof of cap compliance, and authorized an offline correction. R1-E pending review.
+Follow-up baseline: b2d24daba14b80a0cc25c524045e7f713a0363b9, master.
+Original execution checkpoint below is retained historically; no active old session.
 
 - E0 verified before acquisition: nine CA1 tests; independent synthetic dev
   fraction 303/1,000 among the lowest select keys from 100,000 IDs.
@@ -48,3 +50,20 @@ Resume order: user approval -> parent plan/request -> this checkpoint -> git
 status/HEAD -> transfer journal and running-session status -> code/evidence.
 Next: finish documentation/evidence and scoped Git checks; commit preserved work
 with explicit budget STOP, read back commit/status, then stop for independent review.
+
+## Follow-up checkpoint
+
+- Corrected redirect/default HTTP error handlers drain via shared Budget and close
+  before following/raising; all aliases exercised offline. No HTTP/network requests.
+- Source reconciliation is explicit and exact; three changed hashed paths only.
+  Original maps/manifests/receipts remain unchanged. New verification outputs only.
+- Source frozen after Ruff fix. RAID tests inside: 68 passed/1 deselected in6.62s;
+  outside permitted rerun: 68 passed/1 deselected in5.72s. Initial outside sandbox
+  run had temp-dir permission errors, not application failures. Ruff/pip check pass.
+- Read-only existing-data/source preservation audit session4700 completed PASS:
+  approved raw size/hash; 4,845 retained blob hashes per run; all seven scientific
+  files identical; 26 original tracked evidence files byte-unchanged; exact
+  source reconciliation passes and default mismatch rejects; guard attempts zero.
+  No real selection/tokenization rerun. No active execution sessions remain.
+- Final step: stage only follow-up paths, verify original evidence/staged source
+  hashes, commit and stop for independent review. No R1-F/R1-G, network or acquisition.

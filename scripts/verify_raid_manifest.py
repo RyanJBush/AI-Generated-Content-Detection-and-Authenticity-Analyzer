@@ -14,8 +14,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", choices=("primary", "repeat"), default="primary")
     parser.add_argument("--compare-repeat", action="store_true")
+    parser.add_argument("--source-reconciliation", type=Path)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[1]
+    if args.source_reconciliation and args.output is None:
+        parser.error("--source-reconciliation requires a new --output receipt")
+    output = (
+        args.output or repo / "eval/results" / f"r1e_{args.run_id}_verification.json"
+    )
+    if output.exists():
+        raise PrepError("verification_receipt_already_exists; use a new --output")
     envelope, _, _ = validate_manifest(repo / "eval/manifests/r1e" / args.run_id)
     payload = envelope["payload"]
     if (
@@ -33,9 +42,15 @@ if __name__ == "__main__":
         raise PrepError("manifest_not_the_approved_study")
     with preparation_guards() as attempts:
         tokenizer, identity = load_local_tokenizer(repo)
-        result = verify(repo, args.run_id, tokenizer, identity)
+        result = verify(
+            repo,
+            args.run_id,
+            tokenizer,
+            identity,
+            source_reconciliation=args.source_reconciliation,
+        )
         if args.compare_repeat:
             result["repeat_run"] = compare_runs(repo)
     result["guards"] = attempts
-    write_json(repo / "eval/results" / f"r1e_{args.run_id}_verification.json", result)
+    write_json(output, result)
     print(result)
