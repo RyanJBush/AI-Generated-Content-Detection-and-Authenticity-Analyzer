@@ -739,7 +739,7 @@ for the freeze and its committed input artifacts. The containing commit is read
 back externally; it cannot refer to its own future Git hash. Independent review
 must confirm the committed freeze before any future G test blob is opened. No
 G test scorer, test metrics/bootstrap or calibration portability scheme is added.
-# R1-G separate held-out evaluator (approved G0–G5)
+## R1-G separate held-out evaluator (approved G0–G5)
 
 `scripts/evaluate_r1g.py {preflight,score,verify,metrics,verify-results,recover-tail}`
 uses the existing venv and local pinned CUDA assets. No fit, calibration, threshold,
@@ -775,3 +775,10 @@ slice rules, and >50 undefined-replicate suppression. `verify-results` reassembl
 from the saved scores/draws with expanded average-rank AUROC and expanded arm/rate
 formulas; it never reads test blobs or rescoring inputs. Historical transfer-cap
 compliance remains unproven; accepted calibration and F freeze stay byte-identical.
+
+G execution at b5cdc56 completed all 3,361 IDs with one attempt/read/terminal
+result each, all valid. Full ledger verification and independent expanded-formula
+reassembly passed; the 1,000 saved shared draws bind every published interval.
+Results/evidence live only under new G paths. No frozen source or evidence was
+rebound or rewritten. README reports observed FPR, paired denominators, small
+slices, actual resources and external-validity limits; G remains pending review.

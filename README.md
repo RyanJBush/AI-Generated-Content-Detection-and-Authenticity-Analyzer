@@ -6,8 +6,8 @@
 > RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
 > narrow historical transfer-accounting exception. Original transfer-cap
 > compliance remains unproven. R1-F calibration and its committed freeze are
-> independently reviewed and closed. R1-G is proposed only; test access remains
-> unauthorized.
+> independently reviewed and closed. Approved R1-G evaluation is implemented and
+> executed; its results are submitted for independent review, not yet closed.
 > Later modalities and releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
@@ -98,15 +98,15 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
   is independently reviewed and closed with 973 retained source groups (298 dev,
   675 test). R1-F scored 1,484 development rows successfully, including 298 valid
   human negatives. The calibration/freeze are independently reviewed and closed;
-  no held-out test scoring or evaluation has occurred. R1-G-PLAN.md is proposed
-  for review, not approved for execution.
+  approved R1-G evaluated all 3,361 held-out rows successfully. R1-G results are
+  pending independent review; later work remains unauthorized.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.
   No scoring, calibration or test evaluation was performed in R1-E.
-- Results: model-free tests, fixture observations and uncalibrated scorer
+- Results: model-free tests, fixture observations and scorer
   benchmarks are recorded in `docs/decisions.md` and `eval/results/`.
-  No image detector or calibrated text-origin decision is supplied.
+  Exact-profile text calibration/evaluation is supplied; no image detector.
 - Open decisions: `SPEC.md` §15.
 - Governing corrections: `R1-PLAN-CORRECTIONS-A.md`, `R1-PLAN.md`, the SPEC
   addenda and `docs/plans/R1-D-PLAN.md`, including its approved corrections.
@@ -133,8 +133,72 @@ enabled; default image reports and quality/origin separation are unchanged.
 
 See [F verification](eval/results/r1f_verification.json) and
 [the approved plan](docs/plans/R1-F-PLAN.md). Ryan supplied independent confirmation
-of freeze commit `bf455659053cca15ec82cb85065613c6b7459a44`. The proposed
-[R1-G plan](docs/plans/R1-G-PLAN.md) still requires approval before test access.
+of freeze commit `bf455659053cca15ec82cb85065613c6b7459a44`. Ryan subsequently
+approved [R1-G](docs/plans/R1-G-PLAN.md) at `8afab9e` for G0–G5 execution.
+
+## Held-out evaluation (R1-G, pending independent review)
+
+Evaluation implementation/policy commit:
+`b5cdc56d14a063d56683d825cef7c7ecdaac69b4`, committed before test access.
+The accepted F freeze, calibration, source/configuration and E data/reconciliation
+identities passed, including a fresh exact-profile CUDA/synthetic preflight.
+The threshold and configuration above were unchanged. All **3,361 requested rows
+in 675 source groups** were valid: 675 humans, 675 clean machines and 2,011 attacks.
+There were 3,361 attempts and reads, no failures, pending IDs, retries or recovery.
+
+| Primary clean statistic | Observed value | Grouped 95% interval |
+|---|---:|---:|
+| AUROC (higher r=-raw is more machine; exact ties count 0.5) | 0.80358 | 0.77626–0.82907 |
+| TPR | 448/675 = 66.37% | 62.37–69.93% |
+| **Actual test FPR** | **31/675 = 4.59%** | **3.26–6.07%** |
+
+The development 14/298 and test 31/675 are separate observations. The 5% label
+does not guarantee test or population FPR; the test interval extends above 5%.
+Scores are not probabilities, and an unflagged result does not establish human origin.
+
+Paired rates use the **same valid parent/attack pairs** in each row; delta is
+attack minus clean in percentage points. Intervals use the same shared draws.
+
+| Attack | Valid pairs | Clean rate [95% interval] | Attack rate [95% interval] | Delta pp [95% interval] |
+|---|---:|---:|---:|---:|
+| homoglyph | 675/675 | 66.37% [62.37, 69.93] | 8.59% [6.52, 10.67] | -57.78 [-61.48, -54.07] |
+| paraphrase | 661/675 | 66.11% [62.16, 69.73] | 78.06% [74.70, 81.18] | +11.95 [8.40, 15.38] |
+| zero_width_space | 675/675 | 66.37% [62.37, 69.93] | 92.44% [90.22, 94.37] | +26.07 [22.07, 29.93] |
+
+Homoglyph detection was substantially lower in this sample. The other two
+attack labels increased detection here; this does not establish general attack
+robustness. Four paired outcome counts, all coverage and all exploratory slices
+are in [the full metrics](eval/results/r1g/metrics.json). Fourteen paraphrases were
+already unavailable in E; none were refilled. One paraphrase scored-window no-op
+was retained; there were no raw-text no-ops in these attack pairs.
+
+Uncertainty uses 1,000 joint source-group bootstrap draws, seed20261030, fixed
+domain-separated encoding, multiplicity retained and nearest-rank percentiles.
+Every overall statistic had 1,000 defined/0 undefined replicates. The predeclared
+112 clean and 60 paired slices are all published: 88 clean domain/generator cells
+and one paired slice have counts/points only, labeled insufficient data, with no
+interval. These are descriptive, correlated comparisons, not rankings or multiple
+hypothesis tests. Independent expanded average-rank/rate reassembly reproduced all
+saved results and intervals without opening test blobs or rescoring.
+
+This is Litmus's held-out **source-group subset of RAID train.csv**, not the
+publisher's official test.csv or an unseen-generator protocol. The same generator
+families can occur in development and test. Results are conditional on this
+prepared sample, score eligibility/validity, frozen calibration and exact local
+profile. Calibration uncertainty is excluded from the intervals. Pretraining
+overlap remains unquantified; language eligibility is a proxy, not verified
+language coverage. Only the first 512 tokens are scored. There is no broad AI
+detection accuracy, calibrated probability or population-validity claim.
+
+The scoring operation took **5,303.19s (88.4min)** wall and 4,966.84 CPU seconds,
+exceeding the 15–30min estimate. The slowdown's cause was not profiled; gates were
+not relaxed. Peak GPU allocated/reserved bytes were 5,854,253,568 / 6,188,695,552.
+Metadata artifacts are below 100MB; no raw texts, token arrays or weights are
+redistributed. Python guards recorded zero blocked operations; OS/native network
+isolation is not established. Original E transfer-cap compliance remains unproven.
+See [verification](eval/results/r1g_verification.json),
+[counts](eval/results/r1g/counts.json) and [independent formula reassembly](eval/results/r1g/reassembly.json).
+R1-G awaits independent review; this does not authorize UI or later work.
 
 ## License
 

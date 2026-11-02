@@ -1,11 +1,21 @@
 # R1-G checkpoint
 
-G0–G1 ready for source commit: separate evaluation package, locked policy and
-48 constructed regressions. Selected model-free suite: 587 passed/21 deselected
-inside and outside. Final focused checks after guard changes, Ruff, pip check,
-whitespace, accepted-byte/source/UTF-8 audit pass. Evidence:
-eval/results/r1g_implementation_{verification,audit}.json.
+G0–G5 executed under Ryan's approval at plan8afab9e. Stable code/policy commit
+b5cdc56d14a063d56683d825cef7c7ecdaac69b4 predates all test access. No frozen F/E
+source/evidence or G hashed source changed afterward. Original historical
+transfer compliance remains unproven.
 
-No test blobs opened or scored. All accepted E/F bytes retained. Next: commit
-stable implementation; run fresh CUDA preflight, then only after its gates pass
-the held-out scoring procedure. G2–G5 pending. No drift accepted.
+Fresh exact CUDA/assets/synthetic preflight passed. All3,361 rows/675 groups
+produced one valid terminal each;3,361 attempts/reads,zero failures/aborts/
+pending/retries/recovery. No interim performance inspected, counts/activity only.
+Native process exited0 and complete verification passed. Wall5,303.19s exceeded
+estimate; no tuning or gate relaxation. Full locked metrics, independent expanded
+formula reassembly and actual pairwise/parent-join oracles pass without text rereads.
+
+Scientific metadata17 files/19,937,414 bytes. Selected tests587 passed/21 deselected
+inside/outside; final focused48 inside/outside, Ruff,pip,whitespace,UTF-8/source/
+accepted-byte audits pass. See90-evidence.md and eval/results/r1g_verification.json.
+
+README/interfaces/decisions/plan reconcile execution and limitations. Final
+results/evidence commit is next, then stop for independent review. R1-G is not
+independently closed. No UI/later scope. Resume only for a new explicit task.

@@ -400,4 +400,28 @@ unexpected networking, systemic CUDA/error/identity failure or a code/policy
 change. Incomplete runs are incomplete, never selectively reported as the full
 test set. No threshold tuning/new calibration/reselection can repair G results.
 Completion is a verified committed evaluation submitted for review, not permission
-for UI/later work. **This plan remains proposed; test access is not authorized.**
+for UI/later work. The original proposal was approved for G0–G5 at 8afab9e;
+the implementation and completed results are submitted for independent review.
+
+## 10. Execution receipt (2026-11-01 local; UTC receipts extend into November 2)
+
+Stable G code/policy b5cdc56d14a063d56683d825cef7c7ecdaac69b4 preceded all test
+access. G0–G5 executed without frozen F/E edits, threshold/config changes, network,
+reselection, new dependencies or recovery. Fresh CUDA/synthetic and every accepted
+identity/profile gate passed. All 3,361 rows/675 groups were valid, from 3,361
+attempts/reads; zero failures, pending/not-attempted IDs or guard blocks.
+
+Clean AUROC0.8035775034293553; TPR448/675; actual test FPR31/675. Matched attack
+valid-pair counts675/661/675 (homoglyph/paraphrase/zero_width_space); 14 original
+missing paraphrases retained as missing and one paraphrase window no-op retained.
+All 112 clean/60 paired slices and fixed shared-draw intervals are saved, including
+small-slice suppression. Independent expanded formula reassembly matched all
+results/intervals from saved ledgers/draws with no test rereads or rescoring.
+
+Scoring wall5,303.18972689996s / CPU4,966.84375s exceeded the estimate; no causal
+profiling or gate relaxation was performed. Actual full-precision results,
+resources, verification commands/omissions and limitations are recorded in
+eval/results/r1g/, eval/results/r1g_verification.json and README. No G source
+changed after test access. Original E/F evidence and historical transfer exception
+remain intact; original cumulative-transfer compliance is still unproven.
+**Submitted for independent review; R1-G is not independently closed.**

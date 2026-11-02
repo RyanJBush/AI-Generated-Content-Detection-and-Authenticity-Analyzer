@@ -1440,3 +1440,56 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
 - Preserve original evidence and transfer uncertainty (historical cap compliance
   unproven). No threshold tuning, recalibration, reselection, frozen-source edit,
   network, dependency, UI or additional scope. Independent review follows G5.
+
+## 2026-11-01 — R1-G evaluated; submitted for independent review
+
+- Code/tests/policy and preaccess evidence committed at
+  `b5cdc56d14a063d56683d825cef7c7ecdaac69b4` before first test intent; timestamp,
+  Git/source/header digest checks pass. No G source/policy changed after access.
+  F source047421c, accepted calibration/freezebf45565, configuration
+  `10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f`
+  and c=-0.9272342324256897 remain unchanged. All48 accepted E/F evidence/scientific
+  files match Git bytes; frozen source/quality/lexicon and explicit historical E
+  reconciliation maps pass. New G owners are outside frozen paths.
+- Fresh exact local CUDA/assets/synthetic gate passed, zero test opens. The full
+  pass produced3,361 valid terminal results/675 groups:675 humans,675 machines,
+  2,011 attacks. Exactly3,361 attempts/reads/completions; no failures, pending/
+  unattempted IDs, aborts, retries, recovery or guard blocks. Monitoring exposed
+  counts/activity only, not interim performance. Hypothetical crash recovery
+  cannot guarantee physical exactly-once CUDA work; actual run had one attempt/ID.
+- Clean AUROC0.8035775034293553,95% grouped interval
+  [0.7762633744855967,0.8290721536351165]; TPR448/675=0.6637037037037037,
+  [0.6237037037037036,0.6992592592592592]; actual test FPR31/675=
+  0.045925925925925926,[0.03259259259259259,0.06074074074074074]. Development14/298
+  is separate;5% is not a population guarantee or test cap.
+- Same-arm paired results: homoglyph675 pairs,clean448 versus attacked58,
+  delta-0.5777777777777777; paraphrase661 pairs,clean437 versus attacked516,
+  delta0.11951588502269289; zero_width_space675 pairs,clean448 versus attacked624,
+  delta0.2607407407407407. Full intervals/four outcome counts are published.
+  Fourteen upstream missing paraphrases were not refilled; one paraphrase window
+  no-op retained; no raw-text no-ops in attack pairs. README states the homoglyph
+  weakness and observed FPR plainly, without broad robustness claims.
+- Locked1,000 shared group draws,seed20261030/tag/encoding, multiplicity and
+  nearest-rank rules applied to112 clean/60 paired slices. Overall statistics have
+  1,000 defined/0 undefined replicates. All88 clean domain/generator cells and one
+  paired slice suppress intervals for insufficient data; all counts/statuses are
+  saved. Expanded rank/rate/arm reassembly matched every saved metric/interval
+  using scores/draws only. Separate actual pairwise AUROC and parent-join oracles
+  also pass, without test rereads/rescoring.
+- Scoring wall5,303.18972689996s(88.4min),CPU4,966.84375s exceeded15–30min estimate;
+  cause not profiled, no gate relaxation or restart. GPU peak allocated
+  5,854,253,568 bytes,reserved6,188,695,552. Metrics29.8144554s; independent
+  reassembly24.844619s. Seventeen scientific files total19,937,414 bytes(<100MB).
+  No raw texts/tokens/logits/weights/corpus in Git.
+- Selected model-free suite587 passed/21 deselected inside/outside; final focused
+  regressions48 inside/outside after last guard changes. Ruff,pip check,whitespace,
+  UTF-8/source/accepted-byte audit,CLI/import isolation,ledger verification and
+  independent reassembly/oracles pass. Exact commands/timings/digests/omissions
+  are in eval/results/r1g_verification.json and the G evidence record.
+- Results are conditional on prepared RAID train.csv source groups, frozen
+  calibration/eligibility and exact local profile; not official test.csv or an
+  unseen-generator protocol. Calibration uncertainty, contamination risk, language
+  proxy and first512-token scope remain limitations. OS/native network isolation
+  is not established. Original historical cumulative-transfer compliance remains
+  **unproven**; no reacquisition/network or E/F evidence rewriting.
+  **Submitted for independent review, not R1-G closure.** No later scope approved.
