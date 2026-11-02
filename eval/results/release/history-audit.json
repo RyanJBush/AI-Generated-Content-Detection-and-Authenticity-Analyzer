@@ -1,0 +1,26 @@
+{
+  "scope": "all reachable Git objects, including commit/tag metadata",
+  "head": "f11f6c523c7a0a0272b7ece902e3e10117314e19",
+  "objects": {
+    "commit": 76,
+    "tree": 434,
+    "blob": 731
+  },
+  "bytes": 35777720,
+  "findings": [
+    {
+      "kind": "private_key",
+      "path": "tests/fixtures/c2pa/pki/test_signer_key.pem",
+      "object": "418cc07049c69cb581232e91d916077035b51dfb",
+      "documented_test_key": true
+    },
+    {
+      "kind": "private_key",
+      "path": "tests/fixtures/c2pa/pki/untrusted_signer_key.pem",
+      "object": "047d0584a55b6c8194a8807a0fb32e81b2ea0fa1",
+      "documented_test_key": true
+    }
+  ],
+  "prohibited_paths": [],
+  "limitations": "Pattern/path scan, not proof of absence of unknown secret formats or raw text concealed under another name. Existing author email and Windows paths are retained for private publication."
+}

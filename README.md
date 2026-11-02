@@ -1,5 +1,11 @@
 # Litmus
 
+> **Release security status:** The 2026-11-02 advisory audit found unresolved
+> dependency matches. This is a private local review candidate, not a
+> security-cleared stable release. See [release readiness](docs/RELEASE-READINESS.md).
+
+[Portfolio and demo narrative](docs/PORTFOLIO.md) · [Draft release notes](docs/RELEASE-NOTES-R1.md)
+
 **A local evidence workbench for text-origin signals, writing patterns, and image
 Content Credentials.** Upload a file, choose checks, inspect their reasons and
 limitations, and export the original structured report. Litmus does not assign

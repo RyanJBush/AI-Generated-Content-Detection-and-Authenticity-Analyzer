@@ -1666,3 +1666,23 @@ screen-reader/alternate hardware and dependency CVE audits were not run. No
 public deployment is claimed. Original transfer compliance is unproven and the
 historical G recovery limitation remains retired. Current UI evidence is additive;
 older source-bound UI receipts remain evidence for their original revisions.
+
+
+## 2026-11-02 — Authorized release preparation and security gate
+
+Ryan requested all proposed next steps: workflow check, merge, privacy/dependency
+review, tagged release and portfolio presentation. Four production browser checks
+passed again using constructed text. The OSV audit covered 37 installed packages
+and returned 59 advisory records across filelock, pip, torch and transformers;
+records include overlapping aliases, not 59 unique vulnerabilities. High-severity
+matches prevent an unqualified stable-release claim. Full records and preliminary
+triage are in eval/results/release and docs/RELEASE-READINESS.md.
+
+Proceed with the reviewed improvement merge and a tagged private draft candidate,
+not public visibility or stable release. No dependency upgrades, frozen-source
+edits, new calibration or held-out scoring. Owner email/Windows paths in original
+history remain preserved. MIT and synthetic test-key boundaries were checked.
+Portfolio/demo materials explicitly disclose AI assistance and limitations.
+Screen-reader/second-machine tests remain unperformed, not inferred from wheel or
+keyboard checks. Dependency remediation requires a separate scientific identity
+migration plan; accepted results must never be silently rebound to a new runtime.

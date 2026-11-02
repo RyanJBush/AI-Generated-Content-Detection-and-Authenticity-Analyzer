@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-02",
+  "source": "f11f6c523c7a0a0272b7ece902e3e10117314e19",
+  "method": "Actual Playwright interaction against production loopback server 8768, fresh browser context",
+  "checks": [
+    "constructed text upload and quality report",
+    "text origin remains off and displays Not run",
+    "downloaded JSON parses with expected filename",
+    "same-tab reload restores completed report"
+  ],
+  "result": "PASS",
+  "limitations": "No new model or held-out scoring; not a substitute for owner usability feedback or screen-reader testing"
+}

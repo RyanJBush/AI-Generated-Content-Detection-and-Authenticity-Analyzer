@@ -55,3 +55,4 @@ eval/results/readiness/** -text
 scripts/browser_*_checks.js text eol=lf
 pyproject.toml text eol=lf
 tests/test_ui_readiness.py text eol=lf
+eval/results/release/** -text
