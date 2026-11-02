@@ -739,3 +739,39 @@ for the freeze and its committed input artifacts. The containing commit is read
 back externally; it cannot refer to its own future Git hash. Independent review
 must confirm the committed freeze before any future G test blob is opened. No
 G test scorer, test metrics/bootstrap or calibration portability scheme is added.
+# R1-G separate held-out evaluator (approved G0–G5)
+
+`scripts/evaluate_r1g.py {preflight,score,verify,metrics,verify-results,recover-tail}`
+uses the existing venv and local pinned CUDA assets. No fit, calibration, threshold,
+seed, device or sample-selection options are exposed. The frozen F/E source and
+evidence identities are read-only. New owners are `litmus.evaluation.*` and the
+locked `eval/policies/r1g_policy.json`; their separate commit/file/policy hashes
+are bound in the immutable G header, never added to scoring_config_hash.
+
+Before test access, compare all 48 accepted E/F scientific/evidence files to
+accepted commit bf455659, validate the F freeze/calibration and raw source,
+quality/lexicon identities, explicitly reconcile historical E sources, and
+validate the exact 675-group/3,361-row test metadata projection. In a fresh
+offline process verify local asset hashes, exact production CUDA profile/config,
+and the accepted synthetic B2 result. Repeat source/profile checks at each call.
+
+`eval/results/r1g/journal.jsonl` is the authoritative fsynced intent/access/
+completion log. Header digest binds identities to every event. Intent precedes
+the one-read token; raw hash/UTF-8/window checks precede the production scorer.
+The access ledger is a validated projection, not a separate competing writer.
+Terminal numerical errors contain null scores and flags; systemic errors abort.
+Completed IDs never retry. Only a pending interrupted ID can repeat, with a new
+attempt recorded: physical exactly-once CUDA execution cannot be guaranteed.
+Stale locks require inspection. `recover-tail` preserves the complete damaged
+journal before explicit truncation of its last partial line; earlier corruption
+and systemic-abort journals are refused. No raw text/token arrays/logits are saved.
+
+`verify` and both metric operations use metadata and saved ledgers only; incomplete
+passes cannot produce headline metrics. Clean human/machine validity masks are
+independent. Paired comparisons join frozen parents and use identical valid arms.
+The locked policy specifies strict r=-raw > c, fixed 1,000 shared group draws,
+seed/tag/encoding, 112 clean and 60 paired slices, nearest-rank intervals, small
+slice rules, and >50 undefined-replicate suppression. `verify-results` reassembles
+from the saved scores/draws with expanded average-rank AUROC and expanded arm/rate
+formulas; it never reads test blobs or rescoring inputs. Historical transfer-cap
+compliance remains unproven; accepted calibration and F freeze stay byte-identical.

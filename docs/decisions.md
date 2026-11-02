@@ -1424,3 +1424,19 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   sources, five quality sources and three lexicons match freeze hashes. Plan
   anchor/proposal checks, append-only decisions and whitespace checks passed;
   no source, tests, data, calibration or evaluation-evidence changes were made.
+
+## 2026-11-01 — R1-G G0–G5 approval and policy lock
+
+- Ryan approved R1-G-PLAN.md at 8afab9e and authorized G0–G5, local CUDA preflight
+  and held-out scoring. Stable tested evaluation implementation must be committed
+  before test access, outside every frozen F/E path. Accepted freeze/artifact,
+  data/source and exact runtime profile are mandatory gates.
+- Locked policy: fixed F c, strict ties; clean AUROC/TPR/FPR and declared paired
+  contrasts/slices; 1,000 shared source-group draws with multiplicity, bootstrap
+  seed20261030/domain tag, nearest-rank percentiles and the approved undefined/
+  small-slice rules. Known row-numerical failures are terminal only with accepted
+  pre/post identity; systemic/identity/profile/integrity failures stop. No interim
+  performance inspection. Only unfinished interrupted rows may repeat, logged.
+- Preserve original evidence and transfer uncertainty (historical cap compliance
+  unproven). No threshold tuning, recalibration, reselection, frozen-source edit,
+  network, dependency, UI or additional scope. Independent review follows G5.

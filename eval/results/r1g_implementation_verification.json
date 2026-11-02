@@ -1,0 +1,21 @@
+{
+  "stage": "G0-G1 before any held-out blob access",
+  "status": "PASS",
+  "approval": "Ryan approved G0-G5 at plan commit 8afab9e; 2026-11-01",
+  "checks": {
+    "selected_inside": "587 passed, 21 deselected in 26.54s",
+    "selected_outside": "587 passed, 21 deselected in 17.84s",
+    "final_focused_inside": "48 passed in 1.41s after final scorer-window and error-receipt changes",
+    "final_focused_outside": "48 passed in 1.43s",
+    "ruff": "All checks passed!",
+    "pip_check": "No broken requirements found.",
+    "whitespace": "git diff --check exit 0 (line-ending notices only)",
+    "accepted_byte_gate": "48 accepted E/F evidence/scientific files matched accepted Git blobs; all frozen source/quality/lexicon maps verified; explicit E historical reconciliation validated",
+    "metadata_population": "675 test source groups; 3361 rows; exact retained projection digest",
+    "test_blob_access": "zero; constructed temporary fixtures only"
+  },
+  "test_selection": "pytest -q --tb=short, ignoring tests/test_offline_guards.py, test_offline_c2pa.py, test_c2pa_d1.py, test_c2pa_d2.py, test_c2pa_d2_worker.py, test_c2pa_d3.py; default slow marker exclusion (21 deselected). Outside runs used absolute paths from C:/Users/Ryano with the same venv.",
+  "omissions": ["live network controls", "native C2PA suite", "full slow suite", "CUDA and held-out scoring pending stable source commit"],
+  "historical_transfer_compliance_proven": false,
+  "notes": "Initial temporary-directory sandbox denial was resolved by authorized pytest access; no dependencies installed. Small final source guard changes received targeted inside/outside regression after the broader suite. No frozen sources or evidence were modified. Not a claim of G completion or independent review."
+}

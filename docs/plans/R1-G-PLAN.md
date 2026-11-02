@@ -1,9 +1,13 @@
 # R1-G held-out evaluation plan
 
-**PROPOSED for independent review, 2026-11-01. NOT approved for implementation,
-test access or scoring.** This task records R1-F closure and saves a plan only.
-No test blob, existing test score, model weight or GPU execution is opened/run.
-Metadata-only counts and frozen artifact identities inform this proposal.
+**APPROVED by Ryan at 8afab9e, 2026-11-01: G0–G5**, including local CUDA preflight
+and the held-out pass. Lock the specified bootstrap/seed/shared draws, failures,
+metrics and slice rules before access. Commit tested G code outside frozen F/E
+paths before opening test blobs; require every accepted identity/profile gate.
+No interim performance inspection, tuning, recalibration, reselection, frozen
+source edits, network, dependencies, UI or extra scope. Stop on identity/profile/
+integrity/systemic failures. Execution ends with committed evidence and review.
+Original proposal/status text below is historical; actual results are separate.
 
 ## 1. Goal, authority and accepted baseline
 

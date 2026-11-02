@@ -31,3 +31,9 @@ src/litmus/calibration_run.py text eol=lf
 src/litmus/scorer/*.py text eol=lf
 src/litmus/offline.py text eol=lf
 scripts/calibrate_r1f.py text eol=lf
+# G evaluation evidence and source identities are separate from frozen F/E.
+src/litmus/evaluation/*.py text eol=lf
+scripts/evaluate_r1g.py text eol=lf
+eval/policies/r1g_policy.json -text
+eval/results/r1g/** -text
+eval/results/r1g_*.json -text
