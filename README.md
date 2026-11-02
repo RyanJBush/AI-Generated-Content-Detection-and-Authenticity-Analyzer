@@ -3,9 +3,9 @@
 > **Status: R1 in progress.** R0 foundations, opt-in uncalibrated text scoring,
 > text-quality observations and opt-in image provenance are implemented.
 > R1-D image provenance is independently reviewed and closed. Approved R1-E
-> RAID data preparation and a downloader budget correction await independent
-> review. Ryan accepted the historical transfer uncertainty; compliance with
-> the original transfer cap remains unproven.
+> RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
+> narrow historical transfer-accounting exception. Original transfer-cap
+> compliance remains unproven. The R1-F calibration plan is proposed for review.
 > Later modalities and releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
@@ -93,7 +93,8 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
 
 - Implementation: R0 foundations and R1 text/quality work are implemented;
   C2PA D1–D3 and R1-D are independently reviewed and closed. R1-E data preparation
-  has produced 973 retained source groups (298 dev, 675 test), pending review.
+  is independently reviewed and closed with 973 retained source groups (298 dev,
+  675 test). R1-F is proposed only; no development calibration exists yet.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.

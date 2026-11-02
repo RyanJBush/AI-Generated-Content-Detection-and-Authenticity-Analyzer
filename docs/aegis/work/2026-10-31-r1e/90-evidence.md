@@ -1,5 +1,10 @@
 # R1-E execution evidence index
 
+Closure (2026-11-01): Ryan supplied independent Codex review of d50b7e0 and
+instructed R1-E closure with the same narrow historical uncertainty exception.
+Historical cumulative transfer compliance remains unproven. The following
+pending-review/STOP statuses are historical, not the current closure state.
+
 Follow-up status: Ryan accepted the specific historical uncertainty (not cap
 compliance) and authorized an offline correction; R1-E remains pending independent
 review. New evidence: eval/results/r1e_budget_fix_verification.json,

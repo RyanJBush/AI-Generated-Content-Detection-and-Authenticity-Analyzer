@@ -1,5 +1,14 @@
 # R1-E — RAID data preparation plan
 
+**CLOSED, reviewer-reported, 2026-11-01.** Ryan supplied independent Codex review
+of correction commit d50b7e0: 68 offline RAID tests, Ruff, pip check and whitespace
+passed; all 26 historical evidence files are preserved; both runs' source
+reconciliation validates and scientific files match. Closure retains Ryan's
+specific historical transfer-accounting exception. **Historical cumulative
+transfer compliance remains unproven.** This supersedes the historical STOP/
+pending-review status below without rewriting receipts or source identities.
+R1-F-PLAN.md is proposed for separate review; no scoring is authorized by closure.
+
 **APPROVED by Ryan on 2026-10-31: E0–E6 data preparation and bounded acquisition
 only.** Seed 20261030, N_target=1,000, attack tie-break, hash encodings,
 metadata-only selection and no refill after exclusions are explicitly approved.

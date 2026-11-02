@@ -1,5 +1,10 @@
 # Current R1-E checkpoint
 
+Current closure (2026-11-01): R1-E CLOSED on Ryan's supplied independent review
+of d50b7e0, retaining the narrow historical exception; transfer-cap compliance
+remains unproven. R1-F-PLAN.md is proposed only. No scoring or active sessions.
+All follow-up/STOP/pending-review checkpoints below describe their original times.
+
 Current follow-up: Ryan accepted the specific historical uncertainty, never as
 proof of cap compliance, and authorized an offline correction. R1-E pending review.
 Follow-up baseline: b2d24daba14b80a0cc25c524045e7f713a0363b9, master.

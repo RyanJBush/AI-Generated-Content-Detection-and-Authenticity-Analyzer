@@ -1244,3 +1244,39 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   was rerun. Synthetic full-verifier integration and actual source-version/
   preservation checks cover the changed seam. The historical transfer cap remains
   **unproven**, and R1-E remains **pending independent review** after this commit.
+
+## 2026-11-01 — R1-E closure and R1-F planning only
+
+- **R1-E CLOSED, reviewer-reported.** Ryan supplied Codex's independent review
+  of correction commit `d50b7e0`: 68 offline RAID tests, Ruff, pip check and
+  whitespace checks passed. All 26 historical evidence files are preserved;
+  explicit source reconciliation validates both runs, and primary/repeat
+  scientific files match. These are reviewer-reported results, not runtime
+  checks rerun by the builder during this documentation task.
+- Closure retains Ryan's existing **narrow historical transfer-accounting
+  exception** from r1e_redirect_budget_audit.json. Historical cumulative transfer
+  compliance remains **unproven**. Acceptance of uncertainty must never be
+  recorded as proof the original transfer stayed below 13 GB. Original receipts,
+  scientific manifests and historical source hashes remain unchanged. The
+  earlier STOP and pending-review entries above describe their original times.
+- Starting HEAD was clean master at
+  `d50b7e0c5cb329b7e12cf2fcba54c45aa50e41c7`; no repository AGENTS.md found.
+  Ryan authorized closure documentation and an R1-F plan **for independent review
+  only**, not implementation, model loading or data scoring.
+- Saved `docs/plans/R1-F-PLAN.md`, explicitly PROPOSED / NOT APPROVED. It binds
+  the reviewed E manifest/dev projection and historical source reconciliation,
+  production runtime/configuration identity, dev-only scoring and valid-negative
+  count gate, SPEC 10.4's exact strict 5% procedure, validated calibration
+  application, durable interruption recovery and a committed pre-G freeze.
+  Source-code changes must settle before dev scoring; the final scoring hash
+  is not known or assumed equal to the historical B2 benchmark hash.
+- Planning used local specifications/corrections, scorer/identity/loader and
+  calibration interfaces, retained **metadata only**, lexicon bytes and prior
+  synthetic benchmark evidence. Metadata shows 1,484 dev rows and 298 dev humans;
+  the actual score-valid negative count is unknown until an approved F run.
+  1% calibration remains disabled. No thresholds, scores or freeze were created.
+- No network requests, model/weight loading, real-data selection/tokenization,
+  dev/test scoring, inspection of test scores, calibration, test evaluation,
+  UI work or dependency changes. Documentation references and whitespace are
+  checked; runtime suites are not rerun for these documentation-only edits.
+  R1-F and R1-G remain separate approval/review gates.

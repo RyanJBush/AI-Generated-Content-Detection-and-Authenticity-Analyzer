@@ -1,5 +1,11 @@
 # R1-E acquisition approval request
 
+**R1-E CLOSED, reviewer-reported, 2026-11-01**, following Ryan's supplied
+independent review of d50b7e0. The specific historical transfer uncertainty is
+accepted, never proof of compliance with the original cumulative cap. Original
+receipts and scientific identities remain unchanged; no reacquisition or further
+network requests. Earlier pending-review/STOP wording below is historical.
+
 **APPROVED by Ryan on 2026-10-31**, together with E0–E6 in the complete
 [R1-E plan](R1-E-PLAN.md). The request below is retained as the approved scope.
 Ryan also reported reviewer confirmation of the revision-specific API byte/hash

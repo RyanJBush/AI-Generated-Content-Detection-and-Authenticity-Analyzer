@@ -469,10 +469,12 @@ must match. Temporary artifacts are left for review and their location recorded.
 
 ## R1-E data preparation (no scoring)
 
-**Execution status: pending independent review.** Ryan accepted the original
-redirect-body accounting uncertainty; historical cumulative transfer-cap
-compliance remains unproven. The downloader correction was verified offline.
-No further acquisition/network requests are authorized by this exception.
+**Execution status: CLOSED, reviewer-reported (2026-11-01).** Ryan supplied Codex's
+independent review of d50b7e0: 68 offline RAID tests, Ruff, pip/whitespace checks,
+26 historical evidence files preserved, both reconciled source versions valid,
+and primary/repeat scientific files matching. Ryan's accepted historical
+redirect-body uncertainty remains an exception, not proof of cumulative
+transfer-cap compliance. No further acquisition/network requests are authorized.
 
 Authority and constants: `docs/plans/R1-E-PLAN.md`, approved 2026-10-31.
 Seed 20261030, target 1,000 source groups; one pinned train.csv only. Scripts
@@ -621,7 +623,7 @@ handling to urllib, whose handler consumes redirect bodies outside Budget.read.
 The existing receipt counts API/artifact reads, not those bodies. Full cumulative
 transfer compliance cannot be established from this receipt; an actual overrun
 has not been shown. Ryan accepted this specific uncertainty, not compliance.
-R1-E remains pending independent review. See
+R1-E is now closed on the reviewer-reported evidence above, with this exception. See
 `eval/results/r1e_redirect_budget_audit.json`. Frozen source and receipts remain
 unchanged at that stop to preserve evidence; the subsequent correction explicitly
 reconciles changed acquisition/verifier sources without replacing historical
