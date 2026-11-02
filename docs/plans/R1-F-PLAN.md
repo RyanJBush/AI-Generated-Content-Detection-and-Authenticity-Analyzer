@@ -1,5 +1,14 @@
 # R1-F implementation plan — development calibration and committed freeze
 
+**CLOSED, reviewer-reported, 2026-11-01.** Ryan supplied independent Codex review:
+539 selected model-free tests, Ruff and pip check passed; committed-freeze
+validation passed at bf455659053cca15ec82cb85065613c6b7459a44. Independent ledger/
+threshold checks confirmed 1,484 unique valid dev rows, 298 human negatives,
+c=-0.9272342324256897, 14 strict exceedances and one unflagged tie. Frozen source,
+calibration, ledgers and freeze bytes are preserved. Earlier pending-review text
+below is historical. R1-G-PLAN.md is proposed only; closure is not test-access
+authorization. Historical cumulative transfer compliance remains unproven.
+
 **APPROVED by Ryan, 2026-11-01, at 3f3e787: F0–F5 including local CUDA synthetic
 checks and development-only scoring.** The implementation must be committed
 before scoring. Subsequent artifact/evidence/freeze work may not change hashed

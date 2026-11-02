@@ -1383,3 +1383,44 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
 - R1-F artifacts/evidence/freeze are submitted for **independent review**, not
   marked independently accepted. R1-G requires reviewer confirmation of the
   committed freeze and separate authorization; no test blobs/scores were accessed.
+
+## 2026-11-01 — R1-F closure and R1-G planning only
+
+- **R1-F CLOSED, reviewer-reported.** Ryan supplied Codex's independent review:
+  539 selected model-free tests, Ruff and pip check passed. Committed-freeze
+  validation passed at `bf455659053cca15ec82cb85065613c6b7459a44`. Independent
+  ledger/threshold checks confirmed 1,484 unique valid dev rows, 298 human
+  negatives, c=-0.9272342324256897, 14 strict exceedances and one unflagged tie.
+  These are reviewer-reported results; the builder did not rerun runtime/CUDA
+  checks during this documentation task. Earlier pending-review states are historical.
+- Frozen implementation `047421cf4c36f8a946453eacc1b9c056bf5147d6`, calibration,
+  development ledgers, preflight/evidence and freeze bytes remain unchanged.
+  Scoring configuration remains
+  `10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f`.
+  The original E transfer-accounting exception stays narrowly scoped: historical
+  cumulative transfer compliance remains unproven, never established by F closure.
+- Ryan authorized an R1-G evaluation **plan for independent review only**, not
+  implementation, test-text access, model loading or test scoring. Starting HEAD
+  was clean master at bf45565; no repository AGENTS.md found. Saved proposed
+  `docs/plans/R1-G-PLAN.md` with a separate evaluation-code identity outside all
+  frozen scorer/ancillary/quality/preparation sources. Any required frozen-source
+  change must be raised before test access, not hidden in a new hash/alias.
+- The proposal fixes pre-access committed-freeze/profile/config gates, one-pass
+  access/scoring journal and transparent interrupted-row recovery, fixed-threshold
+  clean TPR/FPR and tie-aware AUROC, same-pair clean/attack comparisons, shared
+  group-bootstrap draws with multiplicity, small/undefined-statistic handling,
+  failure/coverage reporting and honest README results. Bootstrap seed/tag,
+  nearest-rank percentile convention and paired minimum-size interpretation are
+  explicit proposals, not executed/approved choices. No threshold recalibration.
+- Local planning inspected specs/corrections, frozen source/contracts/artifact
+  metadata and prepared metadata only. Metadata-only test expectations are 675
+  groups/3,361 rows (675 humans, 675 clean machines, 675 homoglyph, 661 paraphrase,
+  675 zero_width_space); actual score-valid counts/metrics are unknown. No test
+  blob or test score was opened, no model/weight/GPU work or network performed,
+  and no source/calibration/freeze bytes were changed. Only documentation checks
+  and frozen-byte preservation checks are appropriate for this turn.
+- Documentation verification passed: all 18 tracked F calibration/freeze/evidence
+  files match the accepted bf45565 Git blobs byte-for-byte; 14 frozen implementation
+  sources, five quality sources and three lexicons match freeze hashes. Plan
+  anchor/proposal checks, append-only decisions and whitespace checks passed;
+  no source, tests, data, calibration or evaluation-evidence changes were made.

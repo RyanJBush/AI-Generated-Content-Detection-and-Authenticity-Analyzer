@@ -1,5 +1,10 @@
 # R1-F execution checkpoint
 
+Current closure: Ryan supplied independent F review and confirmed freeze commit
+bf455659053cca15ec82cb85065613c6b7459a44; R1-F CLOSED, reviewer-reported.
+All execution/pending-commit notes below are historical. Frozen bytes preserved.
+R1-G-PLAN.md is proposed only; no test access/scoring or active sessions.
+
 Baseline clean master 3f3e787e02417e1f848812ba1aba956ad88bc95e.
 State: F0/F1 committed at 047421cf4c36f8a946453eacc1b9c056bf5147d6;
 source tree confirmed clean before execution. Hashed implementation sources

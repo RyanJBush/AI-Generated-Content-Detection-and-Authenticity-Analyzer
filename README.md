@@ -5,8 +5,9 @@
 > R1-D image provenance is independently reviewed and closed. Approved R1-E
 > RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
 > narrow historical transfer-accounting exception. Original transfer-cap
-> compliance remains unproven. R1-F development calibration and a freeze are
-> submitted for independent review. R1-G test scoring remains unauthorized.
+> compliance remains unproven. R1-F calibration and its committed freeze are
+> independently reviewed and closed. R1-G is proposed only; test access remains
+> unauthorized.
 > Later modalities and releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
@@ -96,8 +97,9 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
   C2PA D1–D3 and R1-D are independently reviewed and closed. R1-E data preparation
   is independently reviewed and closed with 973 retained source groups (298 dev,
   675 test). R1-F scored 1,484 development rows successfully, including 298 valid
-  human negatives. The calibration/freeze await independent review; no held-out
-  test scoring or evaluation has occurred.
+  human negatives. The calibration/freeze are independently reviewed and closed;
+  no held-out test scoring or evaluation has occurred. R1-G-PLAN.md is proposed
+  for review, not approved for execution.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.
@@ -109,7 +111,7 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
 - Governing corrections: `R1-PLAN-CORRECTIONS-A.md`, `R1-PLAN.md`, the SPEC
   addenda and `docs/plans/R1-D-PLAN.md`, including its approved corrections.
 
-## Development calibration (R1-F, pending review)
+## Development calibration (R1-F, independently reviewed)
 
 The local CUDA/fp32 profile has a 5% empirical development calibration, bound to
 the exact configuration hash in [the freeze](eval/freezes/r1f_freeze.json).
@@ -130,8 +132,9 @@ invalidates matching. Default CLI analysis remains a placeholder unless explicit
 enabled; default image reports and quality/origin separation are unchanged.
 
 See [F verification](eval/results/r1f_verification.json) and
-[the approved plan](docs/plans/R1-F-PLAN.md). The containing freeze commit must be
-confirmed by independent review before any future R1-G test access.
+[the approved plan](docs/plans/R1-F-PLAN.md). Ryan supplied independent confirmation
+of freeze commit `bf455659053cca15ec82cb85065613c6b7459a44`. The proposed
+[R1-G plan](docs/plans/R1-G-PLAN.md) still requires approval before test access.
 
 ## License
 

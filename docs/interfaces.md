@@ -681,6 +681,14 @@ their raw identities. Raw/index/blob contents remain local, outside Git.
 
 ## R1-F development execution and freeze
 
+**CLOSED, reviewer-reported (2026-11-01).** Ryan supplied Codex's independent
+review: 539 selected model-free tests, Ruff and pip check passed; accepted freeze
+bf455659053cca15ec82cb85065613c6b7459a44 validated; independent ledger/threshold
+checks confirmed 1,484 unique valid dev rows, 298 human negatives, c=-0.9272342324256897,
+14 strict exceedances and one unflagged tie. Source/calibration/ledger/freeze
+bytes remain unchanged. No R1-G access is authorized by this closure; the G plan
+is proposed for separate review. Historical transfer-cap compliance is unproven.
+
 Ryan approved F0-F5 at 3f3e787, including local CUDA synthetic checks and dev-only
 scoring, with stable implementation committed first. No R1-G scoring permission.
 Prepared data, historical source reconciliation and original transfer exception
