@@ -21,6 +21,7 @@ models = [
 
 [project.scripts]
 litmus = "litmus.cli:main"
+litmus-ui = "litmus.local_ui.server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -29,6 +30,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 "litmus.quality" = ["lexicons/*.txt"]
 "litmus.c2pa" = ["trust/*.pem"]
+"litmus.local_ui" = ["static/*.html", "static/*.css", "static/*.js"]
 
 [tool.setuptools.dynamic]
 version = { attr = "litmus.__version__" }

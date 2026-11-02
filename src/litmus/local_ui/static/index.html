@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="litmus-token" content="@@TOKEN@@"><title>Litmus — Local evidence</title><link rel="icon" href="data:,">
+<link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><header><a class="wordmark" href="/">litmus<span>.</span></a><span class="local"><i></i> Local workspace</span></header>
+<main><section class="intro"><p class="eyebrow">A closer look at your content</p><h1>Evidence, not a verdict.</h1><p>Inspect text signals and image credentials. Understand what the evidence supports—and where it stops.</p></section>
+<div class="workspace"><section class="card upload"><div class="section-label"><span>01</span><h2>Choose a file</h2></div>
+<label class="drop" id="drop" for="file"><span class="file-icon" aria-hidden="true">↥</span><strong id="file-name">Select a file to inspect</strong><span id="file-meta">Text, Markdown, JPEG, PNG or WebP · up to 50 MB</span><span class="choose">Browse files</span><input id="file" type="file" aria-label="Choose a file" accept=".txt,.md,.jpg,.jpeg,.png,.webp"></label>
+<p class="privacy">Files stay on this computer. Temporary uploads are removed after analysis.</p></section>
+<section class="card options"><div class="section-label"><span>02</span><h2>Choose the evidence</h2></div>
+<p class="muted">All options start off. Turn on the checks you need.</p>
+<label class="option"><input id="text-origin" type="checkbox"><span><strong>Text origin signals</strong><small>Local text model · requires the installed CUDA setup. Only the first 512 tokens are scored.</small></span></label>
+<label class="option"><input id="c2pa" type="checkbox"><span><strong>Image credentials</strong><small>Embedded Content Credentials, not an image detector. Signer trust is unknown under the empty trust list.</small></span></label>
+<label class="option"><input id="quality" type="checkbox"><span><strong>Content observations</strong><small>Surface patterns in text. Separate from origin evidence; not evidence of AI authorship.</small></span></label>
+<button id="analyze" type="button" disabled>Analyze file <span aria-hidden="true">→</span></button>
+<p class="status" id="status" role="status" aria-live="polite">Choose a file to begin.</p>
+<p class="muted fine">Analysis may take a few minutes. Closing this tab does not cancel work; keep it open to receive the report.</p></section></div>
+<section id="results" class="card results" hidden aria-labelledby="results-title"><div class="result-heading"><div><p class="eyebrow">Your report</p><h2 id="results-title" tabindex="-1">Analysis complete</h2></div><button id="download" type="button" class="secondary">Download JSON ↓</button></div><p id="report-file" class="muted"></p><div id="report-content"></div></section>
+<aside class="note"><strong>A signal is not a probability.</strong><p>Results are evidence to inspect, not a judgment about who made a file. No signal does not establish human origin. Text-model performance varies; our held-out evaluation showed a substantial weakness on homoglyph edits.</p></aside>
+</main><footer><span>Litmus · R1</span><span>Local analysis. Reasons and limitations included.</span></footer></body></html>

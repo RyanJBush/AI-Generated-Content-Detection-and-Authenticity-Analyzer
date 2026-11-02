@@ -1504,3 +1504,55 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   All17 original scientific hashes remain unchanged. Documented in interfaces,
   README and r1g_readonly_reassembly_check.json for review; no source fix under
   the old run identity, rescoring or definition change.
+
+## 2026-11-02 — Finish approved local R1; review disposition and interface
+
+- Ryan explicitly authorized the remaining independent review, loopback local
+  interface and final usability/packaging checks. No new dependencies, frozen
+  source/evidence changes, rescoring/recalibration or wider R2–R4 work.
+- Fresh-context independent reviewer reran48 G tests, full saved reconstruction,
+  original17 hashes, actual455,625 pairwise AUROC and flags448/675,31/675. Actual
+  scientific results are supported. Reviewer found a real P2 legacy resume flaw:
+  intent/access payload identities were not checked until after further resume
+  access was possible. Recorded uninterrupted run had no recovery and all its
+  events pass strict checks. We do **not** claim that old recovery requirement met.
+- Disposition reviewed and implemented: original G sources/receipts unchanged;
+  legacy execution/recovery/receipt creation retired from supported commands.
+  Additive release_verify.py/script validates every event and full sequence
+  before old verification; pins accepted receipt99cf803/source Git blobs/artifact
+  hashes and F/E reconciliation. No text/model/scoring/resume/write operation.
+  Thirteen corruption tests and independent twice-run reconstruction pass, with
+  identical stdout and original artifacts/receipt unchanged. Reviewer recommends
+  closure of completed scientific evidence with this explicit scope retirement,
+  not unqualified original G0–G5 implementation compliance. Residual manual use of
+  historical driver remains unsupported. **Completed scientific R1-G is closed.**
+- Added local_ui package, static client and Start-Litmus.cmd outside all frozen
+  paths. Stdlib-only127.0.0.1 HTTPServer, bounded single worker/owned temp cleanup,
+  all options initially off, production analyzers/report owner preserved. Lazy
+  model reuse avoids reinitializing the accepted CUDA startup profile. No UI
+  import reaches evaluation/acquisition/scientific execution. Exact Host/Origin,
+  session token, strict request framing/size/name/options and safe DOM rendering.
+  Origin and quality remain separate; no probability/human-origin verdict.
+- API contract independently reviewed before implementation. UI review found
+  two minor issues (unknown-method HTML error and stale oversize selection), both
+  corrected with regression/browser checks. Fresh UI review29 tests pass (three additional method-guard regressions pass); no
+  important remaining findings. Parent full selected suite632 pass/21 slow
+  excluded inside19.31s/outside17.40s. Ruff/pip/whitespace/frozen-byte checks pass.
+- Actual browser desktop1440x1080/mobile390x844 exercised upload, loading,
+  busy409, error recovery, unsupported input, separate quality, safe hostile
+  display filename, JSON download, keyboard controls and overflow check. Real
+  production app8765 also used existing report/quality code with constructed
+  text; no model/test scoring. Helper8766 is explicitly a constructed UI fixture,
+  not a scientific detector validation. Screenshots/results under eval/results/r1h/.
+- Fresh wheel built/installed with --no-index/--no-deps and existing runtime
+  pins; isolated -I child outside repo imports every Litmus module from new wheel,
+  validates UI assets/upload/poll/quality/report, unchanged image golden, no
+  weights/raw data/private keys packaged, base venv distributions unchanged.
+  This is model-free packaging, not portable calibrated GPU validation.
+- Local R1 is complete under approved scope. Existing F/E/G bytes and original
+  transfer exception are preserved; historical cumulative13GB compliance remains
+  **unproven**. No new network beyond authorized loopback UI verification, new
+  dependencies, raw-text redistribution, threshold tuning, model changes or UI
+  detector changes. Full slow/native-C2PA suites, live GPU UI scoring, screen-reader
+  audit and OS/native isolation not rerun/claimed. Public hosting/licensing and
+  later modalities remain outside this local completion.

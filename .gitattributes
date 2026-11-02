@@ -37,3 +37,11 @@ scripts/evaluate_r1g.py text eol=lf
 eval/policies/r1g_policy.json -text
 eval/results/r1g/** -text
 eval/results/r1g_*.json -text
+# R1 local interface/release evidence, separate from every frozen source map.
+src/litmus/local_ui/** text eol=lf
+src/litmus/release_verify.py text eol=lf
+scripts/verify_r1_release.py text eol=lf
+scripts/verify_wheel_r1.py text eol=lf
+scripts/smoke_local_ui.py text eol=lf
+eval/results/r1h/** -text
+Start-Litmus.cmd text eol=crlf

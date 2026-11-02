@@ -12,3 +12,5 @@ build/
 models/
 # Approved R1-E: raw corpus, metadata indexes and selected text stay local.
 /data/
+# Browser tool traces are local; curated R1 UI evidence is in eval/results/r1h/.
+.playwright-mcp/

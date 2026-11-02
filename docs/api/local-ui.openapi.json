@@ -1,0 +1,284 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Litmus local interface",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:{port}",
+      "variables": {
+        "port": {
+          "default": "8765"
+        }
+      }
+    }
+  ],
+  "security": [
+    {
+      "sessionToken": []
+    }
+  ],
+  "x-local-policy": "Bind 127.0.0.1 only. Exact Host and, when present, Origin required. No CORS. Token is in HTML meta; client sends X-Litmus-Token on API requests. One worker, no queue, one last report in memory. Closing tab does not cancel. No outbound requests. Static GET /, /app.js, /style.css are public to the same local origin; all API routes require token.",
+  "paths": {
+    "/api/v1/jobs": {
+      "post": {
+        "summary": "Upload a file and start one local analysis",
+        "parameters": [
+          {
+            "name": "X-Litmus-Filename",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 3000
+            },
+            "description": "Percent-encoded UTF-8 basename. Decoded name <=180 codepoints and <=255 UTF-8 bytes; no slash, backslash or control character; not dot/dotdot."
+          },
+          {
+            "name": "Content-Length",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 50000000
+            }
+          },
+          {
+            "name": "text_origin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "off",
+                "on"
+              ],
+              "default": "off"
+            }
+          },
+          {
+            "name": "quality",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "off",
+                "on"
+              ],
+              "default": "off"
+            }
+          },
+          {
+            "name": "c2pa",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "off",
+                "on"
+              ],
+              "default": "off"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted; poll Location. Previous report replaced only on successful acceptance.",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "description": "Existing analysis busy; no queued job or retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "411": {
+            "$ref": "#/components/responses/Error"
+          },
+          "413": {
+            "$ref": "#/components/responses/Error"
+          },
+          "415": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "summary": "Poll the current job; unknown or replaced IDs return 404",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{32}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current status; complete report only when completed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "501": {
+            "$ref": "#/components/responses/Error"
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "sessionToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Litmus-Token"
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "Request rejected; error.code and actionable message. Host/origin/token failures 403; invalid fields/options/framing 400; missing length 411; budget 413; media 415; busy 409; unknown resource 404; unsupported HTTP methods 501; unexpected server error 500.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "status",
+          "report",
+          "error"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "running",
+              "completed",
+              "error"
+            ]
+          },
+          "report": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Unchanged litmus-report/r0 object when completed; null otherwise. Rejected ingestion is still a completed report."
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Actionable analysis failure when status=error; null otherwise."
+          }
+        }
+      }
+    }
+  },
+  "x-request-validation": "Reject duplicate Host, Origin, X-Litmus-Token, X-Litmus-Filename, Content-Length and Content-Type headers; any Transfer-Encoding; non-decimal/absent/overbudget length; short/timed-out bodies; absolute URI targets; duplicate or unknown query options. Reject malformed percent encoding or UTF-8 filename. Ten-second socket timeout. Close connection after every response including rejection and unread request body. Only a complete validated upload may replace last job; rejected/short upload preserves it.",
+  "x-resource-security": "Per-process cryptographically random token. Upload uses random server-owned temporary basename with validated original suffix (never client basename); report display filename is the validated original name. Worker owns temp directory and removes it on success or error. No arbitrary client filesystem path, queue or persistent file/report. Report fields otherwise unchanged."
+}

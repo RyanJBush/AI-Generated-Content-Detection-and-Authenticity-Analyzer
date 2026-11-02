@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "date": "2026-11-02",
+  "tool": "Local Playwright browser",
+  "desktop_viewport": [1440, 1080],
+  "mobile_viewport": [390, 844],
+  "constructed_helper_origin": "http://127.0.0.1:8766",
+  "production_origin": "http://127.0.0.1:8765",
+  "checks": {
+    "initial_analyze_disabled": true,
+    "all_options_initially_off": true,
+    "upload_progress_report": "PASS",
+    "quality_separate_from_origin": "PASS",
+    "busy_submission_status": 409,
+    "error_recovery_keeps_selection_and_reenables_action": "PASS",
+    "unsupported_zip_reports_no_analysis": "PASS",
+    "hostile_display_filename_escaped_not_html": "PASS",
+    "json_download": "litmus-report.json; browser-export.json",
+    "mobile_horizontal_overflow": false,
+    "oversize_replacement_clears_selection_and_disables_action": "PASS; constructed browser File with 50000001 bytes, not uploaded",
+    "keyboard": "Tab reaches file control; Space toggles named checkbox",
+    "page_javascript_errors": [],
+    "page_requests_local_only": true,
+    "expected_console_network_error": "409 from deliberate busy probe",
+    "production_real_assembler_and_quality_fixture": "PASS without model scoring; page reset to initial state afterward"
+  },
+  "screenshots": ["desktop-initial.png", "loading.png", "desktop-report.png", "mobile-report.png", "analysis-error.png", "unsupported-input.png", "production-initial.png", "production-report.png"],
+  "scope": "Only constructed UI samples. Helper injects delay/failure, not detector scores. Production smoke uses real report/quality implementation with text origin/C2PA off. No held-out data, model weights or numerical detector validation.",
+  "not_claimed": ["screen-reader audit", "full accessibility conformance", "200 percent browser zoom", "live CUDA UI scoring", "native or OS network isolation"]
+}

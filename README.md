@@ -1,19 +1,57 @@
 # Litmus
 
-> **Status: R1 in progress.** R0 foundations, opt-in uncalibrated text scoring,
-> text-quality observations and opt-in image provenance are implemented.
-> R1-D image provenance is independently reviewed and closed. Approved R1-E
-> RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
-> narrow historical transfer-accounting exception. Original transfer-cap
-> compliance remains unproven. R1-F calibration and its committed freeze are
-> independently reviewed and closed. Approved R1-G evaluation is implemented and
-> executed; its results are submitted for independent review, not yet closed.
-> Later modalities and releases remain planned.
+> **Status: R1 complete for local use.** The local interface, text signals,
+> content observations, image credentials and held-out scientific evaluation are
+> implemented and reviewed. Historical G recovery did not meet its original
+> integrity requirement and is retired from supported use; the completed
+> uninterrupted evaluation remains valid and has a strict read-only verifier.
+> Frozen sources, calibration and scientific evidence are unchanged. Original E
+> transfer-cap compliance remains unproven. Later modalities/releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
 
 Litmus reports evidence about text and image provenance. Audio, video and
 document analysis remain planned.
+
+## Open Litmus
+
+Double-click **Start-Litmus.cmd**, then open **http://127.0.0.1:8765** in your
+browser. Or run this from the project folder:
+
+```powershell
+.venv\Scripts\python.exe -m litmus.local_ui
+```
+
+Choose a file, turn on the checks you need, and select **Analyze file**. Review
+the reasons and limitations, then **Download JSON** to keep the full report.
+All checks start off, preserving existing analysis defaults. Text origin uses
+the pinned local CUDA setup; content observations need no model weights. Image
+credentials inspect embedded provenance and do not detect generated images.
+
+The server binds only to `127.0.0.1`; there are no remote assets or cloud calls.
+Only one analysis runs at a time. Files use a server-owned temporary path and
+are removed on normal completion or handled failure; reports stay in memory
+unless downloaded. A hard process termination can leave a temporary file.
+Closing a tab does not cancel native work. Keep it open for the report;
+Ctrl+C stops the server and waits for active analysis. If the port is occupied,
+use `--port 8767`. Do not expose this single-user service through a public proxy.
+
+The existing CLI remains available, with unchanged defaults:
+
+```powershell
+.venv\Scripts\python.exe -m litmus.cli analyze sample.txt --text-origin binoculars --quality on -o report.json
+.venv\Scripts\python.exe scripts/verify_r1_release.py --metrics
+```
+
+The second command verifies completed evaluation from saved metadata, scores and
+draws only. It is repeatable, changes no receipts and never opens held-out texts
+or runs a model. Legacy `evaluate_r1g.py` scoring, recovery and receipt-creation
+commands remain historical provenance and are **unsupported**. No further
+held-out scoring is authorized.
+
+Use the checkout launcher for the calibrated local profile. The fresh wheel
+passed model-free UI/CLI checks with existing pinned dependencies; it is not a
+portable bundle of the weights, calibration or execution profile.
 
 ## What Litmus will and will not do
 
@@ -98,8 +136,9 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
   is independently reviewed and closed with 973 retained source groups (298 dev,
   675 test). R1-F scored 1,484 development rows successfully, including 298 valid
   human negatives. The calibration/freeze are independently reviewed and closed;
-  approved R1-G evaluated all 3,361 held-out rows successfully. R1-G results are
-  pending independent review; later work remains unauthorized.
+  approved R1-G evaluated all 3,361 held-out rows successfully and its scientific
+  results were independently reconstructed. R1-H and final checks are complete.
+  Historical G recovery is unmet/retired, not retroactively fixed.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.
@@ -136,7 +175,7 @@ See [F verification](eval/results/r1f_verification.json) and
 of freeze commit `bf455659053cca15ec82cb85065613c6b7459a44`. Ryan subsequently
 approved [R1-G](docs/plans/R1-G-PLAN.md) at `8afab9e` for G0–G5 execution.
 
-## Held-out evaluation (R1-G, pending independent review)
+## Held-out evaluation (R1-G, scientific results independently reviewed)
 
 Evaluation implementation/policy commit:
 `b5cdc56d14a063d56683d825cef7c7ecdaac69b4`, committed before test access.
@@ -202,7 +241,31 @@ The committed `verify-results` command creates a timing-bearing immutable receip
 repeating it in the same directory would reject new timing bytes. A separate
 [fresh read-only reassembly](eval/results/r1g_readonly_reassembly_check.json) passed
 without changing any original scientific file. See interfaces for repeat verification.
-R1-G awaits independent review; this does not authorize UI or later work.
+Independent review on 2026-11-02 reproduced all metrics/intervals, original hashes,
+actual pairwise AUROC and flag counts. It also found a legacy resume defect:
+intent/access identities were checked too late on that unused path. The actual
+run had no recovery and passes strict verification. That historical requirement
+is **unmet and retired**, not claimed to have passed. The supported verifier
+checks every event before downstream verification, binds original Git blobs,
+is deterministic and makes no writes. Corruption regressions and independent
+repeated reconstruction passed. The completed scientific evaluation is closed
+with this explicit disposition, not unqualified historical G0–G5 compliance.
+
+## R1 verification and limits
+
+Final selected model-free suite: **632 passed, 21 slow tests excluded**, inside
+and outside the repository. Ruff, pip check, whitespace, loopback contract tests,
+independent code review, fresh wheel checks, desktop/mobile walkthrough, keyboard
+controls, error/busy recovery, safe filename display, JSON export and frozen-byte
+verification passed. See [evidence](eval/results/r1h/verification.json),
+[reviews](eval/results/r1h/reviews.json) and [UI](eval/results/r1h/production-initial.png).
+
+No further CUDA scoring, held-out text access, calibration, acquisition, external
+network requests or dependencies were used for this completion. Full slow/native
+C2PA suites, live GPU UI scoring, hardware portability, a full accessibility/
+screen-reader audit and OS/native isolation were not rerun or established here.
+Scientific limits and the historical transfer exception remain. R1 is a local
+tool; R2–R4 image/audio/video/document detectors remain future work.
 
 ## License
 

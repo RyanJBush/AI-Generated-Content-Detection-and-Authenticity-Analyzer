@@ -792,3 +792,46 @@ the complete result to metrics.json without writing a receipt. A fresh such
 read-only repeat passed; all 17 original scientific files remained unchanged.
 See eval/results/r1g_readonly_reassembly_check.json. Source was preserved rather
 than changed under the accepted run identity; receipt ergonomics await review.
+
+## Supported R1 local interface and verification (2026-11-02)
+
+Ryan approved finishing R1 review/UI/final checks. `python -m litmus.local_ui`
+or Start-Litmus.cmd starts a single-user server on127.0.0.1:8765; `--port` changes
+only the port. Installed wheels expose litmus-ui. HTTP contract is
+docs/api/local-ui.openapi.json, independently reviewed before implementation.
+The UI package calls the existing report assembler/analyzers and has no
+evaluation/acquisition/calibration-driver import or execution path. Existing
+CLI and default reports are unchanged. All three switches initially off.
+
+One HTTPServer and one analysis worker; overlapping jobs409, no unbounded queue.
+Each validated upload<=50MB uses a random server-owned basename and original
+validated suffix; client basename is display metadata only. Worker owns cleanup
+before completed/error status. Normal failures remove temporary files; hard
+process termination can leave one. Only last job/report in memory. Native work
+is not canceled by disconnect; shutdown waits. A lazy production analyzer/model
+pair is reused rather than initializing CUDA again or reapplying frozen settings.
+Text mode requests CUDA; missing models/profile mismatches retain existing
+error/inconclusive behavior. No CPU fallback or new calibration.
+
+Every request enforces exact numeric Host and, when present, Origin. API calls
+need a cryptographically random per-process secret header; no CORS, cookies or
+remote assets. Duplicate/framing/filename/query validation, timeout and closed
+connections bound requests; small rejected bodies are drained after half-close
+to deliver errors reliably on Windows. Rendering uses textContent, not input HTML.
+Keyboard/file controls, progress, errors, busy, unsupported input, JSON export and
+390px reflow were exercised. This is not a full accessibility/native-isolation audit.
+
+Supported scientific command: `scripts/verify_r1_release.py [--metrics]`. It is
+read-only and repeatable. The new strict prepass validates every intent/access
+payload and complete sequence before historical full verification/reassembly;
+it pins the original G receipt to99cf803, original G source blobs and all17
+artifacts, and retains accepted F/E reconciliation. It opens no test text/model
+and offers no scoring/resume/repair/receipt-writing option. Independent repeat
+outputs match and all original hashes remain unchanged.
+
+**Retirement:** legacy G scoring/recovery/receipt creation is unsupported. The
+original journal parser did not meet the recovery-integrity promise; that
+requirement is unmet/retired, not fixed retroactively. All old files stay intact
+as provenance. The actual uninterrupted evaluation is independently verified and
+closed with this disposition; no unqualified claim of complete old G0–G5 behavior.
+Manual invocation of historical drivers remains a residual unsupported risk.

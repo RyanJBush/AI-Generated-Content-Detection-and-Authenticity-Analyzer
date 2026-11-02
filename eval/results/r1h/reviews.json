@@ -1,0 +1,30 @@
+{
+  "date": "2026-11-02",
+  "authority": "Ryan approved completing current R1 independent review, loopback UI and final checks",
+  "review_method": "Fresh-context reviewer subagents, read-only; advisory findings adjudicated by primary owner within approved scope",
+  "scientific_review": {
+    "agent": "/root/r1g_independent_review",
+    "original_range": "8afab9e..5c0adcf",
+    "actually_rerun": ["48 focused G tests passed in 2.29s", "all saved metrics and intervals independently reassembled", "455625 actual pairwise AUROC comparisons", "448/675 and 31/675 flag counts", "17 original artifact hashes and original receipt", "13 strict-verifier corruption regressions", "two actual supported --metrics invocations, identical stdout", "UI import isolation"],
+    "finding": "P2 historical resume validated intent/access identities too late; original uninterrupted scientific run unaffected",
+    "disposition": "Original source/evidence preserved. Historical execution/recovery/receipt creation retired from supported release operations. New strict read-only verifier checks entire journal before downstream verification and never offers access/scoring/resume/writes.",
+    "verdict": "No remaining code must-fix findings in additive verifier; completed scientific evidence closure supported after explicit retirement documentation",
+    "unmet_requirement": "Original G recovery integrity requirement is unmet and retired, not retroactively passed",
+    "residual_risk": "Manual invocation of preserved unsupported historical drivers remains possible"
+  },
+  "contract_review": {
+    "agent": "/root/ui_contract_review",
+    "files": ["docs/api/local-ui.openapi.json", "docs/plans/R1-H-PLAN.md"],
+    "approved_before_endpoint_implementation": true,
+    "resolved_findings": ["duplicate security/framing headers", "upload/query/filename bounds", "short upload preservation", "server-owned random paths", "timeout and close behavior"]
+  },
+  "ui_review": {
+    "agent": "/root/ui_contract_review",
+    "actually_rerun": "29 UI tests passed in 1.53s; source and mobile screenshot reviewed",
+    "minor_findings_resolved": ["unlisted method returned HTML rather than contracted JSON", "oversize replacement retained stale chosen file"],
+    "parent_additional_regressions": "Three named unsupported-method Host checks; final UI/verifier total 45 tests pass",
+    "verdict": "No important findings; advisory ready for closure",
+    "minor_followup": "Early parser-error header drain already guarded by getattr in reviewed working source; parent checked current code"
+  },
+  "omissions": "No reviewer opened held-out text/model blobs, reran CUDA/scoring or altered evidence. Broad tests/wheel/browser interactions are parent-executed evidence. No claim of full accessibility or native network isolation."
+}
