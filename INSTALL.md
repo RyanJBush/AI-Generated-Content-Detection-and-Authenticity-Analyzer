@@ -11,10 +11,16 @@ In PowerShell, from the directory where you keep projects:
 ```powershell
 git clone https://github.com/RyanJBush/litmus.git
 cd litmus
-py -3.13 -m venv .venv
-.venv\Scripts\python.exe -m pip install .
-.venv\Scripts\python.exe -m litmus.local_ui
+py -3.13 -m venv .venv-ui
+.venv-ui\Scripts\python.exe -m pip install --only-binary=:all: pip==26.2.2
+.venv-ui\Scripts\python.exe -m pip install .
+.venv-ui\Scripts\python.exe -m litmus.local_ui
 ```
+
+Use a new `.venv-ui` for this model-free demo; preserve the frozen research
+`.venv`. The isolated demo and pip 26.2.2 were checked on 2026-11-02. Its 12
+third-party packages returned no OSV advisory matches that day; this does not
+clear the optional model stack. See [verification](docs/ISSUE-VERIFICATION.md).
 
 The private repository requires access through your GitHub account. Installation
 downloads the declared package dependencies from the configured package index.
@@ -28,7 +34,8 @@ All analysis options initially remain off. Leave text origin off until the model
 setup below is complete. A missing model or unsupported input is not evidence
 that content is human-made. Ctrl+C stops the server and waits for active work.
 Use `--port 8767` if 8765 is occupied. Never expose the service through a public
-proxy. `Start-Litmus.cmd` is the equivalent launcher after the environment exists.
+proxy. `Start-Litmus.cmd` uses the research `.venv`; use the `.venv-ui` command
+above for the separate model-free demo.
 
 ## Optional text-origin setup
 

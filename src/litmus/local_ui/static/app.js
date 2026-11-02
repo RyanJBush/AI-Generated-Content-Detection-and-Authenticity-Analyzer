@@ -130,7 +130,7 @@ analyze.addEventListener('click',async()=>{
 });
 async function recover() {
   if(!pending||running)return;
-  running=true;controls();say('Checking the saved analysis. No file is being resubmitted.');
+  running=true;controls();statusLine.focus();say('Checking the saved analysis. No file is being resubmitted.');
   try{await followJob(await api(`/api/v1/jobs/${pending.id}`));}catch(error){showFailure(error);}finally{running=false;controls();}
 }
 retry.addEventListener('click',recover);

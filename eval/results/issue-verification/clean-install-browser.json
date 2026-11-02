@@ -1,0 +1,413 @@
+{
+  "checks": [
+    "all checks default off",
+    "quality observations render",
+    "origin remains Not run",
+    "quality export identity",
+    "constructed image report produced",
+    "production unknown trust retained"
+  ],
+  "browser": "156.0.8078.76",
+  "scope": "Fresh wheel in independent model-free venv on SAME Windows computer; constructed inputs; no model/scoring",
+  "textReport": {
+    "report_schema": "litmus-report/r0",
+    "tool": {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    "input": {
+      "file_name": "clean-install.txt",
+      "size_bytes": 37,
+      "sha256": "f6be79b82cd373566aaeb6b139f6007aebb9ad10c64d54bc829a668412370790",
+      "detected_type": "text/plain",
+      "ingestion": {
+        "result": "supported",
+        "reason": null
+      }
+    },
+    "segments": [
+      {
+        "segment_id": "s0",
+        "parent_id": null,
+        "modality": "text",
+        "derivation": [
+          "utf8_decode"
+        ],
+        "coords_in_parent": null,
+        "local_frame": {
+          "type": "text_codepoints",
+          "length": 37
+        },
+        "content_sha256": "f6be79b82cd373566aaeb6b139f6007aebb9ad10c64d54bc829a668412370790",
+        "extraction": {
+          "status": "complete",
+          "notes": []
+        },
+        "origin": [
+          {
+            "method_id": "text_origin_placeholder",
+            "method_version": "r0-placeholder",
+            "result": "inconclusive",
+            "raw_score": null,
+            "score_direction": null,
+            "calibration": null,
+            "provenance": null,
+            "reasons": [
+              "no_text_origin_detector_in_r0"
+            ],
+            "limitations": [
+              "R0 placeholder analyzer: no analysis was performed",
+              "absence of evidence is not evidence of human origin"
+            ],
+            "details": {
+              "scored_window": null
+            }
+          }
+        ],
+        "quality": [
+          {
+            "observer_id": "stock_phrases",
+            "observer_version": "1",
+            "status": "observed",
+            "count": 1,
+            "rate_per_100_words": 16.666666666666664,
+            "spans": [
+              [
+                0,
+                13
+              ]
+            ],
+            "notes": [
+              "observer_version=1",
+              "lexicon_name=stock_phrases",
+              "lexicon_version=1",
+              "lexicon_sha256=781b44148b65ac55fa394cc87ab8947e36f13e3ed7d56d3ff8045251c974d637",
+              "spans_truncated=false",
+              "spans_reported=1"
+            ]
+          },
+          {
+            "observer_id": "hedges",
+            "observer_version": "1",
+            "status": "observed",
+            "count": 1,
+            "rate_per_100_words": 16.666666666666664,
+            "spans": [
+              [
+                20,
+                28
+              ]
+            ],
+            "notes": [
+              "observer_version=1",
+              "lexicon_name=hedges",
+              "lexicon_version=1",
+              "lexicon_sha256=d2625f88fa1b9ac4b784590fa3e16128791e35c71ee606f8cfd079123da09805",
+              "spans_truncated=false",
+              "spans_reported=1"
+            ]
+          },
+          {
+            "observer_id": "repeated_word_3grams",
+            "observer_version": "1",
+            "status": "none_found",
+            "count": 0,
+            "rate_per_100_words": 0,
+            "spans": [],
+            "notes": [
+              "observer_version=1",
+              "spans_truncated=false",
+              "spans_reported=0"
+            ]
+          },
+          {
+            "observer_id": "claim_phrases_to_inspect",
+            "observer_version": "1",
+            "status": "none_found",
+            "count": 0,
+            "rate_per_100_words": 0,
+            "spans": [],
+            "notes": [
+              "observer_version=1",
+              "lexicon_name=claim_phrases_to_inspect",
+              "lexicon_version=1",
+              "lexicon_sha256=6ef25f0591733bd04d317d29fbdf82bba1dd311dea6b2eb320c45cfd260ee705",
+              "spans_truncated=false",
+              "spans_reported=0",
+              "label=phrase to inspect; not evidence that a claim is unsupported"
+            ]
+          }
+        ]
+      }
+    ],
+    "extraction_coverage": {
+      "segments_created": 1,
+      "skipped": [],
+      "unit": "text_codepoints",
+      "total": 37,
+      "in_segments": 37,
+      "ratio": 1
+    },
+    "limitations": [
+      "R0 skeleton: placeholder analyzers only; no detector and no C2PA analysis",
+      "no result in this report is a probability or a verdict",
+      "quality observations do not establish AI origin and never affect origin results",
+      "quality lexicons are English-oriented and provisional (v1)",
+      "quality word counts assume space-separated scripts; text without spaces (e.g. CJK) counts each run as one word",
+      "quality counts describe surface patterns, not quality judgments; frequencies depend on genre",
+      "homoglyphs and zero-width or format characters can split words and evade quality matches",
+      "at most 1,000 quality spans are listed per observer; counts are exact"
+    ],
+    "offline": {
+      "socket_guard": "loopback_only",
+      "subprocess_guard": "blocked"
+    }
+  },
+  "imageReport": {
+    "report_schema": "litmus-report/r0",
+    "tool": {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    "input": {
+      "file_name": "active_ai_declared.jpg",
+      "size_bytes": 4561,
+      "sha256": "868d203846025bba99acb5c54187154f093222af8448a0c7dd252cb0dd12c720",
+      "detected_type": "image/jpeg",
+      "ingestion": {
+        "result": "supported",
+        "reason": null
+      }
+    },
+    "segments": [
+      {
+        "segment_id": "s0",
+        "parent_id": null,
+        "modality": "image",
+        "derivation": [
+          "image_decode"
+        ],
+        "coords_in_parent": null,
+        "local_frame": {
+          "type": "pixels",
+          "width": 64,
+          "height": 48
+        },
+        "content_sha256": "868d203846025bba99acb5c54187154f093222af8448a0c7dd252cb0dd12c720",
+        "extraction": {
+          "status": "complete",
+          "notes": []
+        },
+        "origin": [
+          {
+            "method_id": "c2pa_provenance",
+            "method_version": "1",
+            "result": "inconclusive",
+            "raw_score": null,
+            "score_direction": null,
+            "calibration": null,
+            "provenance": {
+              "manifest_present": "embedded",
+              "active": {
+                "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                "is_active": true,
+                "relationship": null,
+                "title": null,
+                "integrity": "valid",
+                "signature": "valid",
+                "timestamp": "absent",
+                "signing_time_basis": "current_time_check",
+                "signer_trust": "unknown",
+                "declared_ai_use": "declared",
+                "sdk_trust_observation": [
+                  "signingCredential.untrusted"
+                ],
+                "sources": {
+                  "integrity": [
+                    "assertion.hashedURI.match (success)",
+                    "assertion.hashedURI.match (success)",
+                    "assertion.dataHash.match (success)"
+                  ],
+                  "signature": [
+                    "claimSignature.insideValidity (success)",
+                    "claimSignature.validated (success)",
+                    "signingCredential.ocsp.skipped (informational)"
+                  ],
+                  "sdk_trust_observation": [
+                    "signingCredential.untrusted (failure)"
+                  ],
+                  "declared_ai_use": [
+                    "c2pa.actions.v2: http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+                  ]
+                },
+                "notes": []
+              },
+              "ingredients": [],
+              "mapping_version": "1",
+              "trust_list": {
+                "name": "production_trust_anchors",
+                "version": 1,
+                "sha256": "05baa209b1484bc358c44df4855dd7a41d041a20ed327c42cc02d92cc21a5876",
+                "anchor_count": 0
+              },
+              "library_versions": {
+                "c2pa_python": "0.38.0",
+                "sdk": "0.91.0"
+              },
+              "settings": {
+                "verify": {
+                  "remote_manifest_fetch": false,
+                  "ocsp_fetch": false,
+                  "verify_trust": true
+                },
+                "core": {
+                  "allowed_network_hosts": [],
+                  "decode_identity_assertions": false
+                }
+              },
+              "policy": "production",
+              "unsigned_metadata": {
+                "label": "unverifiable; editable; not evidence",
+                "status": "examined",
+                "notes": [],
+                "exif": {
+                  "status": "absent",
+                  "tag_count": 0,
+                  "fields": {}
+                },
+                "xmp": {
+                  "status": "absent",
+                  "byte_length": 0
+                }
+              }
+            },
+            "reasons": [
+              "untrusted_signed_ai_declaration"
+            ],
+            "limitations": [
+              "With an empty production trust list, signer_trust is unknown for every manifest, so no C2PA result can be supports_ai in R1 under the production policy. A valid AI-use declaration alone yields inconclusive / untrusted_signed_ai_declaration.",
+              "R1 checks C2PA provenance only; it does not detect AI-generated images.",
+              "C2PA results describe provenance metadata, not image content.",
+              "Absence of Content Credentials is not evidence of human origin.",
+              "Offline: remote manifests are not fetched.",
+              "SDK trust observations are separate from Litmus production trust policy.",
+              "Project timestamp evidence is constructed; real TSA validation has not been demonstrated."
+            ],
+            "details": {
+              "read_kind": "store",
+              "read_detail": null,
+              "settings_applied": true,
+              "timings": {
+                "read_seconds": 0.0024215999874286354,
+                "read_response_seconds": 0.003101099980995059,
+                "response_seconds": 0.3956451000412926,
+                "unit": "seconds"
+              },
+              "rule": 8,
+              "validation_state": "Valid",
+              "status_entries": [
+                {
+                  "entry": {
+                    "code": "claimSignature.insideValidity",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "claim signature valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "claimSignature.validated",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "claim signature valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.hash.data",
+                    "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.actions.v2",
+                    "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.dataHash.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.hash.data",
+                    "explanation": "data hash valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "signingCredential.ocsp.skipped",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "OCSP fetching skipped"
+                  },
+                  "list": "informational",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "signingCredential.untrusted",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "signing certificate untrusted"
+                  },
+                  "list": "failure",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                }
+              ],
+              "unmapped_status_codes": [],
+              "unattributed": [],
+              "other_manifests": [],
+              "availability_notes": []
+            }
+          }
+        ],
+        "quality": []
+      }
+    ],
+    "extraction_coverage": {
+      "segments_created": 1,
+      "skipped": [],
+      "unit": "pixels",
+      "total": 3072,
+      "in_segments": 3072,
+      "ratio": 1
+    },
+    "limitations": [
+      "no result in this report is a probability or a verdict",
+      "With an empty production trust list, signer_trust is unknown for every manifest, so no C2PA result can be supports_ai in R1 under the production policy. A valid AI-use declaration alone yields inconclusive / untrusted_signed_ai_declaration.",
+      "R1 checks C2PA provenance only; it does not detect AI-generated images.",
+      "C2PA results describe provenance metadata, not image content.",
+      "Absence of Content Credentials is not evidence of human origin.",
+      "Offline: remote manifests are not fetched.",
+      "SDK trust observations are separate from Litmus production trust policy.",
+      "Project timestamp evidence is constructed; real TSA validation has not been demonstrated."
+    ],
+    "offline": {
+      "socket_guard": "loopback_only",
+      "subprocess_guard": "blocked"
+    }
+  }
+}

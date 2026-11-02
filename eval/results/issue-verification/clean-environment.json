@@ -1,0 +1,166 @@
+{
+  "status": "PASS",
+  "scope": "Same-machine independent venv and fresh wheel; NOT second computer or VM",
+  "python": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "executable": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-clean-ui-20261102\\Scripts\\python.exe",
+  "litmus_import": "C:\\Users\\Ryano\\AppData\\Local\\Temp\\litmus-clean-ui-20261102\\Lib\\site-packages\\litmus\\__init__.py",
+  "packages": [
+    {
+      "name": "c2pa-python",
+      "version": "0.38.0"
+    },
+    {
+      "name": "certifi",
+      "version": "2026.10.23"
+    },
+    {
+      "name": "cffi",
+      "version": "2.1.1"
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.2"
+    },
+    {
+      "name": "cryptography",
+      "version": "50.0.2"
+    },
+    {
+      "name": "idna",
+      "version": "3.20"
+    },
+    {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    {
+      "name": "pillow",
+      "version": "13.0.0"
+    },
+    {
+      "name": "pip",
+      "version": "26.2.2"
+    },
+    {
+      "name": "pycparser",
+      "version": "3.12"
+    },
+    {
+      "name": "requests",
+      "version": "2.34.2"
+    },
+    {
+      "name": "toml",
+      "version": "0.10.2"
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0"
+    }
+  ],
+  "queried_utc": "2026-11-02T19:06:13.187131+00:00",
+  "advisory_query": [
+    {
+      "package": {
+        "name": "c2pa-python",
+        "ecosystem": "PyPI"
+      },
+      "version": "0.38.0"
+    },
+    {
+      "package": {
+        "name": "certifi",
+        "ecosystem": "PyPI"
+      },
+      "version": "2026.10.23"
+    },
+    {
+      "package": {
+        "name": "cffi",
+        "ecosystem": "PyPI"
+      },
+      "version": "2.1.1"
+    },
+    {
+      "package": {
+        "name": "charset-normalizer",
+        "ecosystem": "PyPI"
+      },
+      "version": "3.5.2"
+    },
+    {
+      "package": {
+        "name": "cryptography",
+        "ecosystem": "PyPI"
+      },
+      "version": "50.0.2"
+    },
+    {
+      "package": {
+        "name": "idna",
+        "ecosystem": "PyPI"
+      },
+      "version": "3.20"
+    },
+    {
+      "package": {
+        "name": "pillow",
+        "ecosystem": "PyPI"
+      },
+      "version": "13.0.0"
+    },
+    {
+      "package": {
+        "name": "pip",
+        "ecosystem": "PyPI"
+      },
+      "version": "26.2.2"
+    },
+    {
+      "package": {
+        "name": "pycparser",
+        "ecosystem": "PyPI"
+      },
+      "version": "3.12"
+    },
+    {
+      "package": {
+        "name": "requests",
+        "ecosystem": "PyPI"
+      },
+      "version": "2.34.2"
+    },
+    {
+      "package": {
+        "name": "toml",
+        "ecosystem": "PyPI"
+      },
+      "version": "0.10.2"
+    },
+    {
+      "package": {
+        "name": "urllib3",
+        "ecosystem": "PyPI"
+      },
+      "version": "2.8.0"
+    }
+  ],
+  "advisory_results": {
+    "results": [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+  "optional_model_stack_absent": true
+}
