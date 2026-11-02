@@ -31,11 +31,15 @@ query results and advisory records under eval/results/release/.
 | torch | 2.6.0+cu124 | 24 |
 | transformers | 4.57.6 | 11 |
 
-These 59 records are **not 59 distinct vulnerabilities**: GHSA/PYSEC aliases can
-refer to the same issue. Matches are version-based, not proof that Litmus exposes
-every affected path. No critical severity claim or absence-of-vulnerabilities
-claim follows from this audit. The remaining 33 packages had no returned match;
-that is not proof of safety or full database coverage.
+These 59 records are **46 distinct advisories after alias deduplication**, not
+59 distinct vulnerabilities. Matches are version-based, not proof that Litmus
+exposes every affected path. The dated [dependency-security
+triage](security/dependency-triage-2026-11-02.md) records the affected/fixed
+events, source URLs and retrieval date, current-path classifications and a
+bounded remediation proposal. No critical severity claim or
+absence-of-vulnerabilities claim follows from this audit. The remaining 33
+packages had no returned match; that is not proof of safety or full database
+coverage.
 
 High-severity records include:
 - [Transformers model-config code execution](https://github.com/advisories/GHSA-29pf-2h5f-8g72).
