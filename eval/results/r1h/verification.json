@@ -10,7 +10,7 @@
     "focused_ui_and_verifier": "45 passed in1.62s",
     "ruff": "All checks passed!",
     "pip_check": "No broken requirements found.",
-    "whitespace": "git diff --check PASS; staged check required before commit",
+    "whitespace": "Staged check PASS after LF normalization; initial delivery852471d staged check flagged two new Windows-CRLF receipts and shell continued. Corrected in follow-up, history preserved.",
     "windows_launcher": "cmd /c Start-Litmus.cmd --help exit0",
     "fresh_wheel": "PASS; existing runtime deps; all loaded Litmus modules from new target; base venv unchanged",
     "desktop_mobile_browser": "PASS; browser.json and curated screenshots",
@@ -65,7 +65,7 @@
     "src/litmus/local_ui/static/style.css": "c7deb206dea111b7f59287b1028e51334ab6a9c302475577f60cf583b67344b8",
     "src/litmus/release_verify.py": "a5e79d3c656c1796d039adaccaa8c6ac727017307e782d30b8995066f84bea26",
     "scripts/verify_r1_release.py": "01bb03fd825be96e66f324d0dd6cc8e1082a3511cf15a6a285075eebf013eac6",
-    "scripts/verify_wheel_r1.py": "df64ed66b9b5a6d405052c46c667eee97ddbab3b3b77640147c3fadf99b17d61",
+    "scripts/verify_wheel_r1.py": "dbbd4c3d22478c91ea28c48afca14b75b8fd069a1b1eb07ecdfa59078aea8b18",
     "scripts/smoke_local_ui.py": "e7740530e1ece5942ddba171c2eef69bc71b72eaf88622afa9a5b71ffcf3ad56",
     "Start-Litmus.cmd": "ce346b07280a3d769779c6be040909250d0bb2c3151aa12d6c00b85e4b3fe696",
     "pyproject.toml": "1ca273ff1315fd4fcb2fcc0e247f00b3d527b3f24379003a4e9b3605ad210193"
@@ -82,9 +82,9 @@
     "production-report.png": "57cfbe96621d172a1ba23a90203aebf4b62aae86199048235dfdfe3ded14c119",
     "reviews.json": "973e6afe6da19d502e541e44eb87733fd43d0c8ca02cb07ee1111cbd5be57aeb",
     "unsupported-input.png": "78bb306cc490d434875c912330357921ce611d30434cbc7c9563b262e77218e2",
-    "wheel.json": "f4a6c6d58c1d08aa77e803dc56537278b5042302c10d273708d26785bd4e3132"
+    "wheel.json": "15031d8ea6f4dd8f2f3471851832bf9051aa083b876f63f064842433d13e4aa2"
   },
-  "artifact_bytes_before_this_receipt": 395587,
+  "artifact_bytes_before_this_receipt": 395509,
   "live_app": "http://127.0.0.1:8765; restarted from final source; constructed helper8766 stopped",
   "not_run": [
     "full slow suite21tests",
@@ -100,5 +100,6 @@
     "Only last report in server memory; closing tab does not cancel analysis, keep it open to receive result",
     "One UI worker and cached model pair; existing native C2PA deadline/busy semantics unchanged",
     "Use source-checkout launcher for calibrated profile; package version/default reports unchanged for compatibility"
-  ]
+  ],
+  "receipt_followup": "Only new H receipt formatting/helper output normalization; fresh wheel check PASS, no application/frozen source or historical scientific evidence changes."
 }

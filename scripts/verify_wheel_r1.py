@@ -209,12 +209,16 @@ def main():
     result.update(
         existing_venv_distributions_unchanged=True,
         commands=commands,
-        limits=("Model-free wheel packaging only; calibrated CUDA use remains "
-                "the pinned source-checkout profile."),
+        limits=(
+            "Model-free wheel packaging only; calibrated CUDA use remains "
+            "the pinned source-checkout profile."
+        ),
     )
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+        args.output.write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n"
+        )
     print(json.dumps(result, indent=2))
 
 
