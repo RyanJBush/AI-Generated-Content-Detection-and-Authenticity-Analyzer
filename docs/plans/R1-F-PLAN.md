@@ -9,6 +9,17 @@ digest, and the artifact never records a freeze digest. No R1-G authorization.
 The proposal text below is retained as the approved procedure; execution results
 are recorded separately. Historical transfer compliance remains unproven.
 
+**Execution submitted for independent review:** stable implementation committed
+before any model scoring at 047421cf4c36f8a946453eacc1b9c056bf5147d6. Two fresh
+CUDA synthetic preflights matched exactly; all 1,484 dev rows were valid, including
+298 human negatives. The first-ten-human fresh-process audit matched exactly.
+5% c=-0.9272342324256897 in r=-raw_score space (strict >; 14 exceedances, 1 tie).
+Configuration hash 10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f.
+See eval/results/r1f_verification.json and eval/freezes/r1f_freeze.json for actual
+evidence; original planning-only/unknown-hash statements below are historical.
+No source changes after scoring; no R1-G/test access, CPU/1% fallback or network.
+The freeze binds the calibration digest, never the reverse. Review is still pending.
+
 ## 1. Goal, authority and boundary
 
 After explicit implementation approval, score the existing development rows on

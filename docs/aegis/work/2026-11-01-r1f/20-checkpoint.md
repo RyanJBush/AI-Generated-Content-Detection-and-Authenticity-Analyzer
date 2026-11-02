@@ -1,8 +1,28 @@
 # R1-F execution checkpoint
 
 Baseline clean master 3f3e787e02417e1f848812ba1aba956ad88bc95e.
-State: F0/F1 implementation/tests ready for stable source commit; NO CUDA/model
-checks or real development scoring have started. No active execution sessions.
+State: F0/F1 committed at 047421cf4c36f8a946453eacc1b9c056bf5147d6;
+source tree confirmed clean before execution. Hashed implementation sources
+are frozen. Both fresh CUDA preflights66980/83284 passed and exact full scientific
+comparison passed (fields/hash/source/assets/synthetic statistics/window).
+Development score-dev23557 completed PASS: all1484 rows; elapsed274.489s,
+CPU253.984s, GPU peak allocated5854253568/reserved6188695552 bytes, guards0/0.
+Fresh first-ten-human audit17822 passed exact comparison; verify-dev passed.
+Freeze assembly passed; all1484 valid,298 negatives,0 failures; c=-0.9272342324256897
+in r=-B (14 above,1 tie). Artifact/application replay of all298 stored human scores
+passed (14 strict flags,1 unflagged tie), reports round-trip; guards0/0.
+No active execution sessions. All hashed sources remain at047421c.
+
+Freeze payload SHA48035a7984482a325349b32b746a3463534089849254141da61a2a019ce228aa;
+artifact file SHAedd84087ab56d25d43df653cdaaaa2f06dccdb196108c32c67c9e1a505822134.
+Remaining: finish data/evidence-only checks/docs; commit metadata/artifact/freeze;
+run verify-freeze for committed Git proof, read back clean status, report actual
+source/freeze commits and stop independent review. No G scoring authorization.
+
+Actual configuration hash from preflight A:
+10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f.
+Primary profile complete, driver572.60/CUDA12.4, GPU RTX4060Laptop, initialization
+order false; guards connections0/forbidden-data0. Synthetic512 score1.0038838386535645.
 
 - Calibration/application, dev-only guard, exact E/source reconciliation,
   journal/resume/tail recovery, artifact/freeze validation implemented.
@@ -14,9 +34,8 @@ checks or real development scoring have started. No active execution sessions.
   source audit10 files,1 existing docstring finding,0 violations. Whitespace clean.
 - E preparation/model/formula/loader/config/tokenizer sources and scientific
   evidence unchanged. New normalized scorer source list has nine paths.
-- Before scoring: commit all source/tests/interfaces/approval and implementation
-  evidence. Confirm clean source tree and HEAD. Then NEVER edit hashed code while
-  retaining scores. Record actual source SHA here in a later evidence-only update.
+- Stable implementation commit: 047421cf4c36f8a946453eacc1b9c056bf5147d6.
+  NEVER edit hashed code while retaining scores; stop on actual failures.
 
 Execution order after stable commit:
 1. scripts/calibrate_r1f.py preflight --output eval/results/r1f/preflight_a.json

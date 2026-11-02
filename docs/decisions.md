@@ -1320,3 +1320,66 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   one existing docstring inventory finding, zero violations. Exact commands and
   omissions are in r1f_implementation_verification.json. No real CUDA/model/dev
   scoring yet; next action is the required stable implementation commit.
+
+## 2026-11-01 — R1-F execution on frozen source; freeze submitted for review
+
+- Stable implementation committed **before any CUDA/model scoring** at
+  `047421cf4c36f8a946453eacc1b9c056bf5147d6`. No hashed source edits followed.
+  Configuration hash:
+  `10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f`.
+  F0/F1 tests/evidence are committed with that source; preparation sources,
+  scorer math, model pins, loader, config and tokenization are unchanged.
+- Two separate fresh-process CUDA preflights passed and matched exactly on
+  full scoring fields/hash, implementation commit/source hashes, local asset
+  manifest, committed B2 synthetic input and raw statistics/window. Actual
+  profile: RTX 4060 Laptop GPU, driver572.60, CUDA12.4, torch2.6.0+cu124,
+  transformers4.57.6, tokenizers0.22.2, eager/batch1/fp32, TF32 off/highest,
+  deterministic algorithms true, CUBLAS_WORKSPACE_CONFIG=:4096:8, and settings
+  applied before CUDA initialization. No unknown-driver/profile matching.
+- Approved development procedure passed: all **1,484 rows valid**, **0 failed**,
+  including **298 valid human negatives**, 298 clean machines and 888 attacks.
+  No new exclusions, pair cleanup, reselection, refill, seed/profile changes or
+  CPU fallback. The profile/settings and source/hash checks remained consistent.
+  Every completion was durably journaled; no crash/resume was needed in the real
+  run (interruption behavior is synthetic-test evidence only).
+- The fixed first ten development-human IDs were repeated in a separate fresh
+  development-model process after primary scoring (separate from the two
+  synthetic processes) and matched all stored statistics/window/hash/identity
+  fields exactly. This audit did not replace scores or increase N. Separate
+  verify-dev passed full journal/input/final-ledger/count checks.
+- Exact 5% threshold: **c=-0.9272342324256897** in r=-raw_score space, so flag
+  iff raw_score **<0.9272342324256897**. Actual N=298; 14 strictly above c and
+  1 tie at c (unflagged), empirical dev fraction14/298. 1% is disabled. Threshold
+  is a distinct observed negative value, selected minimally under 20*k<=N;
+  reversed-order independent assembly is byte-identical. This is not test FPR,
+  a population-error guarantee, an origin probability or evidence of human origin.
+- Artifact payload SHA-256:
+  `3d779223c5c3779ff82ae1ce169b4c07ec59a3571b38b2d5463b28a8516be2c8`;
+  artifact file SHA-256:
+  `edd84087ab56d25d43df653cdaaaa2f06dccdb196108c32c67c9e1a505822134`.
+  Freeze payload SHA-256:
+  `48035a7984482a325349b32b746a3463534089849254141da61a2a019ce228aa`.
+  Freeze -> artifact file/payload digests is one-way; the artifact has no freeze
+  reference/digest. Freeze binds configuration, source, E/dev/reconciliation,
+  score/failure ledgers, lexicon versions/hashes, quality sources and verification
+  evidence. Source commit is embedded; the containing freeze Git commit is read
+  back after commit, without a self-referential Git hash.
+- Stored-score application/report replay passed on all 298 dev humans: actual
+  artifact yields 14 strict supports_ai results, one unflagged tie, matching
+  Calibration projection and lossless report round-trips. This replay used stored
+  GPU scores/profile metadata; it was not a new forward pass or a new runtime
+  profile measurement. It never accessed test scores or text.
+- Every real preflight/score/audit phase and stored-score replay observed zero
+  Python connections and zero forbidden data accesses. These are guarded-path
+  observations, not OS/native network-isolation proof. The model/tokenizer files
+  were hash-verified locally, without any network request/download or dependency
+  change. The existing historical transfer exception remains unchanged and
+  **historical cumulative transfer compliance remains unproven**.
+- Primary recorded elapsed274.489s, CPU253.984s; GPU peak allocated5,854,253,568
+  bytes, reserved6,188,695,552. First-ten audit reserved peak7,203,717,120 bytes.
+  Exact receipts/resources/check commands/limitations are in r1f_verification.json.
+  Full default/network-control tests, whole slow suite, CPU calibration, 1%,
+  installed GPU portability, R1-G metrics/bootstrap/test scoring and UI are not run.
+- R1-F artifacts/evidence/freeze are submitted for **independent review**, not
+  marked independently accepted. R1-G requires reviewer confirmation of the
+  committed freeze and separate authorization; no test blobs/scores were accessed.

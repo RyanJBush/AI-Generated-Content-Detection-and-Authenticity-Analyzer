@@ -5,8 +5,8 @@
 > R1-D image provenance is independently reviewed and closed. Approved R1-E
 > RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
 > narrow historical transfer-accounting exception. Original transfer-cap
-> compliance remains unproven. R1-F F0–F5 is approved; calibration/freeze execution
-> is recorded separately after the stable implementation commit.
+> compliance remains unproven. R1-F development calibration and a freeze are
+> submitted for independent review. R1-G test scoring remains unauthorized.
 > Later modalities and releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
@@ -95,8 +95,9 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
 - Implementation: R0 foundations and R1 text/quality work are implemented;
   C2PA D1–D3 and R1-D are independently reviewed and closed. R1-E data preparation
   is independently reviewed and closed with 973 retained source groups (298 dev,
-  675 test). R1-F F0–F5 is approved. The calibration implementation is verified;
-  its CUDA preflight and development run follow the stable source commit.
+  675 test). R1-F scored 1,484 development rows successfully, including 298 valid
+  human negatives. The calibration/freeze await independent review; no held-out
+  test scoring or evaluation has occurred.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.
@@ -107,6 +108,30 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
 - Open decisions: `SPEC.md` §15.
 - Governing corrections: `R1-PLAN-CORRECTIONS-A.md`, `R1-PLAN.md`, the SPEC
   addenda and `docs/plans/R1-D-PLAN.md`, including its approved corrections.
+
+## Development calibration (R1-F, pending review)
+
+The local CUDA/fp32 profile has a 5% empirical development calibration, bound to
+the exact configuration hash in [the freeze](eval/freezes/r1f_freeze.json).
+The scorer uses r=-raw_score and flags only r > -0.9272342324256897, equivalently
+raw_score < 0.9272342324256897. Equality is not flagged. There were 14 exceedances
+among 298 development-human negatives and one threshold tie; these are development
+observations, not test FPR or a population guarantee. All 1,484 dev scores were
+valid; the independent first-ten-human fresh-process audit matched exactly.
+
+Configuration hash:
+`10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f`.
+Source implementation: `047421cf4c36f8a946453eacc1b9c056bf5147d6`.
+CUDA preflights and development work reported zero Python connection/forbidden
+data-access attempts. This does not demonstrate OS/native network isolation.
+CPU is uncalibrated, 1% calibration stays disabled, and raw scores are not
+probabilities. Updating source, driver, libraries or any hashed profile field
+invalidates matching. Default CLI analysis remains a placeholder unless explicitly
+enabled; default image reports and quality/origin separation are unchanged.
+
+See [F verification](eval/results/r1f_verification.json) and
+[the approved plan](docs/plans/R1-F-PLAN.md). The containing freeze commit must be
+confirmed by independent review before any future R1-G test access.
 
 ## License
 
