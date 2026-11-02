@@ -1730,3 +1730,14 @@ successfully, and the final pip version/consistency checks passed. The original
 research environment was not changed. No full tests or scoring were rerun for
 this launcher/documentation change. Additional transitive filelock path evidence
 is in docs/security/filelock-path-followup.md; issue #1 remains unresolved.
+
+
+## 2026-11-02 — Model-stack candidate preflight
+
+Continued security investigation under Ryan's request. Official metadata/OSV
+checks show torch 2.10.0 still has two advisory records and is absent from the
+CUDA 12.4 index. PyPI torch 2.15.0 has a CPython 3.13 Windows wheel and returned
+no direct advisory matches, as did the other proposed direct candidates. This
+is metadata evidence only. No candidate was installed, and GPU/driver/API
+compatibility is unverified. Saved responses and a proposed migration protocol
+are additive; accepted sources, dependencies, thresholds and evidence stay intact.

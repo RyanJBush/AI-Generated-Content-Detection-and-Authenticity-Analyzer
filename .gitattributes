@@ -58,3 +58,4 @@ pyproject.toml text eol=lf
 tests/test_ui_readiness.py text eol=lf
 eval/results/release/** -text
 eval/results/issue-verification/** -text
+eval/results/security-candidate/** -text
