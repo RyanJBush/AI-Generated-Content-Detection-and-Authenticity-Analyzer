@@ -1,0 +1,17 @@
+{
+  "schema": "litmus-dependency-triage-v1",
+  "retrieved_utc": "2026-11-02T17:59:11.463602Z",
+  "source": "https://api.osv.dev/v1/querybatch",
+  "live_refresh": "unavailable: api.osv.dev DNS lookup failed during review",
+  "record_count": 59,
+  "distinct_advisory_count": 46,
+  "packages": {
+    "filelock": {"installed": "3.32.3", "records": 12, "distinct": 12, "classification": "potentially exposed"},
+    "pip": {"installed": "25.2", "records": 12, "distinct": 6, "classification": "apparently outside current execution path"},
+    "torch": {"installed": "2.6.0+cu124", "records": 24, "distinct": 22, "classification": "apparently outside current execution path"},
+    "transformers": {"installed": "4.57.6", "records": 11, "distinct": 6, "classification": "potentially exposed or apparently outside current execution path"}
+  },
+  "release_gate": "unresolved",
+  "detail_source_template": "https://api.osv.dev/v1/vulns/{id}",
+  "inventory": "dependency-triage-2026-11-02.md"
+}
