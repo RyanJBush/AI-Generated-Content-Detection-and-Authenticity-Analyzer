@@ -16,6 +16,9 @@ Scientific metadata17 files/19,937,414 bytes. Selected tests587 passed/21 desele
 inside/outside; final focused48 inside/outside, Ruff,pip,whitespace,UTF-8/source/
 accepted-byte audits pass. See90-evidence.md and eval/results/r1g_verification.json.
 
-README/interfaces/decisions/plan reconcile execution and limitations. Final
-results/evidence commit is next, then stop for independent review. R1-G is not
-independently closed. No UI/later scope. Resume only for a new explicit task.
+README/interfaces/decisions/plan reconcile execution and limitations. Results
+committed at99cf803. Readback identified the write-once timing-receipt limitation
+of verify-results; a fresh read-only expanded-formula repeat passed, preserving
+all17 original scientific files. No G source edits. Commit this documentation/
+readback addendum, then stop for independent review. R1-G is not independently
+closed. No UI/later scope. Resume only for a new explicit task.

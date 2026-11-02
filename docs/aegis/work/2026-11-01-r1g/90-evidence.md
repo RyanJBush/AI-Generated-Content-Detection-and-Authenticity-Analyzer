@@ -77,3 +77,13 @@ new dependencies,UI/later scope. Earlier D/F reviews remain reviewer-reported.
 Evidence confidence B: target/regression checks,complete actual run and independent
 formula reconstruction;external validity/native isolation remain bounded limits.
 **Submitted for independent review,not R1-G closure.**
+
+Final readback limitation: source inspection found `verify-results` includes
+elapsed timing in its immutable receipt comparison, so repeating that creation
+command would reject changed timing bytes. No such failing CLI repeat was run
+and no receipt/source was replaced. The repeatable `verify` passed after the
+results commit. A fresh, separate read-only expanded-formula reassembly from
+saved scores/groups/draws matched all metrics/intervals and preserved all17
+original scientific-file hashes. Its receipt is r1g_readonly_reassembly_check.json.
+This operational limitation is documented for independent review; no source edits
+were made after test exposure, and no test text was reopened or rescored.

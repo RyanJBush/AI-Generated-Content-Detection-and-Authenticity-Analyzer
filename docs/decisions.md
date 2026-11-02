@@ -1493,3 +1493,14 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   is not established. Original historical cumulative-transfer compliance remains
   **unproven**; no reacquisition/network or E/F evidence rewriting.
   **Submitted for independent review, not R1-G closure.** No later scope approved.
+
+- Final readback identified a G CLI receipt limitation: `verify-results` creates
+  an immutable receipt containing elapsed timing, so repeating the creation
+  command would reject changed timing bytes despite matching scientific metrics.
+  This is source-inspected behavior, not an actual failed repeat. Original G
+  source/receipts/results remain unchanged. A fresh read-only expanded-formula
+  repeat, using saved scores/groups/draws without receipt mutation, matched all
+  metrics/intervals; repeatable `verify` also passed after the results commit.
+  All17 original scientific hashes remain unchanged. Documented in interfaces,
+  README and r1g_readonly_reassembly_check.json for review; no source fix under
+  the old run identity, rescoring or definition change.

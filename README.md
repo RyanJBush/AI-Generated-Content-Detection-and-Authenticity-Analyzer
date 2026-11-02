@@ -198,6 +198,10 @@ redistributed. Python guards recorded zero blocked operations; OS/native network
 isolation is not established. Original E transfer-cap compliance remains unproven.
 See [verification](eval/results/r1g_verification.json),
 [counts](eval/results/r1g/counts.json) and [independent formula reassembly](eval/results/r1g/reassembly.json).
+The committed `verify-results` command creates a timing-bearing immutable receipt;
+repeating it in the same directory would reject new timing bytes. A separate
+[fresh read-only reassembly](eval/results/r1g_readonly_reassembly_check.json) passed
+without changing any original scientific file. See interfaces for repeat verification.
 R1-G awaits independent review; this does not authorize UI or later work.
 
 ## License

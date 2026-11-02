@@ -782,3 +782,13 @@ reassembly passed; the 1,000 saved shared draws bind every published interval.
 Results/evidence live only under new G paths. No frozen source or evidence was
 rebound or rewritten. README reports observed FPR, paired denominators, small
 slices, actual resources and external-validity limits; G remains pending review.
+
+Operational limitation in the committed G version: `verify-results` creates an
+immutable timing-bearing reassembly receipt. Repeating that creation command in
+the same directory would reject changed timing bytes, even when scientific
+metrics match. `verify` is repeatable. Repeat metric verification can call pure
+`metrics.assemble(..., reference=True)` on the saved scores/groups/draws and compare
+the complete result to metrics.json without writing a receipt. A fresh such
+read-only repeat passed; all 17 original scientific files remained unchanged.
+See eval/results/r1g_readonly_reassembly_check.json. Source was preserved rather
+than changed under the accepted run identity; receipt ergonomics await review.
