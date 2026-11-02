@@ -1686,3 +1686,17 @@ Portfolio/demo materials explicitly disclose AI assistance and limitations.
 Screen-reader/second-machine tests remain unperformed, not inferred from wheel or
 keyboard checks. Dependency remediation requires a separate scientific identity
 migration plan; accepted results must never be silently rebound to a new runtime.
+
+
+## 2026-11-02 — GitHub repository maintenance
+
+Ryan authorized further appropriate GitHub project setup. Updated About text,
+portfolio link and topics; created the R1 stable-release-readiness milestone and
+three focused issues: dependency triage (#1), screen-reader checks (#2), and
+second-computer installation (#3). Added contribution/security guidance and issue/
+pull-request templates. These organize remaining work, not evidence that it passed.
+
+Repository remains private; draft release/tag is unchanged. No runtime, frozen
+scientific source, dependency or original evidence changed. No automatic upgrades,
+paid runners, scoring workflows or new CI pass claims. Community documentation
+checks are sufficient for this documentation-only update; model tests are not rerun.
