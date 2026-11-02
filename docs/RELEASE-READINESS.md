@@ -1,5 +1,9 @@
 # Release preparation — 2026-11-02
 
+Follow-up: [issues 1–3 verification](ISSUE-VERIFICATION.md) records a keyboard
+recovery fix, live advisory refresh and isolated model-free installation. All
+three issues remain open for their explicitly unmet acceptance criteria.
+
 ## Decision
 
 Merge the independently reviewed local UI improvements. Prepare a tagged **draft**

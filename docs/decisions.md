@@ -1700,3 +1700,19 @@ Repository remains private; draft release/tag is unchanged. No runtime, frozen
 scientific source, dependency or original evidence changed. No automatic upgrades,
 paid runners, scoring workflows or new CI pass claims. Community documentation
 checks are sufficient for this documentation-only update; model tests are not rerun.
+
+
+## 2026-11-02 — Issues 1–3 verification follow-up
+
+Ryan requested fixes and confirmed no second computer is available. Incorporated
+Copilot triage at f4b480f. Live advisory refresh succeeded; original 37 installed
+versions remain unchanged. A separate model-free venv with pip 26.2.2 passed
+installation, consistency and six browser checks, with zero advisory matches for
+12 third-party packages. The frozen environment was not upgraded.
+
+Fixed observed keyboard recovery focus loss and action order; nine browser
+checks and 41 focused UI tests pass. Narrator launch timed out; no speech result
+is claimed. Docker engine was unavailable; no second-machine result is claimed.
+All three issues remain open for unmet criteria. Additive evidence is under
+eval/results/issue-verification and docs/ISSUE-VERIFICATION.md. Frozen scientific
+identity and saved metrics verification passed; no scoring or calibration.

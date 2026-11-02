@@ -14,3 +14,4 @@ models/
 /data/
 # Browser tool traces are local; curated R1 UI evidence is in eval/results/r1h/.
 .playwright-mcp/
+.venv-ui/

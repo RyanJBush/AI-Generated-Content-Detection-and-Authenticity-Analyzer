@@ -1,0 +1,29 @@
+{
+  "date_utc": "2026-11-02T19:19:12.912911+00:00",
+  "base": "f4b480f",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "checks": {
+    "ui_tests": "41 passed in 2.62s",
+    "ruff": "PASS",
+    "javascript_syntax": "PASS",
+    "original_and_clean_pip_check": "PASS",
+    "original_package_versions": "37 unchanged",
+    "scientific_verification": "PASS"
+  },
+  "source_sha256": {
+    "src/litmus/local_ui/static/app.js": "f6c6ccce456a50f02e2fe3ef1dffd687d338edcb3e43b4840ea38dca8d219a67",
+    "src/litmus/local_ui/static/index.html": "e6dbc13dbc151cedf340a62833977eb36294fedda6a20bf6c4a5e0ca9f156ca3"
+  },
+  "evidence_sha256": {
+    "accessibility.json": "5b6523a6f5dd2d9019f1bdf540a570f80c3998bbd05a1f1dd51e668ce0e03ff1",
+    "advisory-refresh.json": "af44e4ce9f1b426f32e62598f5e01fcd9d4edbec941dd009c128f57978165885",
+    "clean-environment.json": "2392970211de0c830a1b79348def38a783dd1a00cc3d00a3fd417bf65620315b",
+    "clean-install-browser.json": "51c464647016e8c55c6cbd5bc13a501ca23a83c732c43b02b33c54af913ae912",
+    "clean-install-packages.json": "428e377f0bff4a77edd5898fe31bc55fb949429327086caf0614b66a8642b9c7"
+  },
+  "unmet": [
+    "model-stack security migration",
+    "actual screen-reader speech verification",
+    "second-machine or VM installation"
+  ]
+}
