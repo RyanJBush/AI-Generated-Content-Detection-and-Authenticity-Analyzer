@@ -1,0 +1,25 @@
+{
+  "checks": [
+    "all checks off; analyze disabled",
+    "keyboard skip link",
+    "skip destination focused",
+    "off explicitly Not run",
+    "result focus",
+    "quality separate; filename safe",
+    "only ID/options stored",
+    "download exactly equals original report",
+    "mobile has no horizontal overflow",
+    "200% CSS zoom no horizontal overflow",
+    "poll failure keeps submission locked",
+    "retry fetches same job without resubmitting",
+    "reload recovers without resubmitting",
+    "engine error restores controls and keeps file",
+    "unsupported input clearly not analyzed",
+    "empty file handled",
+    "oversize selection rejected"
+  ],
+  "limitations": [
+    "constructed loopback helper; not model performance",
+    "CSS zoom/reflow and keyboard checks, not screen-reader certification"
+  ]
+}

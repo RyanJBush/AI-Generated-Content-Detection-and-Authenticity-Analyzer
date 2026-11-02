@@ -49,3 +49,9 @@ Start-Litmus.cmd text eol=crlf
 eval/results/publication/** text eol=lf
 scripts/verify_ui_engines.py text eol=lf
 scripts/audit_publication.py text eol=lf
+
+# Readiness evidence retains exact bytes across checkouts.
+eval/results/readiness/** -text
+scripts/browser_*_checks.js text eol=lf
+pyproject.toml text eol=lf
+tests/test_ui_readiness.py text eol=lf

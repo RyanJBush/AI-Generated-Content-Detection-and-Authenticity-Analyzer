@@ -1,0 +1,12 @@
+{
+  "method": "sRGB relative-luminance ratio; selected design tokens only",
+  "ratios": {
+    "135d68/ffffff": 7.517922261823573,
+    "135d68/f5f5f0": 6.8741420663587505,
+    "526578/ffffff": 6.014687851809166,
+    "526578/f5f5f0": 5.499633720355782,
+    "182d42/ffffff": 14.06694011564881,
+    "a12b30/ffffff": 7.232290923330854
+  },
+  "limits": "Not an exhaustive accessibility audit"
+}

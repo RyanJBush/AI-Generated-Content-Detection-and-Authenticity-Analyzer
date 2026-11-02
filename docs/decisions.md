@@ -1635,3 +1635,34 @@ passed after the fix. Frozen scientific verification with full saved metric
 reassembly passed. No full slow suite, external-machine install or alternate
 hardware check was run. Private push uses explicit master/recovery-tag refs;
 post-commit audit is stored outside Git to avoid a receipt hash cycle.
+
+
+## 2026-11-02 — Professional readiness, local scope
+
+Ryan authorized the engineering/UX/recruiter-readiness audit and implementation.
+Codex implemented the bounded UI/server/documentation slice on
+codex/recruiter-readiness; Claude Code supplied two actual read-only reviews.
+The initial review's three medium findings were fixed: status-tracking escape,
+sanitized diagnostics, and visible writing-observation caveats. Follow-up found
+no blocking code defects and requested completed verification documentation,
+now retained in eval/results/readiness/VERIFICATION.md with original reviews.
+
+Default reports and JSON evidence are unchanged. Presentation explains disabled
+checks as Not run, supports GET-only recovery/reload and explicit dismissal,
+and uses accessible focus/spacing. Uploads have a total ten-second deadline;
+unsafe Unicode display controls are rejected; unexpected request failures return
+safe JSON and log class/phase only. Timeout does not cancel native work.
+
+Final full default tests: 883 passed / 21 deselected inside (29.41 s) and outside
+(28.14 s). Ruff, pip check, JS syntax, fresh installed wheel, 17 main browser
+checks and 6 recovery/native checks passed. The recovery timeout was accelerated
+in the test browser only. Actual synthetic CUDA HTTP reports matched the frozen
+preflight; constructed C2PA remains unknown trust. Read-only scientific identity,
+strict journal and saved metric reassembly passed. No held-out text access,
+new score/evaluation, recalibration, frozen-source edit or dependency addition.
+
+Scoped accessibility is verified, not exhaustive certification. Full slow tests,
+screen-reader/alternate hardware and dependency CVE audits were not run. No
+public deployment is claimed. Original transfer compliance is unproven and the
+historical G recovery limitation remains retired. Current UI evidence is additive;
+older source-bound UI receipts remain evidence for their original revisions.

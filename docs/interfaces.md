@@ -835,3 +835,32 @@ requirement is unmet/retired, not fixed retroactively. All old files stay intact
 as provenance. The actual uninterrupted evaluation is independently verified and
 closed with this disposition; no unqualified claim of complete old G0–G5 behavior.
 Manual invocation of historical drivers remains a residual unsupported risk.
+
+## Professional-readiness UI refinements (2026-11-02)
+
+The UI transport retains the same endpoints and report schema. Upload bodies
+have a 10-second total deadline, read in at most 64 KiB chunks; incomplete or
+late uploads return the existing 400/upload error without starting a job.
+Slow request headers remain subject to socket timeouts, not a total header
+deadline; this is a local single-user server, not public hosting. A slow cloud
+file should first be copied to a local folder. Names containing Unicode Cc/Cf
+characters are rejected; ordinary Unicode basenames remain accepted.
+
+Unexpected handler errors before response headers return generic JSON 500.
+Job/request failures log only exception class and operation phase to the local
+console, excluding filenames, text and raw exception messages. Incomplete or
+failed cleanup still reports failure; hard termination can leave temporary files.
+
+Client requests have a 30-second response deadline; aborting the fetch never
+cancels native work. Once a job ID is known, status retry and same-tab reload
+issue GET only. Session storage holds only the job ID and options, never file,
+report or token. Dismissing status tracking clears that local reference without
+cancelling work. A lost POST response may leave an accepted job without a known
+ID; no automatic POST retry is made. Another submission can receive 409 while
+it runs. Service restart or a replaced latest job produces 403/404 recovery.
+
+The presentation labels placeholder methods Not run and explains known reasons.
+Original evidence, observation records and report limitations remain accessible;
+JSON export is unchanged. Important quality caveats remain expanded. Keyboard
+skip navigation, loading/result focus, responsive reflow and darker focus rings
+support inclusive use; no screen-reader certification is claimed.

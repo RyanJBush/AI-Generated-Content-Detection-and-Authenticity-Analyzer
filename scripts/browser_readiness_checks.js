@@ -1,0 +1,70 @@
+// Execute this function with the existing Playwright browser tool (no app dependency).
+async (page) => {
+  const checks = [];
+  const check = (name, condition) => { if (!condition) throw new Error(name); checks.push(name); };
+  const fixture = async (text, name = 'constructed.txt') => {
+    await page.locator('#file').setInputFiles({name, mimeType: 'text/plain', buffer: Buffer.from(text)});
+  };
+  const complete = async () => page.locator('#results').waitFor({state: 'visible', timeout: 15000});
+  await page.goto('http://127.0.0.1:8766');
+  await page.evaluate(() => sessionStorage.clear()); await page.reload();
+  await page.setViewportSize({width: 1440, height: 1080});
+  check('all checks off; analyze disabled', !(await page.locator('input[type=checkbox]:checked').count()) && await page.locator('#analyze').isDisabled());
+  await page.keyboard.press('Tab');
+  check('keyboard skip link', await page.locator('.skip-link').evaluate(el => el === document.activeElement));
+  await page.keyboard.press('Enter');
+  check('skip destination focused', await page.locator('#workspace').evaluate(el => el === document.activeElement));
+  await fixture('A constructed example.'); await page.locator('#analyze').click(); await complete();
+  check('off explicitly Not run', (await page.locator('#report-content').innerText()).includes('Not run'));
+  check('result focus', await page.locator('#results-title').evaluate(el => el === document.activeElement));
+  await fixture('In conclusion, this could be clearer.', '<img src=x onerror=alert(1)>.txt');
+  await page.locator('#quality').check(); await page.locator('#analyze').click(); await complete();
+  check('quality separate; filename safe', (await page.locator('.quality').innerText()).includes('1 match') && await page.locator('#report-file img').count() === 0);
+  const stored = await page.evaluate(() => JSON.parse(sessionStorage.getItem('litmus-last-job')));
+  check('only ID/options stored', Object.keys(stored).sort().join(',') === 'id,options');
+  const original = await page.evaluate(async id => (await fetch(`/api/v1/jobs/${id}`, {headers:{'X-Litmus-Token':document.querySelector('meta[name=litmus-token]').content}})).json(), stored.id);
+  const downloadEvent = page.waitForEvent('download'); await page.locator('#download').click();
+  const download = await downloadEvent;
+  const stream = await download.createReadStream();
+  const chunks = [];
+  for await (const chunk of stream) chunks.push(chunk);
+  check('download exactly equals original report', JSON.stringify(JSON.parse(Buffer.concat(chunks).toString())) === JSON.stringify(original.report));
+  await download.saveAs('C:/Users/Ryano/Projects/litmus/eval/results/readiness/browser-export.json');
+  await page.screenshot({path:'C:/Users/Ryano/Projects/litmus/eval/results/readiness/desktop.png',fullPage:true});
+  await page.setViewportSize({width:390,height:844});
+  check('mobile has no horizontal overflow', await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.screenshot({path:'C:/Users/Ryano/Projects/litmus/eval/results/readiness/mobile.png',fullPage:true});
+  await page.setViewportSize({width:1280,height:1000});
+  await page.evaluate(()=>document.body.style.zoom='2');
+  check('200% CSS zoom no horizontal overflow', await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.evaluate(()=>document.body.style.zoom='');
+  let posts = 0;
+  const count = request => { if (request.method()==='POST' && request.url().includes('/api/v1/jobs')) posts++; };
+  page.on('request', count);
+  await fixture('SLOW_UI_FIXTURE Constructed polling recovery.'); await page.locator('#quality').uncheck();
+  let failed = false;
+  await page.route('**/api/v1/jobs/*', async route => {
+    if (!failed) { failed=true; await route.fulfill({status:503,contentType:'text/html',body:'Unavailable'}); }
+    else await route.continue();
+  });
+  await page.locator('#analyze').click(); await page.locator('#retry').waitFor({state:'visible'});
+  check('poll failure keeps submission locked', await page.locator('#analyze').isDisabled());
+  await page.unroute('**/api/v1/jobs/*'); await page.locator('#retry').click(); await complete();
+  check('retry fetches same job without resubmitting', posts===1);
+  posts=0;
+  await fixture('SLOW_UI_FIXTURE Constructed reload recovery.'); await page.locator('#analyze').click();
+  await page.waitForFunction(()=>sessionStorage.getItem('litmus-last-job')!==null);
+  await page.reload(); await complete();
+  check('reload recovers without resubmitting', posts===1);
+  page.off('request',count);
+  await fixture('FAIL_UI_FIXTURE Constructed failure.'); await page.locator('#analyze').click();
+  await page.waitForFunction(()=>document.getElementById('status').classList.contains('error'));
+  check('engine error restores controls and keeps file', await page.locator('#analyze').isEnabled() && (await page.locator('#file-name').innerText())==='constructed.txt');
+  await fixture('PK\x03\x04unsupported', 'archive.zip'); await page.locator('#analyze').click(); await complete();
+  check('unsupported input clearly not analyzed', (await page.locator('#report-content').innerText()).includes('File not analyzed'));
+  await fixture('', 'empty.txt'); await page.locator('#analyze').click(); await complete();
+  check('empty file handled', (await page.locator('#report-content').innerText()).includes('File not analyzed'));
+  await page.evaluate(()=>{const dt=new DataTransfer();dt.items.add(new File([new Uint8Array(50000001)],'large.txt'));const input=document.getElementById('file');input.files=dt.files;input.dispatchEvent(new Event('change'));});
+  check('oversize selection rejected', await page.locator('#analyze').isDisabled());
+  return {checks, limitations:['constructed loopback helper; not model performance','CSS zoom/reflow and keyboard checks, not screen-reader certification']};
+}

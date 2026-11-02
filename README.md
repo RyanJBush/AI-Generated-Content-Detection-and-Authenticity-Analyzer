@@ -1,5 +1,27 @@
 # Litmus
 
+**A local evidence workbench for text-origin signals, writing patterns, and image
+Content Credentials.** Upload a file, choose checks, inspect their reasons and
+limitations, and export the original structured report. Litmus does not assign
+an "AI percentage" or establish who authored a file.
+
+The engineering focus is traceability: exact-configuration calibration, grouped
+held-out evaluation, explicit failure accounting, bounded native work, and
+separation of provenance evidence from writing-pattern observations.
+
+On the frozen held-out RAID subset, clean-text AUROC was **0.80358**, with
+**66.37% TPR / 4.59% FPR** at the development-selected threshold. Homoglyph edits
+reduced detection to **8.59%**. These sample-specific results are not general
+accuracy claims; intervals, coverage and limitations appear below.
+
+[Install and run](INSTALL.md) · [Scientific results](#held-out-evaluation-r1-g-scientific-results-independently-reviewed)
+· [Architecture](#architecture-and-trade-offs) · [Readiness audit](docs/plans/RECRUITER-READINESS.md)
+
+![Local Litmus report using constructed example text](eval/results/readiness/desktop.png)
+
+*Actual local interface, constructed sample text, content observations enabled.
+Text-origin analysis is off in this screenshot; no model-performance claim.*
+
 > **Status: R1 complete for local use.** The local interface, text signals,
 > content observations, image credentials and held-out scientific evaluation are
 > implemented and reviewed. Historical G recovery did not meet its original
@@ -54,6 +76,83 @@ held-out scoring is authorized.
 Use the checkout launcher for the calibrated local profile. The fresh wheel
 passed model-free UI/CLI checks with existing pinned dependencies; it is not a
 portable bundle of the weights, calibration or execution profile.
+
+## Architecture and trade-offs
+
+```mermaid
+flowchart LR
+  Browser[Local browser] --> HTTP[Loopback HTTP and input validation]
+  CLI[Command line] --> Report[Shared report assembler]
+  HTTP --> Worker[Single analysis worker]
+  Worker --> Report
+  Report --> Ingestion[Signature and text ingestion]
+  Ingestion --> Text[Pinned CUDA text scorer]
+  Ingestion --> Quality[Writing-pattern observers]
+  Ingestion --> C2PA[Bounded C2PA worker]
+  Text --> Evidence[Separate evidence records]
+  Quality --> Evidence
+  C2PA --> Evidence
+  Evidence --> JSON[JSON report]
+```
+
+- **Python 3.13, standard-library HTTP, plain HTML/CSS/JavaScript.** The local
+  interface adds no framework or database dependency. It is single-user, not a
+  production internet-facing service.
+- **One report owner.** UI and CLI call the same assembler and analyzers; the UI
+  explains results without altering the exported scientific record.
+- **Bounded work.** One UI job at a time; bounded file size and total upload
+  deadline. Native C2PA work has a response deadline but is not cancelled by it.
+- **Explicit recovery.** The tab remembers only its last job ID and option
+  choices, so reload/status retry can recover the in-memory job. Files and
+  reports are not persisted in browser storage. Restarting the service or
+  replacing its latest job makes an old job unavailable.
+- **Frozen science.** Exact source, tokenizer, model, library and execution
+  identities bind calibration. This favors reproducibility over hardware
+  portability. Original E/F/G artifacts remain immutable; the supported verifier
+  reassembles saved evidence without rescoring texts.
+
+The Binoculars-inspired ratio uses shifted performer negative log likelihood
+over observer-to-performer cross-entropy at all positions, including the final
+position. This project-specific formula is explicit, tested against an oracle,
+and included in the configuration identity; published performance from other
+implementations is not imported as Litmus performance.
+
+## Development checks and contribution record
+
+From the installed checkout with the existing pinned development dependencies:
+
+```powershell
+.venv\Scripts\python.exe -m pytest -q
+.venv\Scripts\python.exe -m ruff check .
+.venv\Scripts\python.exe -m pip check
+.venv\Scripts\python.exe scripts\verify_wheel_r1.py
+.venv\Scripts\python.exe scripts\verify_r1_release.py --metrics
+```
+
+The default tests exclude the `slow` model-dependent marker. Some default tests
+use temporary loopback listeners/native C2PA; run them where these are supported.
+The wheel check uses existing dependencies without downloading packages. The
+scientific verifier needs full Git history, but no dataset text or model weights.
+There is no configured static type-checker gate. Browser scenarios are retained
+in `scripts/browser_readiness_checks.js` and `scripts/browser_recovery_checks.js`
+for the existing Playwright tool;
+Playwright is not an application dependency. No hosted demo is deployed.
+
+The latest readiness run passed **883 default tests, with 21 slow tests excluded**,
+both inside and outside the checkout. See the [verification record](eval/results/readiness/VERIFICATION.md)
+for exact results, browser coverage, Claude review and untested limitations.
+Older milestone counts below describe their original revisions.
+
+Exports deliberately retain `litmus-report/r0` and historical limitation strings
+for compatibility and scientific identity. The current UI explains disabled
+checks as "Not run" while preserving the original records verbatim.
+
+Ryan owns project scope, approvals and the recorded engineering decisions.
+Implementation and reviews used Codex and Claude Code assistance, as disclosed
+in the decision log and review artifacts. This repository does not claim that
+all code was hand-written, that model reviews constitute independent human
+validation, or that a production user base exists. For an interview, the useful
+discussion is the actual trade-offs, failure cases and reproducible evidence.
 
 ## What Litmus will and will not do
 

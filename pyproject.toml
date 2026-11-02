@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "litmus"
 dynamic = ["version"]
-description = "Offline evidence-reporting tool for AI-generation signals (R0 skeleton)"
+description = "Local evidence reporting for text origin and image provenance"
 requires-python = ">=3.13"
 license = "MIT"
 license-files = ["LICENSE"]

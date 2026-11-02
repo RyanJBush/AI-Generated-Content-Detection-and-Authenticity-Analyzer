@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "timeout explains no cancellation",
+    "timeout recovers same job",
+    "dismiss releases file input and clears tracking",
+    "dismiss explains work continues",
+    "native C2PA explanation visible",
+    "image quality not applicable"
+  ],
+  "client_timer": "30-second AbortController timer accelerated to 100ms by browser harness; no native cancellation",
+  "native_fixture": "constructed active_ai_declared.jpg; production trust policy"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "litmus-readiness-verification/v1",
+  "recorded_utc": "2026-11-02T17:50:49.878653+00:00",
+  "baseline": "0afbb5a3b298b64a9b1bffe9a9fd1c5bdd2ff550",
+  "branch": "codex/recruiter-readiness",
+  "identity_note": "Implementation hashes bind tested bytes; containing Git commit supplies delivery identity. Documentation-only edits after tests do not change runtime.",
+  "implementation_sha256": {
+    "src/litmus/local_ui/analysis.py": "ae585dd68431534f2780fc58055dd375c5814b69b0ce1430277e76ca39c9450c",
+    "src/litmus/local_ui/server.py": "e7ca9f6511d35e7927908c775ec879fda5ab5b4a5e3aec7354fce364afe65e69",
+    "src/litmus/local_ui/__init__.py": "f9fe75f3838418a2ea4eb3c872fd06f5a9d7627ac997ff11ef8b00b2c15ac3cc",
+    "src/litmus/local_ui/__main__.py": "7a988d0bf40f23e8fda38a4cb2558e7eb195c0e9fdaa7163618fe91224202fdd",
+    "src/litmus/local_ui/static/app.js": "55b547996c005a4179c83a556b6af2e32875a6123f13f44c4d4c2b35421d8f1c",
+    "src/litmus/local_ui/static/index.html": "6eb4e064fb80328fb56042ad79c10a0c8a443cf0620d0e88111d81d28c210707",
+    "src/litmus/local_ui/static/style.css": "ca53539e8b65f6d892ba9c6dbaae39a945fa37f399463f5faac4e3fb903c23d8",
+    "pyproject.toml": "1c07cd62638e394e4845d6666605bd5f9b799a74cca9a575bbacba4a40825066",
+    "tests/test_ui_readiness.py": "1a150fdebfadbf90c8e894e62603230a9ffab8f98de40362617afe705f9fd785",
+    "scripts/browser_readiness_checks.js": "3c452311bb2fd07f1f63b7474662e531d003accfa6ea198ec2fbbec0d1cf10c9",
+    "scripts/browser_recovery_checks.js": "8db1fc700a9f2545261baf2f927849334143248e79a5bff2bf3fcc0e66ee98df"
+  },
+  "evidence_sha256": {
+    "browser-export.json": "3cc5f339b0ba234c8975960a7e008d189deca8a513b10c9a14dec915cae8c0ee",
+    "browser.json": "bbe6f2354fbbde184e3539ab85c37a433cd18309cf5be67114359f6eab0ac9e5",
+    "claude-final-review.md": "61556303d8dd122e0084959b26ff16eb64825dbd309f5595246a3a3b9771122f",
+    "claude-review.md": "c398d6768d8f042b0fd694d04c638d41903417f80e771885700ccb3c1d513530",
+    "contrast.json": "dc60a4425212fc45d47d8c179d3a08107d40bdcebe4c680aa73488be404ba9fb",
+    "desktop.png": "1cd92a6961526ec80567dcf9e3098763153fda395830767f31a0b539a9b21a06",
+    "mobile.png": "421e8b00d83cc5f429c856edb0016d2e2aaa4a3094670d6c99860661a8c6dbb7",
+    "recovery.json": "4c33ac93f0fbe161f14e107bd75f06d65a8f9f7d3c849caa505e096df269b8ff",
+    "ui_engine_reports.json": "15a608bd428a70607d47af88e5fcc33c710d0194c6d839a3df09ecb9fedd27cf",
+    "VERIFICATION.md": "5474883434da817185c0e82bd3c8ac74dfcb5fc478c9bb4869e3b3aac987ccef",
+    "wheel.json": "238e6160a77c98bc0125d8e12266139847900be089d1889aa97388bde8977f00"
+  },
+  "default_tests": {
+    "inside": {
+      "passed": 883,
+      "deselected": 21,
+      "seconds": 29.41
+    },
+    "outside": {
+      "passed": 883,
+      "deselected": 21,
+      "seconds": 28.14
+    }
+  },
+  "scientific_verification": {
+    "status": "PASS",
+    "artifacts": 17,
+    "rows": 3361,
+    "groups": 675,
+    "metrics_sha256": "78e84cae8044d8bfec88c859fbfb245eb070d725e1a090d1d8691106330d02e5",
+    "historical_transfer_compliance_proven": false
+  }
+}

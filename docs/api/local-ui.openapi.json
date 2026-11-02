@@ -34,7 +34,7 @@
               "minLength": 1,
               "maxLength": 3000
             },
-            "description": "Percent-encoded UTF-8 basename. Decoded name <=180 codepoints and <=255 UTF-8 bytes; no slash, backslash or control character; not dot/dotdot."
+            "description": "Percent-encoded UTF-8 basename. Decoded name <=180 codepoints and <=255 UTF-8 bytes; no slash, backslash or Unicode control (Cc) or format (Cf) character; not dot/dotdot."
           },
           {
             "name": "Content-Length",
@@ -146,7 +146,8 @@
           "501": {
             "$ref": "#/components/responses/Error"
           }
-        }
+        },
+        "description": " Upload body must finish within a 10-second total deadline; late/incomplete uploads return 400 without starting analysis."
       }
     },
     "/api/v1/jobs/{job_id}": {

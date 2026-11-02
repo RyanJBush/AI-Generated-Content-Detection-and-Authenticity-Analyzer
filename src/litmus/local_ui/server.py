@@ -4,11 +4,13 @@ import argparse
 import copy
 import hmac
 import json
+import logging
 import re
 import secrets
 import socket
 import threading
 import time
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.resources import files
@@ -18,6 +20,8 @@ from urllib.parse import parse_qs, unquote_to_bytes, urlsplit
 from uuid import uuid4
 
 MAX_UPLOAD = 50_000_000
+UPLOAD_DEADLINE_SECONDS = 10.0
+LOGGER = logging.getLogger(__name__)
 OPTIONS = ("text_origin", "quality", "c2pa")
 SECURITY_HEADERS = (
     "Host",
@@ -65,6 +69,7 @@ class Jobs:
             return copy.deepcopy(self.current)
 
     def _run(self, data, name, options):
+        phase = "analysis"
         try:
             with TemporaryDirectory(prefix="litmus-upload-") as directory:
                 suffix = Path(name).suffix
@@ -75,13 +80,17 @@ class Jobs:
                 report = self.analyze(str(path), options)
                 report["input"]["file_name"] = name
                 json.dumps(report, ensure_ascii=False, allow_nan=False)
+                phase = "temporary cleanup"
             # Directory cleanup occurs before exposing completion.
             with self.lock:
                 self.current.update(status="completed", report=report)
         except Exception as error:
+            LOGGER.error(
+                "Litmus job failed during %s (%s)", phase, type(error).__name__
+            )
             # Never echo raw input or a traceback to the browser.
             message = "Analysis could not finish. Check the file and local model setup."
-            if type(error).__name__ in ("C2paUnavailable", "ModelNotInstalled"):
+            if type(error).__name__ == "C2paUnavailable":
                 message = str(error)
             with self.lock:
                 self.current.update(status="error", error=message)
@@ -115,6 +124,18 @@ class Handler(BaseHTTPRequestHandler):
     sys_version = ""
     timeout = 10
 
+    def handle_one_request(self):
+        self._response_started = False
+        try:
+            super().handle_one_request()
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            self.close_connection = True
+        except Exception as error:
+            LOGGER.error("Litmus request failed (%s)", type(error).__name__)
+            self.close_connection = True
+            if not self._response_started:
+                self._error(500, "internal", "The local request failed. Try again.")
+
     def log_message(self, *args):
         pass
 
@@ -125,6 +146,7 @@ class Handler(BaseHTTPRequestHandler):
         self._error(code, "http", message or "The local request was rejected.")
 
     def _send(self, status, body, mime="application/json; charset=utf-8", **extra):
+        self._response_started = True
         self.close_connection = True
         self.send_response(status)
         self.send_header("Content-Type", mime)
@@ -275,7 +297,10 @@ class Handler(BaseHTTPRequestHandler):
                 or name in (".", "..")
                 or len(name) > 180
                 or len(name.encode("utf-8")) > 255
-                or any(ord(c) < 32 or ord(c) == 127 or c in "/\\" for c in name)
+                or any(
+                    unicodedata.category(c) in {"Cc", "Cf"} or c in "/\\"
+                    for c in name
+                )
             ):
                 raise ValueError
         except (ValueError, UnicodeError):
@@ -287,10 +312,22 @@ class Handler(BaseHTTPRequestHandler):
             )
             return
         try:
-            data = self.rfile.read(length)
+            deadline = time.monotonic() + UPLOAD_DEADLINE_SECONDS
+            data = bytearray()
+            while len(data) < length:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise TimeoutError("upload deadline")
+                self.connection.settimeout(remaining)
+                chunk = self.rfile.read1(min(65536, length - len(data)))
+                if not chunk:
+                    break
+                data.extend(chunk)
+            data = bytes(data)
         except (socket.timeout, OSError):
             self._error(
-                400, "upload", "Upload did not finish. Select the file and try again."
+                400, "upload", "Upload did not finish within 10 seconds. "
+                "Try a smaller file or copy it to a local folder first."
             )
             return
         if len(data) != length:
