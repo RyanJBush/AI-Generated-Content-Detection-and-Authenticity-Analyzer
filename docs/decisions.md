@@ -1716,3 +1716,17 @@ is claimed. Docker engine was unavailable; no second-machine result is claimed.
 All three issues remain open for unmet criteria. Additive evidence is under
 eval/results/issue-verification and docs/ISSUE-VERIFICATION.md. Frozen scientific
 identity and saved metrics verification passed; no scoring or calibration.
+
+
+## 2026-11-02 — Persistent model-free demo setup
+
+After PR #5 was merged at 89adb6e, created the ignored local .venv-ui using
+pip 26.2.2 and the previously verified fresh wheel. Added Start-Litmus-Demo.cmd
+and documented the separate launcher. Launcher --help, pip check and isolated
+import checks passed; torch and filelock are absent. This is same-machine setup,
+not second-machine evidence. Installation briefly overlapped the isolated pip
+upgrade and emitted a transient invalid-distribution warning; both completed
+successfully, and the final pip version/consistency checks passed. The original
+research environment was not changed. No full tests or scoring were rerun for
+this launcher/documentation change. Additional transitive filelock path evidence
+is in docs/security/filelock-path-followup.md; issue #1 remains unresolved.
