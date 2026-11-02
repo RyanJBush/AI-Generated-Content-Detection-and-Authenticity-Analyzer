@@ -171,6 +171,18 @@ def test_rejected_requests_create_no_job(ui, path, headers, expected):
     assert set(json.loads(body)) == {"error"}
 
 
+def test_repeated_framing_rejections_deliver_json(ui):
+    calls = []
+    server = ui(lambda *args: calls.append(args))
+    for _ in range(100):
+        status, _, body = request(
+            server, "POST", "/api/v1/jobs", b"input",
+            {"Transfer-Encoding": "chunked"},
+        )
+        assert status == 400 and set(json.loads(body)) == {"error"}
+    assert not calls
+
+
 @pytest.mark.parametrize(
     "name",
     [

@@ -15,6 +15,8 @@ document analysis remain planned.
 
 ## Open Litmus
 
+For a new computer or fresh checkout, follow [INSTALL.md](INSTALL.md) first.
+
 Double-click **Start-Litmus.cmd**, then open **http://127.0.0.1:8765** in your
 browser. Or run this from the project folder:
 
@@ -78,7 +80,9 @@ Opt-in with `litmus analyze FILE --quality on` (default `off`).
 - **No AI-origin claim.** Quality observations count surface patterns (stock phrases, hedges, repeated word 3-grams, claim phrases to inspect). They do not establish AI origin and never affect origin results.
 - **English-oriented, provisional lexicons (v1).** The lexicons were drafted with AI assistance and reviewed by Ryan; their entries and counts are not evaluated against any corpus.
 - **Word counts assume space-separated scripts.** Text without spaces (for example CJK) counts each run as one word, so rates are not comparable across scripts.
-- **Lexicon licensing: OPEN — pending Ryan's decision.**
+- **Lexicon licensing: MIT**, approved by Ryan on 2026-11-02. Frozen v1
+  headers retain their historical pending notice to preserve evaluated hashes;
+  the current license decision below supersedes that notice.
 
 ## Image provenance: opt-in and limitations
 
@@ -267,6 +271,31 @@ screen-reader audit and OS/native isolation were not rerun or established here.
 Scientific limits and the historical transfer exception remain. R1 is a local
 tool; R2–R4 image/audio/video/document detectors remain future work.
 
+## Publication verification
+
+Publication preparation on 2026-11-02 additionally verified two consecutive
+synthetic CUDA submissions and one constructed C2PA fixture through the real
+local HTTP interface. The CUDA reports were identical and matched the accepted
+preflight and calibration; C2PA retained unknown production signer trust.
+This closes the engine-integration gap for the exercised non-flagged text path
+and constructed C2PA case; flagged text results were not exercised over HTTP.
+No held-out texts were rescored. Fresh-source wheel installation also passed
+with locally available dependencies; new-machine dependency downloads and
+alternate GPU profiles remain unverified. See `eval/results/publication/`.
+
+Earlier builder-dispatched reviews were fresh-context Codex subagent reviews,
+adjudicated by the primary agent. Claude's separate read-only review is advisory;
+neither form of review substitutes for the recorded executable checks.
+
 ## License
 
-**OPEN.** Not yet chosen. Third-party datasets and models carry their own terms (`SPEC.md` §17).
+Litmus's original code, documentation and project-authored quality lexicons are
+licensed under the [MIT License](LICENSE), approved by Ryan on 2026-11-02.
+The copyright-holder name uses the existing Git author identity, RyanJBush.
+This decision supersedes historical project-license and lexicon-license
+pending notices, including those retained in the frozen v1 lexicon headers.
+Those files and the scientific evidence remain byte-for-byte unchanged.
+
+Third-party dependencies, datasets and model weights retain their own terms
+(`SPEC.md` §17); this license does not relicense those materials or authorize
+redistribution of the locally held dataset or model weights.

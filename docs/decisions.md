@@ -1556,3 +1556,82 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   detector changes. Full slow/native-C2PA suites, live GPU UI scoring, screen-reader
   audit and OS/native isolation not rerun/claimed. Public hosting/licensing and
   later modalities remain outside this local completion.
+
+## 2026-11-02 — MIT license approved by Ryan
+
+Ryan explicitly selected the MIT license in this chat ("The MIT license works
+for me."). Added the standard MIT LICENSE with copyright 2026 RyanJBush,
+using the existing repository Git author identity. The approval covers Litmus's
+original code, documentation and project-authored quality lexicons. The recorded
+lexicon provenance says written for Litmus, not derived from published lists.
+Third-party dependencies, datasets and model weights retain their own terms;
+this decision does not authorize raw-text or weight redistribution.
+
+README and package metadata now declare MIT. This resolves project-license O6
+and supersedes historical pending project/lexicon licensing notices. Frozen v1
+lexicon headers are deliberately unchanged: updating their historical pending
+notice would alter the accepted lexicon hashes. No scorer, lexicon, calibration,
+ledger, freeze, or existing verification receipt was edited.
+
+Verification: fresh wheel built/installed without downloads or new dependencies;
+isolated installed-package UI/CLI smoke and default image golden passed. Wheel
+metadata has License-Expression MIT and License-File LICENSE, and includes the
+exact root LICENSE bytes. Supported read-only release verification passed for
+all frozen E/F and original G identities, 17 scientific artifacts and strict
+journal. Historical transfer compliance remains unproven; historical recovery
+remains unmet/retired. Full tests and GPU/native C2PA checks were not rerun for
+this documentation/package-metadata change. No GitHub upload was performed.
+
+## 2026-11-02 — Private GitHub publication authorized and verified
+
+Ryan requested all proposed publication steps, then confirmed execution. Target
+is RyanJBush/litmus, private. Existing MIT changes are included. Installation
+instructions now cover basic and optional pinned-model setup with explicit
+hardware/calibration limitations. The minimum build backend is setuptools
+77.0.3 for SPDX metadata; the existing environment already uses 84.2.1. No new
+runtime dependency or package download was introduced.
+
+Real HTTP UI requests on the accepted local GPU: two identical synthetic text
+reports, raw score 1.0038838386535645, accepted calibration/configuration and
+frozen preflight values; constructed C2PA image: valid integrity/signature,
+unknown signer trust, absent timestamp, zero production anchors. This exercised
+the non-flagged text path only. No evaluation text was read or rescored. New
+helper validates saved reports without scoring and refuses to overwrite live
+run evidence. Six in-memory corruptions were rejected. Original scientific
+identities, strict journal and full saved metric reassembly pass unchanged.
+
+Claude's separate read-only review found no blocker to a private push. We
+adopted explicit-ref pushes (master plus the named recovery tag, never mirror),
+tightened saved-report identity/calibration/C2PA assertions, validated before
+writing reports, added the text-path coverage qualifier, and specified the
+build-backend minimum. The review did not execute tests and read an earlier
+audit version; the final audit also scans commit/tag metadata and includes
+all reachable refs, including tool checkpoints that will not be pushed.
+
+The project-authored quality checks remain off by default, resolving the
+previous UI-stage default deferral without a behavior change. Test keys are
+documented fixtures. Author email and Windows paths remain in the preserved
+private history; any public visibility change needs a separate privacy review.
+Low-priority local-server concerns and original historical transfer/recovery
+exceptions remain explicit in docs/plans/GITHUB-PUBLICATION.md. Evidence is
+additive under eval/results/publication; no original receipt was rewritten.
+
+Final publication verification exposed an intermittent Windows 10053 reset on
+malformed Transfer-Encoding requests: outside suite initially 631 pass/1 fail,
+and focused reproduction 4/100 failures. Reordering half-close alone failed.
+The actual missing-length case skipped draining; the handler now flushes its
+JSON response and drains raw bytes with a 64 KB cap and 50 ms total deadline
+before half-close. No untrusted framing is interpreted. Added a 100-request
+regression, with timing-test limitations disclosed. Claude's focused follow-up
+approved this repair for private publication. UI source changes are outside
+frozen E/F/G identities; the old R1-H receipt remains historical evidence for
+its original revision, not a claim about the new server's source hash.
+
+Final selected suites: 633 passed, 21 deselected inside (21.51 s) and outside
+(19.75 s). Six network/native C2PA test modules were explicitly excluded, as
+listed in the new verification receipt. All 33 UI tests passed (1.61 s).
+Ruff, pip check, fresh-source wheel checks and repeated real-engine HTTP checks
+passed after the fix. Frozen scientific verification with full saved metric
+reassembly passed. No full slow suite, external-machine install or alternate
+hardware check was run. Private push uses explicit master/recovery-tag refs;
+post-commit audit is stored outside Git to avoid a receipt hash cycle.

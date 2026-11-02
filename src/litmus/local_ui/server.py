@@ -8,6 +8,7 @@ import re
 import secrets
 import socket
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.resources import files
@@ -151,15 +152,22 @@ class Handler(BaseHTTPRequestHandler):
     def _error(self, status, code, message):
         self._json(status, {"error": {"code": code, "message": message}})
         # Winsock may reset a closed socket with an unread body before the
-        # client receives its error. Half-close first and drain only a small,
-        # bounded amount; untrusted framing never causes an unbounded read.
+        # client receives its error. Rejected framing may have no usable length.
+        # Drain raw bytes without interpreting it, with both byte/time bounds.
         try:
             self.wfile.flush()
+            deadline = time.monotonic() + 0.05
+            remaining = 65536
+            while remaining and (wait := deadline - time.monotonic()) > 0:
+                self.connection.settimeout(wait)
+                chunk = self.rfile.read1(remaining)
+                if not chunk:
+                    break
+                remaining -= len(chunk)
+        except (OSError, ValueError):
+            pass
+        try:
             self.connection.shutdown(socket.SHUT_WR)
-            length = getattr(self, "headers", {}).get("Content-Length", "0")
-            if re.fullmatch(r"[0-9]{1,5}", length) and int(length) <= 65536:
-                self.connection.settimeout(0.05)
-                self.rfile.read(int(length))
         except (OSError, ValueError):
             pass
 

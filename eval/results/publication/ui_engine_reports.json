@@ -1,0 +1,559 @@
+[
+  {
+    "report_schema": "litmus-report/r0",
+    "tool": {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    "input": {
+      "file_name": "len512_00.txt",
+      "size_bytes": 2971,
+      "sha256": "cabecd2eabfaeab890c5051a2fc28d55a0c7640db77bf912d20463781a6072b6",
+      "detected_type": "text/plain",
+      "ingestion": {
+        "result": "supported",
+        "reason": null
+      }
+    },
+    "segments": [
+      {
+        "segment_id": "s0",
+        "parent_id": null,
+        "modality": "text",
+        "derivation": [
+          "utf8_decode"
+        ],
+        "coords_in_parent": null,
+        "local_frame": {
+          "type": "text_codepoints",
+          "length": 2971
+        },
+        "content_sha256": "cabecd2eabfaeab890c5051a2fc28d55a0c7640db77bf912d20463781a6072b6",
+        "extraction": {
+          "status": "complete",
+          "notes": []
+        },
+        "origin": [
+          {
+            "method_id": "binoculars",
+            "method_version": "r1b1-1",
+            "result": "no_signal",
+            "raw_score": 1.0038838386535645,
+            "score_direction": "lower_means_more_machine",
+            "calibration": {
+              "scoring_config_hash": "10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f",
+              "dev_set_id": "57bbfc53c6fc9bf482367d18aec29a1e991792fad75d9885e2ad4630ee467453",
+              "alpha": 0.05,
+              "threshold_c": -0.9272342324256897,
+              "n_dev_negatives": 298,
+              "created": "2026-11-02T00:34:58.333016+00:00"
+            },
+            "provenance": null,
+            "reasons": [
+              "not_above_calibrated_threshold"
+            ],
+            "limitations": [
+              "raw_score is a score, not a probability",
+              "absence of evidence is not evidence of human origin",
+              "5% is an empirical development operating point, not a guaranteed population false-positive rate"
+            ],
+            "details": {
+              "scored_window": {
+                "tokens_total": 512,
+                "tokens_scored": 512,
+                "truncated": false,
+                "scored_char_range": [
+                  0,
+                  2971
+                ]
+              },
+              "nll_performer": 6.92406702041626,
+              "xent": 6.897279262542725,
+              "n_input_tokens": 512,
+              "n_target_tokens": 511,
+              "tokenizer_vocab_size": 151665,
+              "model_output_dim": 151936,
+              "scoring_config_hash": "10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f",
+              "scoring_config": {
+                "scorer_version": "r1b1-1",
+                "formula_id": "binoculars_shiftednll_allposxent_v1",
+                "observer_repo": "Qwen/Qwen2.5-0.5B",
+                "observer_commit": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+                "performer_repo": "Qwen/Qwen2.5-0.5B-Instruct",
+                "performer_commit": "7ae557604adf67be50417f59c2c2f167def9a775",
+                "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+                "add_special_tokens": false,
+                "split_special_tokens": true,
+                "truncation_side": "right",
+                "max_tokens": 512,
+                "min_tokens": 64,
+                "weight_dtype": "float32",
+                "reduction_dtype": "float32",
+                "score_direction": "lower_means_more_machine",
+                "preprocessing_version": "r1-text-v1",
+                "device_type": "cuda",
+                "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+                "nvidia_driver_version": "572.60",
+                "cuda_runtime": "12.4",
+                "torch_version": "2.6.0+cu124",
+                "transformers_version": "4.57.6",
+                "tokenizers_version": "0.22.2",
+                "attn_implementation": "eager",
+                "batch_size": 1,
+                "matmul_allow_tf32": false,
+                "cudnn_allow_tf32": false,
+                "float32_matmul_precision": "highest",
+                "deterministic_algorithms": true,
+                "cublas_workspace_config": ":4096:8",
+                "os_family": "Windows",
+                "cuda_initialized_before_settings": false,
+                "source_files": [
+                  "src/litmus/calibration_run.py",
+                  "src/litmus/config.py",
+                  "src/litmus/ingestion.py",
+                  "src/litmus/scorer/analyzer.py",
+                  "src/litmus/scorer/binoculars.py",
+                  "src/litmus/scorer/calibration.py",
+                  "src/litmus/scorer/identity.py",
+                  "src/litmus/scorer/loader.py",
+                  "src/litmus/scorer/tokenize.py"
+                ],
+                "source_sha256": "b0109c50f5eb094eb16a54abd3e03d39f26206cd7a2eb84f96307b713a7e7c53"
+              },
+              "execution_profile_complete": true,
+              "execution_profile_failures": {},
+              "calibration_artifact_sha256": "3d779223c5c3779ff82ae1ce169b4c07ec59a3571b38b2d5463b28a8516be2c8",
+              "calibration_procedure": {
+                "procedure": "distinct-negative-strict-5pct-v1",
+                "transform": "negate_raw",
+                "comparison": ">",
+                "above": 14,
+                "ties": 1,
+                "score_direction": "lower_means_more_machine"
+              }
+            }
+          }
+        ],
+        "quality": []
+      }
+    ],
+    "extraction_coverage": {
+      "segments_created": 1,
+      "skipped": [],
+      "unit": "text_codepoints",
+      "total": 2971,
+      "in_segments": 2971,
+      "ratio": 1.0
+    },
+    "limitations": [
+      "text origin flags require exact-profile calibration; image analyzers are placeholders and there is no C2PA analysis",
+      "no result in this report is a probability or a verdict"
+    ],
+    "offline": {
+      "socket_guard": "loopback_only",
+      "subprocess_guard": "blocked"
+    }
+  },
+  {
+    "report_schema": "litmus-report/r0",
+    "tool": {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    "input": {
+      "file_name": "len512_00.txt",
+      "size_bytes": 2971,
+      "sha256": "cabecd2eabfaeab890c5051a2fc28d55a0c7640db77bf912d20463781a6072b6",
+      "detected_type": "text/plain",
+      "ingestion": {
+        "result": "supported",
+        "reason": null
+      }
+    },
+    "segments": [
+      {
+        "segment_id": "s0",
+        "parent_id": null,
+        "modality": "text",
+        "derivation": [
+          "utf8_decode"
+        ],
+        "coords_in_parent": null,
+        "local_frame": {
+          "type": "text_codepoints",
+          "length": 2971
+        },
+        "content_sha256": "cabecd2eabfaeab890c5051a2fc28d55a0c7640db77bf912d20463781a6072b6",
+        "extraction": {
+          "status": "complete",
+          "notes": []
+        },
+        "origin": [
+          {
+            "method_id": "binoculars",
+            "method_version": "r1b1-1",
+            "result": "no_signal",
+            "raw_score": 1.0038838386535645,
+            "score_direction": "lower_means_more_machine",
+            "calibration": {
+              "scoring_config_hash": "10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f",
+              "dev_set_id": "57bbfc53c6fc9bf482367d18aec29a1e991792fad75d9885e2ad4630ee467453",
+              "alpha": 0.05,
+              "threshold_c": -0.9272342324256897,
+              "n_dev_negatives": 298,
+              "created": "2026-11-02T00:34:58.333016+00:00"
+            },
+            "provenance": null,
+            "reasons": [
+              "not_above_calibrated_threshold"
+            ],
+            "limitations": [
+              "raw_score is a score, not a probability",
+              "absence of evidence is not evidence of human origin",
+              "5% is an empirical development operating point, not a guaranteed population false-positive rate"
+            ],
+            "details": {
+              "scored_window": {
+                "tokens_total": 512,
+                "tokens_scored": 512,
+                "truncated": false,
+                "scored_char_range": [
+                  0,
+                  2971
+                ]
+              },
+              "nll_performer": 6.92406702041626,
+              "xent": 6.897279262542725,
+              "n_input_tokens": 512,
+              "n_target_tokens": 511,
+              "tokenizer_vocab_size": 151665,
+              "model_output_dim": 151936,
+              "scoring_config_hash": "10f0fa316fa5f3d87c7819f86f09ecedc5bc5b1b71e9250d8586aece7390db2f",
+              "scoring_config": {
+                "scorer_version": "r1b1-1",
+                "formula_id": "binoculars_shiftednll_allposxent_v1",
+                "observer_repo": "Qwen/Qwen2.5-0.5B",
+                "observer_commit": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+                "performer_repo": "Qwen/Qwen2.5-0.5B-Instruct",
+                "performer_commit": "7ae557604adf67be50417f59c2c2f167def9a775",
+                "tokenizer_json_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+                "add_special_tokens": false,
+                "split_special_tokens": true,
+                "truncation_side": "right",
+                "max_tokens": 512,
+                "min_tokens": 64,
+                "weight_dtype": "float32",
+                "reduction_dtype": "float32",
+                "score_direction": "lower_means_more_machine",
+                "preprocessing_version": "r1-text-v1",
+                "device_type": "cuda",
+                "gpu_name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+                "nvidia_driver_version": "572.60",
+                "cuda_runtime": "12.4",
+                "torch_version": "2.6.0+cu124",
+                "transformers_version": "4.57.6",
+                "tokenizers_version": "0.22.2",
+                "attn_implementation": "eager",
+                "batch_size": 1,
+                "matmul_allow_tf32": false,
+                "cudnn_allow_tf32": false,
+                "float32_matmul_precision": "highest",
+                "deterministic_algorithms": true,
+                "cublas_workspace_config": ":4096:8",
+                "os_family": "Windows",
+                "cuda_initialized_before_settings": false,
+                "source_files": [
+                  "src/litmus/calibration_run.py",
+                  "src/litmus/config.py",
+                  "src/litmus/ingestion.py",
+                  "src/litmus/scorer/analyzer.py",
+                  "src/litmus/scorer/binoculars.py",
+                  "src/litmus/scorer/calibration.py",
+                  "src/litmus/scorer/identity.py",
+                  "src/litmus/scorer/loader.py",
+                  "src/litmus/scorer/tokenize.py"
+                ],
+                "source_sha256": "b0109c50f5eb094eb16a54abd3e03d39f26206cd7a2eb84f96307b713a7e7c53"
+              },
+              "execution_profile_complete": true,
+              "execution_profile_failures": {},
+              "calibration_artifact_sha256": "3d779223c5c3779ff82ae1ce169b4c07ec59a3571b38b2d5463b28a8516be2c8",
+              "calibration_procedure": {
+                "procedure": "distinct-negative-strict-5pct-v1",
+                "transform": "negate_raw",
+                "comparison": ">",
+                "above": 14,
+                "ties": 1,
+                "score_direction": "lower_means_more_machine"
+              }
+            }
+          }
+        ],
+        "quality": []
+      }
+    ],
+    "extraction_coverage": {
+      "segments_created": 1,
+      "skipped": [],
+      "unit": "text_codepoints",
+      "total": 2971,
+      "in_segments": 2971,
+      "ratio": 1.0
+    },
+    "limitations": [
+      "text origin flags require exact-profile calibration; image analyzers are placeholders and there is no C2PA analysis",
+      "no result in this report is a probability or a verdict"
+    ],
+    "offline": {
+      "socket_guard": "loopback_only",
+      "subprocess_guard": "blocked"
+    }
+  },
+  {
+    "report_schema": "litmus-report/r0",
+    "tool": {
+      "name": "litmus",
+      "version": "0.0.0"
+    },
+    "input": {
+      "file_name": "active_ai_declared.jpg",
+      "size_bytes": 4561,
+      "sha256": "868d203846025bba99acb5c54187154f093222af8448a0c7dd252cb0dd12c720",
+      "detected_type": "image/jpeg",
+      "ingestion": {
+        "result": "supported",
+        "reason": null
+      }
+    },
+    "segments": [
+      {
+        "segment_id": "s0",
+        "parent_id": null,
+        "modality": "image",
+        "derivation": [
+          "image_decode"
+        ],
+        "coords_in_parent": null,
+        "local_frame": {
+          "type": "pixels",
+          "width": 64,
+          "height": 48
+        },
+        "content_sha256": "868d203846025bba99acb5c54187154f093222af8448a0c7dd252cb0dd12c720",
+        "extraction": {
+          "status": "complete",
+          "notes": []
+        },
+        "origin": [
+          {
+            "method_id": "c2pa_provenance",
+            "method_version": "1",
+            "result": "inconclusive",
+            "raw_score": null,
+            "score_direction": null,
+            "calibration": null,
+            "provenance": {
+              "manifest_present": "embedded",
+              "active": {
+                "manifest_label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                "is_active": true,
+                "relationship": null,
+                "title": null,
+                "integrity": "valid",
+                "signature": "valid",
+                "timestamp": "absent",
+                "signing_time_basis": "current_time_check",
+                "signer_trust": "unknown",
+                "declared_ai_use": "declared",
+                "sdk_trust_observation": [
+                  "signingCredential.untrusted"
+                ],
+                "sources": {
+                  "integrity": [
+                    "assertion.hashedURI.match (success)",
+                    "assertion.hashedURI.match (success)",
+                    "assertion.dataHash.match (success)"
+                  ],
+                  "signature": [
+                    "claimSignature.insideValidity (success)",
+                    "claimSignature.validated (success)",
+                    "signingCredential.ocsp.skipped (informational)"
+                  ],
+                  "sdk_trust_observation": [
+                    "signingCredential.untrusted (failure)"
+                  ],
+                  "declared_ai_use": [
+                    "c2pa.actions.v2: http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+                  ]
+                },
+                "notes": []
+              },
+              "ingredients": [],
+              "mapping_version": "1",
+              "trust_list": {
+                "name": "production_trust_anchors",
+                "version": 1,
+                "sha256": "05baa209b1484bc358c44df4855dd7a41d041a20ed327c42cc02d92cc21a5876",
+                "anchor_count": 0
+              },
+              "library_versions": {
+                "c2pa_python": "0.38.0",
+                "sdk": "0.91.0"
+              },
+              "settings": {
+                "verify": {
+                  "remote_manifest_fetch": false,
+                  "ocsp_fetch": false,
+                  "verify_trust": true
+                },
+                "core": {
+                  "allowed_network_hosts": [],
+                  "decode_identity_assertions": false
+                }
+              },
+              "policy": "production",
+              "unsigned_metadata": {
+                "label": "unverifiable; editable; not evidence",
+                "status": "examined",
+                "notes": [],
+                "exif": {
+                  "status": "absent",
+                  "tag_count": 0,
+                  "fields": {}
+                },
+                "xmp": {
+                  "status": "absent",
+                  "byte_length": 0
+                }
+              }
+            },
+            "reasons": [
+              "untrusted_signed_ai_declaration"
+            ],
+            "limitations": [
+              "With an empty production trust list, signer_trust is unknown for every manifest, so no C2PA result can be supports_ai in R1 under the production policy. A valid AI-use declaration alone yields inconclusive / untrusted_signed_ai_declaration.",
+              "R1 checks C2PA provenance only; it does not detect AI-generated images.",
+              "C2PA results describe provenance metadata, not image content.",
+              "Absence of Content Credentials is not evidence of human origin.",
+              "Offline: remote manifests are not fetched.",
+              "SDK trust observations are separate from Litmus production trust policy.",
+              "Project timestamp evidence is constructed; real TSA validation has not been demonstrated."
+            ],
+            "details": {
+              "read_kind": "store",
+              "read_detail": null,
+              "settings_applied": true,
+              "timings": {
+                "read_seconds": 0.007457999978214502,
+                "read_response_seconds": 0.010476100025698543,
+                "response_seconds": 1.5229233999853022,
+                "unit": "seconds"
+              },
+              "rule": 8,
+              "validation_state": "Valid",
+              "status_entries": [
+                {
+                  "entry": {
+                    "code": "claimSignature.insideValidity",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "claim signature valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "claimSignature.validated",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "claim signature valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.hash.data",
+                    "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.hash.data"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.hashedURI.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.actions.v2",
+                    "explanation": "hashed uri matched: self#jumbf=c2pa.assertions/c2pa.actions.v2"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "assertion.dataHash.match",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.assertions/c2pa.hash.data",
+                    "explanation": "data hash valid"
+                  },
+                  "list": "success",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "signingCredential.ocsp.skipped",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "OCSP fetching skipped"
+                  },
+                  "list": "informational",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                },
+                {
+                  "entry": {
+                    "code": "signingCredential.untrusted",
+                    "url": "self#jumbf=/c2pa/urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e/c2pa.signature",
+                    "explanation": "signing certificate untrusted"
+                  },
+                  "list": "failure",
+                  "label": "urn:c2pa:f09201b3-a110-48a3-a632-aabebcdb5b4e",
+                  "origin": "validation_results.activeManifest"
+                }
+              ],
+              "unmapped_status_codes": [],
+              "unattributed": [],
+              "other_manifests": [],
+              "availability_notes": []
+            }
+          }
+        ],
+        "quality": []
+      }
+    ],
+    "extraction_coverage": {
+      "segments_created": 1,
+      "skipped": [],
+      "unit": "pixels",
+      "total": 3072,
+      "in_segments": 3072,
+      "ratio": 1.0
+    },
+    "limitations": [
+      "no result in this report is a probability or a verdict",
+      "With an empty production trust list, signer_trust is unknown for every manifest, so no C2PA result can be supports_ai in R1 under the production policy. A valid AI-use declaration alone yields inconclusive / untrusted_signed_ai_declaration.",
+      "R1 checks C2PA provenance only; it does not detect AI-generated images.",
+      "C2PA results describe provenance metadata, not image content.",
+      "Absence of Content Credentials is not evidence of human origin.",
+      "Offline: remote manifests are not fetched.",
+      "SDK trust observations are separate from Litmus production trust policy.",
+      "Project timestamp evidence is constructed; real TSA validation has not been demonstrated."
+    ],
+    "offline": {
+      "socket_guard": "loopback_only",
+      "subprocess_guard": "blocked"
+    }
+  }
+]

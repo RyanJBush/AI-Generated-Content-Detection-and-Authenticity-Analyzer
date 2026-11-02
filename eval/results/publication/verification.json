@@ -1,0 +1,68 @@
+{
+  "date": "2026-11-02",
+  "status": "PASS",
+  "baseline": "1702de63278de6ef148fa10ac3d74f7aee3d875e",
+  "tests": {
+    "inside": {
+      "passed": 633,
+      "deselected": 21,
+      "seconds": 21.51
+    },
+    "outside": {
+      "passed": 633,
+      "deselected": 21,
+      "seconds": 19.75
+    },
+    "ui": {
+      "passed": 33,
+      "seconds": 1.61
+    },
+    "ignored_modules": [
+      "test_offline_guards.py",
+      "test_offline_c2pa.py",
+      "test_c2pa_d1.py",
+      "test_c2pa_d2.py",
+      "test_c2pa_d2_worker.py",
+      "test_c2pa_d3.py"
+    ]
+  },
+  "initial_failure": {
+    "outside_passed": 631,
+    "outside_failed": 1,
+    "seconds": 40.65,
+    "error": "Windows 10053 on malformed Transfer-Encoding; reproduced 4/100; repaired bounded raw drain, regression added"
+  },
+  "ruff": "PASS",
+  "pip_check": "PASS",
+  "fresh_source_wheel": "PASS",
+  "real_synthetic_cuda_twice": "PASS identical calibrated non-flagged reports",
+  "constructed_c2pa": "PASS unknown trust, valid integrity/signature, absent timestamp",
+  "frozen_scientific_verification": "PASS including strict journal and saved metrics reassembly",
+  "corrupted_report_checks": "six rejected without rescoring",
+  "publication": "private only; master and named recovery tag; post-commit audit required before push",
+  "not_run": [
+    "full slow suite",
+    "six listed test modules",
+    "alternate hardware",
+    "fresh dependency downloads",
+    "held-out scoring",
+    "new calibration",
+    "full accessibility or OS/network isolation audit"
+  ],
+  "review": "Claude read-only initial and follow-up; no blocking defects",
+  "sha256": {
+    "claude-followup-review.md": "a587fea6a5806708fda59df2b6cb8fac6e17f1a264e5eb396e5a8f35c4b722aa",
+    "claude-review.md": "8b49e182b66187818ee70d51e01460e0e8909ad9192c36442423239d7bea2609",
+    "fresh_install.json": "abb4b878b8f50f9add70f1e68a008ac16d49e69d80470c28d46fcf7fbfe70947",
+    "history_audit.json": "5fea8309077151147703101be388bdd9ed08f62e5ce41971fd8e634dbc226d8d",
+    "ui_engine_reports.json": "43b2fd7bcdeaf1f87e08053cd460675b0ef5081f279aa58393c050c2a56ebe1d",
+    "ui_engine_reports_final.json": "6fe5690e6563848da96107d809ec59859752a1b55edf6f82e64d5e091bfc118d"
+  },
+  "source_sha256_lf": {
+    "src/litmus/local_ui/server.py": "9a64f619e09ef4b9be77b1a1d05dd5ea32ecf9ca62c87ac145cf44e308d02979",
+    "tests/test_local_ui.py": "195c8e0411af62130d43008d004086478e4fef087219429307fdb1685420ecbc",
+    "scripts/audit_publication.py": "d1d9dd83436cb27caf51f9eba9c69dd63a242bf701bb7e4486acce4b228da080",
+    "scripts/verify_ui_engines.py": "ecaa082353c653bb022e99816d06248d039a1f3299e04a39a435e40a35ebbd9d",
+    "pyproject.toml": "cf80057c463681f1099f68aa3ffa2ecc072f724047e67ab99ef8678f30e15378"
+  }
+}

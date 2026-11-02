@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,6 +7,8 @@ name = "litmus"
 dynamic = ["version"]
 description = "Offline evidence-reporting tool for AI-generation signals (R0 skeleton)"
 requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
     "pillow==13.0.0",
     "c2pa-python==0.38.0",
