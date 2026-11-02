@@ -21,7 +21,7 @@ REPORT_LIMITATIONS = [
     "no result in this report is a probability or a verdict",
 ]
 DETECTOR_REPORT_LIMITATIONS = [
-    "text origin score is uncalibrated in R1-B1; image analyzers are "
+    "text origin flags require exact-profile calibration; image analyzers are "
     "placeholders and there is no C2PA analysis",
     "no result in this report is a probability or a verdict",
 ]

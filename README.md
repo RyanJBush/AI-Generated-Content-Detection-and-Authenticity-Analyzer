@@ -5,7 +5,8 @@
 > R1-D image provenance is independently reviewed and closed. Approved R1-E
 > RAID data preparation (R1-E) is independently reviewed and closed, with Ryan's
 > narrow historical transfer-accounting exception. Original transfer-cap
-> compliance remains unproven. The R1-F calibration plan is proposed for review.
+> compliance remains unproven. R1-F F0–F5 is approved; calibration/freeze execution
+> is recorded separately after the stable implementation commit.
 > Later modalities and releases remain planned.
 > The retired text-only implementation is preserved in Git history at
 > `litmus-text-before-multimodal-2026-10-26` (`106a645`).
@@ -94,7 +95,8 @@ R0 and R1 are specified in detail; R2–R4 are provisional outlines. Model choic
 - Implementation: R0 foundations and R1 text/quality work are implemented;
   C2PA D1–D3 and R1-D are independently reviewed and closed. R1-E data preparation
   is independently reviewed and closed with 973 retained source groups (298 dev,
-  675 test). R1-F is proposed only; no development calibration exists yet.
+  675 test). R1-F F0–F5 is approved. The calibration implementation is verified;
+  its CUDA preflight and development run follow the stable source commit.
   Ryan accepted the specific historical redirect-body accounting uncertainty;
   this is not proof that the original cumulative transfer met its 13 GB cap.
   The downloader correction was tested offline, with no further network requests.

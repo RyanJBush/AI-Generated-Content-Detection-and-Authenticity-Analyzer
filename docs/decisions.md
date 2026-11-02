@@ -1280,3 +1280,43 @@ Production C2PA analysis stays **disabled**. The CLI image report is unchanged: 
   UI work or dependency changes. Documentation references and whitespace are
   checked; runtime suites are not rerun for these documentation-only edits.
   R1-F and R1-G remain separate approval/review gates.
+
+## 2026-11-01 — R1-F F0–F5 approval
+
+- Ryan approved docs/plans/R1-F-PLAN.md at 3f3e787 and authorized F0–F5, including
+  the specified local CUDA synthetic checks and development-only scoring.
+  Stable implementation must be committed before scoring, and scores may not
+  be retained under an old identity after hashed source changes.
+- Explicit one-way digest binding: freeze -> calibration artifact digest.
+  No artifact -> freeze digest or circular dependency. Preserve prepared data,
+  historical source reconciliation and the narrow transfer-accounting exception;
+  historical cumulative transfer compliance remains unproven.
+- No test blobs/scores, network requests, reselection, tuning, CPU fallback,
+  1% calibration, UI or new dependencies. Stop on plan identity/profile/numerical/
+  reproducibility/count failures. Final validated freeze/evidence commit is
+  submitted for independent review; R1-G remains unauthorized.
+- F0/F1 implementation replaces permissive calibration lookup/placeholder
+  application with strict schema/digest/profile matching and the exact distinct
+  negative strict 5% rule. Nine normalized scorer sources now include calibration
+  policy and dev runner; config, model/formula, loader and tokenization unchanged.
+  Report Calibration projection is preserved; opt-in help/limitations no longer
+  incorrectly say all text scores are uncalibrated. Default golden reports pass.
+- Dev runner has no test split operation; metadata projection is fixed to the
+  reviewed dev digest, data opens are restricted to its dev blobs, all Python
+  socket connects/lookups and process launches are blocked during production
+  work. Journal attempts/completions are durable and single-writer; incompatible,
+  corrupt or terminal-failure resumes stop. Explicit truncated-tail recovery
+  preserves original bytes and validates the prefix first. No outputs overwrite.
+- Pure artifact/freeze tests enforce one-way digest binding, exact thresholds/
+  ties/N, 1% refusal, invalid/ambiguous artifact diagnostics, profile/config/data/
+  lexicon/source mismatches, report/CLI serialization and Git commit proof.
+  Synthetic complete CLI pipeline tests use fake sessions/scorers, not models.
+- F1 checks before real scoring: offline regression selection excludes six
+  network/C2PA-control modules; 539 passed/21 deselected inside (16.90s), same
+  outside (15.32s). A Unicode audit caught encoding drift in a rewritten Unicode
+  fixture/docs; explicit UTF-8/escaped U+00E9 restored the intended semantics;
+  61 identity tests passed (2.35s) after that repair. No production-source change
+  after the full regression checks. Ruff/pip/whitespace pass; source audit10 files,
+  one existing docstring inventory finding, zero violations. Exact commands and
+  omissions are in r1f_implementation_verification.json. No real CUDA/model/dev
+  scoring yet; next action is the required stable implementation commit.

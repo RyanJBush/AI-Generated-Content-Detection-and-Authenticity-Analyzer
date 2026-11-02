@@ -1,9 +1,13 @@
 # R1-F implementation plan — development calibration and committed freeze
 
-**PROPOSED for independent review, 2026-11-01. NOT approved for implementation
-or scoring.** Saving this plan grants no execution permission. This planning
-task records R1-E closure and writes this proposal only; no models are loaded,
-development/test texts scored, calibration artifact created or freeze produced.
+**APPROVED by Ryan, 2026-11-01, at 3f3e787: F0–F5 including local CUDA synthetic
+checks and development-only scoring.** The implementation must be committed
+before scoring. Subsequent artifact/evidence/freeze work may not change hashed
+implementation sources and retain scores under the old identity. Explicit
+clarification: one-way binding only; the freeze records the calibration artifact
+digest, and the artifact never records a freeze digest. No R1-G authorization.
+The proposal text below is retained as the approved procedure; execution results
+are recorded separately. Historical transfer compliance remains unproven.
 
 ## 1. Goal, authority and boundary
 

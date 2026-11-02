@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "base": "3f3e787",
+  "scope": "changed and new Python files; comments/docstrings inventoried",
+  "files": [
+    "scripts/calibrate_r1f.py",
+    "src/litmus/calibration_run.py",
+    "src/litmus/cli.py",
+    "src/litmus/report.py",
+    "src/litmus/scorer/analyzer.py",
+    "src/litmus/scorer/calibration.py",
+    "src/litmus/scorer/identity.py",
+    "tests/test_calibration.py",
+    "tests/test_calibration_run.py",
+    "tests/test_scoring_identity.py"
+  ],
+  "findings": [
+    {
+      "file": "src/litmus/scorer/identity.py",
+      "line": 1,
+      "kind": "docstring",
+      "codepoints": [
+        "U+00A7"
+      ]
+    }
+  ],
+  "violations": []
+}

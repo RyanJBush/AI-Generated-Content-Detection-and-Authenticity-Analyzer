@@ -20,7 +20,8 @@ def _parser() -> argparse.ArgumentParser:
     analyze.add_argument(
         "--text-origin", choices=["placeholder", "binoculars"],
         default="placeholder",
-        help="text origin analyzer (binoculars needs models/; uncalibrated in R1-B1)",
+        help=("text origin analyzer (binoculars needs local models; "
+              "flags require exact calibration)"),
     )
     analyze.add_argument("--models-dir", metavar="DIR",
                          help="model directory (default: <repo>/models)")

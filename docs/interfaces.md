@@ -39,17 +39,21 @@ values, otherwise hashing is refused. On CPU, GPU-only fields are
 ### Source file list and `source_sha256`
 
 ```
+src/litmus/calibration_run.py
 src/litmus/config.py
 src/litmus/ingestion.py
 src/litmus/scorer/analyzer.py
 src/litmus/scorer/binoculars.py
+src/litmus/scorer/calibration.py
 src/litmus/scorer/identity.py
 src/litmus/scorer/loader.py
 src/litmus/scorer/tokenize.py
 ```
 
 `analyzer.py` and `identity.py` were added in the R1-B1 corrections: they decide
-completeness, the reported result and the hash itself.
+completeness, the reported result and the hash itself. R1-F adds calibration.py
+and calibration_run.py so calibration decisions and creation policy are hashed
+with the scorer (nine fixed sources). Scorer math/config/preprocessing are unchanged.
 
 For each path in sorted order: `entry = path + "\n" + sha256(file bytes with
 CRLF replaced by LF)`. `source_sha256 = SHA-256( UTF-8( "\n".join(entries) ) )`.
@@ -118,22 +122,45 @@ hashed, and never re-applies them. On any difference the result is
 
 ### Calibration matching
 
-Strict: a calibration file in `calibrations/*.json` applies only if its
-`scoring_config_hash` equals the runtime hash exactly. In R1-B1 no calibration
-files exist, every run is uncalibrated (`inconclusive`, reason
-`no calibration for this configuration`), and CPU runs are always uncalibrated.
-Threshold application is not implemented (R1-F); a matching file would yield
-`calibration_application_not_implemented`.
+A calibration file in `calibrations/*.json` applies only after strict artifact
+validation and exact runtime scoring_config_hash/full-field/profile agreement.
+CPU and incomplete profiles never apply calibration. Unknown schemas, non-finite
+or bool numerics, duplicate JSON keys, wrong digests, alpha other than 0.05,
+N<200 and ambiguous matching artifacts fail closed with calibration_invalid and
+an actionable diagnostic. No valid matching file yields inconclusive / no
+calibration for this configuration. One validated lookup supplies the artifact;
+it is not re-read between matching and applying its threshold.
 
-### OriginEvidence emitted by the text analyzer (`method_id = "binoculars"`)
+The artifact envelope is {payload,artifact_sha256,created}; artifact_sha256 is
+SHA-256 of canonical payload, with creation time outside scientific identity.
+The payload binds schema/procedure, full scoring configuration/hash, 5%=1/20,
+score direction/transform, strict comparison, threshold_c in machine-positive
+space, actual n_dev_negatives, above/tie counts, failed negatives, prepared and
+dev manifest identities, historical reconciliation, score-ledger digest and run ID.
+It contains no freeze digest/reference. The freeze binds the calibration file
+bytes and payload digest in one direction. Runtime report Calibration remains
+{scoring_config_hash,dev_set_id,alpha,threshold_c,n_dev_negatives,created}.
 
-`raw_score = B`, `score_direction = "lower_means_more_machine"`,
-`calibration = null`, `result = "inconclusive"`, plus `details`:
-`scored_window` (`tokens_total`, `tokens_scored`, `truncated`,
-`scored_char_range` in code points), `nll_performer`, `xent`, `n_input_tokens`,
-`n_target_tokens`, `tokenizer_vocab_size`, `model_output_dim`,
-`scoring_config_hash`, `scoring_config` (the hashed fields, which include the
-execution profile), `execution_profile_complete`, `execution_profile_failures`.
+For the lower-direction scorer r=-raw_score. A valid calibration gives supports_ai
+iff r>threshold_c, otherwise no_signal (not human-made). Equality never flags.
+N>=200 valid clean human dev scores is mandatory; choose the smallest distinct
+observed r with 20*count(r>c)<=N. No interpolation, epsilon ties or 1% calibration.
+The 5% operating point is empirical dev evidence, not guaranteed population FPR.
+
+### OriginEvidence emitted by the text analyzer (method_id=binoculars)
+
+raw_score is B, score_direction=lower_means_more_machine. Without calibration,
+result stays inconclusive; valid matching calibration supplies the existing
+Calibration projection and strict decision above. Numerical invalidity yields
+error with no raw score. Existing details preserve scored_window, nll_performer,
+xent, n_input_tokens, n_target_tokens, tokenizer_vocab_size, model_output_dim,
+scoring_config/hash and execution profile completeness/failures. Calibrated
+records also give artifact digest and procedure/transform/comparison/above/tie
+counts; they never present raw_score as a probability. Explicit creation calls
+score_text(...,apply_calibration=False) to bypass artifact lookup and label
+calibration_disabled_for_creation, while still retaining all numerical/profile
+checks. Default CLI/image/quality behavior stays unchanged; opt-in text help and
+report wording no longer incorrectly claim that all scores are uncalibrated.
 
 ## Text quality observations (R1-C2)
 
@@ -650,3 +677,57 @@ Primary/repeat scientific outputs and verification records are indexed in
 `eval/results/r1e_verification.json`. Ignored text blobs preserve exact generation
 UTF-8 bytes; consumers must avoid newline/Unicode normalization when checking
 their raw identities. Raw/index/blob contents remain local, outside Git.
+
+
+## R1-F development execution and freeze
+
+Ryan approved F0-F5 at 3f3e787, including local CUDA synthetic checks and dev-only
+scoring, with stable implementation committed first. No R1-G scoring permission.
+Prepared data, historical source reconciliation and original transfer exception
+remain unchanged; historical cumulative transfer compliance is unproven.
+
+scripts/calibrate_r1f.py operations: preflight, score-dev, audit-dev, verify-dev,
+freeze, verify-freeze and explicit recover-tail. There is no test split option.
+Default run directory is eval/results/r1f/primary. Preflight receipts are separate
+fresh processes using the existing committed B2 len512_00 synthetic input.
+Complete primary CUDA settings, local models.manifest.json file hashes, read-back
+profile and exact scoring_config_hash are required. A pre-initialized CUDA context,
+missing driver/profile metadata, CPU fallback or setting drift stops execution.
+All Python socket connects/lookups and process launches are blocked during model
+loading/scoring. These observations do not claim OS/native network isolation.
+
+load_dev validates the reviewed E envelope/ledgers, explicit source reconciliation
+and exact dev-projection digest before any text access. Scoring guards permit
+only listed dev blob paths under data/, denying raw CSV, test blobs and indexes.
+Exact UTF-8 raw bytes, E eligibility/window identities and production score window
+must agree. Production scoring uses one loaded pair, no duplicated detector math.
+Numerical/identity/profile failures are journaled then stop; terminal failures are
+not automatically retried. Every completed row is unique and bound to the immutable
+header/config/source commit and dev input. Valid negatives are clean dev humans
+only; failed positives do not remove otherwise valid negatives.
+
+The exclusive writer.lock is removed on normal exit only by its owner. Stale locks
+require inspection. Journal attempt/completion records are canonical JSONL, fsynced
+at each boundary. Resume validates the complete immutable header, projection and
+all completed rows, skipping successes and terminal failures (a terminal failure
+requires review rather than continuing automatically). An incomplete attempt may
+repeat the same row. Explicit recover-tail preserves the damaged journal and
+truncated suffix identity, validates the preceding records, and only then replaces
+the active prefix; earlier corruption is not repaired. Existing output files are
+never overwritten. Complete scores.jsonl is separate from journal attempt history.
+
+Creation independently reassembles the artifact from the validated ledger (also
+in reversed negative order) and requires byte equality. A fresh-process audit of
+the fixed first ten dev-human IDs must exactly match primary records, never replace
+them or increase N. Only then can freeze assemble artifact/failures/counts/evidence.
+Freeze binds thresholds/configuration, original E/dev/reconciliation, score and
+failure ledger hashes, implementation/ancillary sources, lexicon versions/raw-byte
+hashes, quality source hashes and verification evidence. Creation time is taken
+from the immutable header; hashes are nonrecursive. No artifact->freeze edge.
+
+verify-freeze reassembles the freeze against current files, rejects changed counts,
+artifacts, lexicons, sources or evidence, and requires tracked Git blob equality
+for the freeze and its committed input artifacts. The containing commit is read
+back externally; it cannot refer to its own future Git hash. Independent review
+must confirm the committed freeze before any future G test blob is opened. No
+G test scorer, test metrics/bootstrap or calibration portability scheme is added.

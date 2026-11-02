@@ -22,3 +22,12 @@ src/litmus/scorer/tokenize.py text eol=lf
 scripts/acquire_raid.py text eol=lf
 scripts/prepare_raid.py text eol=lf
 scripts/verify_raid_manifest.py text eol=lf
+# R1-F scientific metadata and exact-byte freeze inputs.
+eval/results/r1f/** -text
+eval/results/r1f_*.json -text
+eval/freezes/** -text
+calibrations/** -text
+src/litmus/calibration_run.py text eol=lf
+src/litmus/scorer/*.py text eol=lf
+src/litmus/offline.py text eol=lf
+scripts/calibrate_r1f.py text eol=lf
