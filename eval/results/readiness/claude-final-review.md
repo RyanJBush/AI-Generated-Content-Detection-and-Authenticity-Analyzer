@@ -2,7 +2,7 @@ I found no blocking code defects. The one thing to fix before you call this show
 
 I only read files. I ran no commands, tests, browser checks, builds or network calls, and the facts below come from reading the source. I viewed `desktop.png` but not `mobile.png`. The test counts, browser pass counts, wheel status and verifier results in your brief are claims I can't confirm. I also haven't proven that the original sources and evidence are unchanged; the parent run checked that.
 
-## F1–F3: all closed in the code
+## F1â€“F3: all closed in the code
 - **F1 Dismiss:** `app.js:137` clears the saved job ID and options (`pending=null; saveJob(null)`), unlocks the controls and says "Local work is not cancelled". `browser_recovery_checks.js:21-26` exercises this with a 500 response.
 - **F2 Logging:** `server.py:88-90` and `:134` log only the exception class and phase. `tests/test_ui_readiness.py:59-125` asserts that private message text never appears in the response or the log.
 - **F3 Quality caveats:** `app.js:85` shows them as a visible paragraph, not hidden in a details element. The screenshot I viewed matches this.
@@ -15,7 +15,7 @@ The later fixes also show up in the code: the Cc/Cf filename rejection matches t
    - the 6 accelerated-timeout, dismiss and native C2PA checks, or their 100 ms vs 30 s timer label;
    - the 881-pass/21-slow test run, or the rerun now underway;
    - Ruff, pip check, or `verify --metrics` for this branch.
-   
+
    `browser.json` and `wheel.json` also have no commit or timestamp, so they can't be tied to the final tree.
 3. **Two pending items:** the wheel rebuild after the final metadata and doc edits, and the result of the full-suite rerun.
 
@@ -30,5 +30,5 @@ The later fixes also show up in the code: the Cc/Cf filename rejection matches t
 Nobody has tested a public deployment: slow-header limits, hostile clients, multiple users, proxy exposure, native-network isolation, screen-reader use, other hardware or dependency vulnerabilities. The README tells users not to expose the service publicly (`:61`). None of this blocks a private showcase.
 
 ## Readiness (advisory)
-- **Code:** ready for a private portfolio showcase, with no open defects found in F1–F13 by reading.
-- **Evidence:** it will be ready once items 1–3 above are done: a refreshed plan, a readiness verification record tied to the final commit, and the final wheel and suite results.
+- **Code:** ready for a private portfolio showcase, with no open defects found in F1â€“F13 by reading.
+- **Evidence:** it will be ready once items 1â€“3 above are done: a refreshed plan, a readiness verification record tied to the final commit, and the final wheel and suite results.

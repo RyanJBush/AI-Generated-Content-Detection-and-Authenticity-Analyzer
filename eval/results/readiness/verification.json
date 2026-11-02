@@ -20,7 +20,7 @@
   "evidence_sha256": {
     "browser-export.json": "3cc5f339b0ba234c8975960a7e008d189deca8a513b10c9a14dec915cae8c0ee",
     "browser.json": "bbe6f2354fbbde184e3539ab85c37a433cd18309cf5be67114359f6eab0ac9e5",
-    "claude-final-review.md": "61556303d8dd122e0084959b26ff16eb64825dbd309f5595246a3a3b9771122f",
+    "claude-final-review.md": "a5b130146da7b155427c9bb124c8b246d7a7deb3049d6c0e34583dc49cc7212b",
     "claude-review.md": "c398d6768d8f042b0fd694d04c638d41903417f80e771885700ccb3c1d513530",
     "contrast.json": "dc60a4425212fc45d47d8c179d3a08107d40bdcebe4c680aa73488be404ba9fb",
     "desktop.png": "1cd92a6961526ec80567dcf9e3098763153fda395830767f31a0b539a9b21a06",
@@ -49,5 +49,6 @@
     "groups": 675,
     "metrics_sha256": "78e84cae8044d8bfec88c859fbfb245eb070d725e1a090d1d8691106330d02e5",
     "historical_transfer_compliance_proven": false
-  }
+  },
+  "review_format_note": "Original review wording retained; trailing whitespace normalized."
 }
