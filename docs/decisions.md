@@ -1756,3 +1756,17 @@ passed, 21 deselected (27.57s). Ruff, pip check and frozen scientific verifier
 passed with unchanged metrics hash. Audit uploads/untracked work preserved.
 Further migration claims in the supplied audit require primary-source validation;
 no GPU compatibility or new scientific validation is inferred from them.
+
+
+## 2026-11-02 — Audit documentation follow-up
+
+Verified listed early-history commit identities and subjects; added a portfolio
+history/roles section without rewriting earlier entries. PR #7 UI fixes are
+merged at 844b450. Platform metadata retrieved 2026-11-03T01:05:32.788118+00:00 confirms cu132 torch
+2.15.0 and cu126 torch 2.14.1 Windows cp313 entries. NVIDIA's CUDA 13.x driver
+floor is >=580; recorded 572.60 fails that candidate. The earlier PyPI filename
+was not CUDA evidence; its Windows binary contents were not inspected.
+Updated migration notes and preserved extracted metadata with URLs/timestamp.
+No install, model execution, frozen-source change or recalibration occurred.
+The supplied audit reports PR #6 merged without a separate Codex review; this
+entry does not invent such a review or treat that report as executed verification.

@@ -49,3 +49,28 @@ credentials using its tested environment. Keep text-origin off there. The draft
 release and issue #1 stay open until their explicitly scoped security criteria
 are accepted. Screen-reader speech and second-machine checks remain separate
 requirements; this metadata preflight does not fulfill them.
+
+
+## Platform correction — retrieved 2026-11-03T01:05:32.788118+00:00
+
+The prior PyPI Windows wheel observation did not establish CUDA support. Its
+dependency metadata applies NVIDIA CUDA dependencies to Linux; that alone is
+not an inspection of the Windows wheel's binary contents. Do not use the PyPI
+filename as evidence of a usable GPU candidate.
+
+The official [cu132 index](https://download.pytorch.org/whl/cu132/torch/) lists
+torch-2.15.0+cu132-cp313-cp313-win_amd64.whl. NVIDIA's
+[driver compatibility table](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#cuda-driver)
+requires driver >=580 for CUDA 13.x minor-version compatibility. The recorded
+572.60 driver does not meet that floor. This candidate fails the existing
+no-driver-update boundary. The [cu126 index](https://download.pytorch.org/whl/cu126/torch/)
+lists torch-2.14.1+cu126-cp313-cp313-win_amd64.whl. That is an alternative for
+future investigation, not an approved or tested replacement.
+
+Extracted metadata, source URLs and retrieval time are retained in
+platform-followup.json beside the original receipt. No wheel was downloaded or
+executed; full transitive compatibility and a new advisory scan of that alternative
+remain outstanding. PROFILE_FIELDS in src/litmus/scorer/identity.py includes
+driver, CUDA and library versions, so any replacement needs a new identity.
+A future calibration/evaluation protocol must use newly collected held-out data
+for a new final evaluation, not recycle the original test set for tuning.

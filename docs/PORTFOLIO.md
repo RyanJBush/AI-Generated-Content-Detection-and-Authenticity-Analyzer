@@ -68,3 +68,27 @@ human review that did not occur or validation on machines that were not tested.
 
 The strongest next milestone is resolving advisory exposure without invalidating
 historical science, followed by independent accessibility and installation checks.
+
+
+## Historical corrections and roles
+
+The decision log records Claude Code implementation and Codex review during
+early R1 work (including the R1-B2, C1/C2 and D1 closure entries). Codex later
+implemented the recruiter-readiness changes; Copilot supplied advisory triage
+in PR #4. Later Claude reviews are retained as AI review feedback. The log's
+opening entry attributes an earlier backend to Ollama per Ryan; provider identity
+was not independently captured. These are period-specific recorded roles.
+
+Earlier repository history also contains corrections that should be explainable:
+
+| Commits | Recorded history |
+|---|---|
+| 5e199d6 | Task 0 baseline for specification, roles and scaffold |
+| a9a83dc → 4c648fd | Claimed specification update followed by correction of that claim |
+| 10d6103 → 277397d | Benchmark outputs later marked invalid |
+| 1af9b7d | Production-scorer benchmark and retirement of simulated scripts |
+| 2553b6e | Later planning baseline |
+
+These commit identities and subjects were checked against Git. They are historical
+records, not validation of retired outputs. See docs/decisions.md for subsequent
+corrections and accepted evidence.

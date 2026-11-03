@@ -1,0 +1,39 @@
+{
+  "retrieved_utc": "2026-11-03T01:05:32.788118+00:00",
+  "sources": {
+    "cu132": {
+      "url": "https://download.pytorch.org/whl/cu132/torch/",
+      "matching_wheels": [
+        ">torch-2.15.0+cu132-cp313-cp313-win_amd64.whl</a>"
+      ]
+    },
+    "cu126": {
+      "url": "https://download.pytorch.org/whl/cu126/torch/",
+      "matching_wheels": [
+        ">torch-2.14.1+cu126-cp313-cp313-win_amd64.whl</a>"
+      ]
+    },
+    "pypi": {
+      "url": "https://pypi.org/pypi/torch/2.15.0/json",
+      "requires_dist": [
+        "filelock",
+        "typing-extensions>=4.13.0",
+        "setuptools>=77.0.3",
+        "sympy>=1.13.3",
+        "networkx>=2.5.1",
+        "jinja2",
+        "fsspec>=0.8.5",
+        "cuda-toolkit[cublas,cudart,cufft,cufile,cupti,cusolver,cusparse,nvjitlink,nvrtc,nvtx]==13.2.2; platform_system == \"Linux\"",
+        "cuda-bindings<14,>=13.0.3; platform_system == \"Linux\" and python_version < \"3.15\"",
+        "nvidia-cudnn-cu13==9.26.0.51; platform_system == \"Linux\"",
+        "nvidia-cusparselt-cu13==0.8.1; platform_system == \"Linux\"",
+        "nvidia-nccl-cu13==2.30.7; platform_system == \"Linux\"",
+        "nvidia-nvshmem-cu13==3.7.2; platform_system == \"Linux\"",
+        "triton~=3.9.0; platform_system == \"Linux\" and python_version < \"3.16\"",
+        "optree>=0.13.0; extra == \"optree\"",
+        "opt-einsum>=3.3; extra == \"opt-einsum\"",
+        "pyyaml; extra == \"pyyaml\""
+      ]
+    }
+  }
+}
