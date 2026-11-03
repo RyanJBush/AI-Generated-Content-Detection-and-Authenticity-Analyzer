@@ -123,3 +123,18 @@ def test_job_diagnostics_exclude_content(server, monkeypatch, caplog):
     assert job["status"] == "error"
     assert "private analysis content" not in json.dumps(job) + caplog.text
     assert "analysis (RuntimeError)" in caplog.text
+
+
+@pytest.mark.parametrize("available", [False, True])
+def test_index_exposes_model_stack_without_loading_it(server, monkeypatch, available):
+    monkeypatch.setattr(
+        module, "find_spec", lambda name: object() if available else None
+    )
+    c = http.client.HTTPConnection(*server.server_address, timeout=2)
+    c.request("GET", "/")
+    response = c.getresponse()
+    assert response.status == 200
+    body = response.read().decode()
+    assert f'name="litmus-text-stack" content="{str(available).lower()}"' in body
+    assert "@@TEXT_STACK@@" not in body
+    c.close()

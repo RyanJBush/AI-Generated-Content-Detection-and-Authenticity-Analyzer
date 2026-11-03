@@ -49,8 +49,10 @@ triage. No claim of production internet-service readiness is made.
 
 ## Ownership and assistance
 
-Ryan owns scope, approvals and the recorded project decisions. Codex assisted
-implementation/testing; Claude supplied independent code-review feedback.
+Ryan owns scope, approvals and the recorded project decisions. Claude Code and Codex assisted implementation and testing at different stages;
+Copilot performed advisory triage. Claude and Codex supplied AI review feedback.
+See the decision log for period-specific evidence. AI review does not constitute
+independent human validation.
 Present the design decisions and evidence you understand, and identify areas you
 are still learning. Do not claim sole manual authorship, production adoption,
 human review that did not occur or validation on machines that were not tested.

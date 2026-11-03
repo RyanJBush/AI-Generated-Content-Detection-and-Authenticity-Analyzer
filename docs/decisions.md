@@ -1741,3 +1741,18 @@ no direct advisory matches, as did the other proposed direct candidates. This
 is metadata evidence only. No candidate was installed, and GPU/driver/API
 compatibility is unverified. Saved responses and a proposed migration protocol
 are additive; accepted sources, dependencies, thresholds and evidence stay intact.
+
+
+## 2026-11-02 — Audit UI corrections
+
+Ryan approved confirmed UI fixes followed by evidence-based documentation
+corrections. Fixed helper overlap, literal error paths, error result heading,
+capability-aware model control, decorative arrow preservation, formatted bytes
+and mobile footer. Library availability is not model/CUDA readiness. Corrected
+portfolio attribution to distinguish AI review from human validation. Browser
+checks passed for 1366/375 pixel helper separation, arrow semantics and injected
+error paths/headings. Full suite before two new capability regressions: 883
+passed, 21 deselected (27.57s). Ruff, pip check and frozen scientific verifier
+passed with unchanged metrics hash. Audit uploads/untracked work preserved.
+Further migration claims in the supplied audit require primary-source validation;
+no GPU compatibility or new scientific validation is inferred from them.

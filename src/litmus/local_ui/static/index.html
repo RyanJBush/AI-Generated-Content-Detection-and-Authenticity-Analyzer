@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="litmus-text-stack" content="@@TEXT_STACK@@">
 <meta name="litmus-token" content="@@TOKEN@@"><title>Litmus — Local evidence</title><link rel="icon" href="data:,">
 <link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
 <body><a class="skip-link" href="#workspace">Skip to analysis</a><header><a class="wordmark" href="/">litmus<span>.</span></a><span class="local"><i></i> Local workspace</span></header>
@@ -9,11 +10,11 @@
 <p class="privacy">Files stay on this computer. Temporary uploads are normally removed after analysis; a forced stop or cleanup failure can leave a file in your temporary folder.</p></section>
 <section class="card options"><div class="section-label"><span>02</span><h2>Choose the evidence</h2></div>
 <p class="muted">All options start off. Turn on the checks you need.</p>
-<label class="option"><input id="text-origin" type="checkbox"><span><strong>Text origin signals</strong><small>Local text model · requires the installed CUDA setup. Only the first 512 tokens are scored.</small></span></label>
+<label class="option"><input id="text-origin" type="checkbox"><span><strong>Text origin signals</strong><small><span id="text-availability"></span>Local text model · requires the installed CUDA setup. Only the first 512 tokens are scored.</small></span></label>
 <label class="option"><input id="c2pa" type="checkbox"><span><strong>Image credentials</strong><small>Embedded Content Credentials, not an image detector. Signer trust is unknown under the empty trust list.</small></span></label>
 <label class="option"><input id="quality" type="checkbox"><span><strong>Content observations</strong><small>Surface patterns in text. Separate from origin evidence; not evidence of AI authorship.</small></span></label>
 <p class="status" id="status" tabindex="-1" role="status" aria-live="polite">Choose a file to begin.</p>
-<button id="analyze" type="button" disabled>Analyze file <span aria-hidden="true">→</span></button>
+<button id="analyze" type="button" disabled><span id="analyze-label">Analyze file</span> <span aria-hidden="true">→</span></button>
 <button id="retry" type="button" class="secondary" hidden>Check analysis status</button>
 <button id="forget" type="button" class="secondary" hidden>Dismiss status tracking</button>
 <p class="muted fine">Analysis may take a few minutes. Closing this tab does not cancel work. Reloading this tab can recover its latest report while the service is running.</p></section></div>
