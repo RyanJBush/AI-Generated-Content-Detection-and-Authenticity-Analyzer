@@ -2,8 +2,7 @@
 
 ## Verified preflight, 2026-11-02
 
-Queried official PyPI metadata, OSV and the PyTorch CUDA 12.4 index. Full
-responses and retrieval time are in eval/results/security-candidate/metadata-preflight.json.
+Queried official PyPI metadata, OSV and the PyTorch CUDA 12.4 index. Extracted metadata fields and retrieval time are in eval/results/security-candidate/metadata-preflight.json.
 No package was installed or upgraded during this preflight.
 
 The earlier proposed torch 2.10.0 floor is insufficient: OSV returned

@@ -14,6 +14,7 @@ import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.resources import files
+from importlib.util import find_spec
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.parse import parse_qs, unquote_to_bytes, urlsplit
@@ -240,6 +241,13 @@ class Handler(BaseHTTPRequestHandler):
             body = files("litmus.local_ui").joinpath("static", name).read_bytes()
             if name == "index.html":
                 body = body.replace(b"@@TOKEN@@", self.server.token.encode("ascii"))
+                available = all(
+                    find_spec(module) is not None
+                    for module in ("torch", "transformers")
+                )
+                body = body.replace(
+                    b"@@TEXT_STACK@@", b"true" if available else b"false"
+                )
             self._send(200, body, mime + "; charset=utf-8")
         elif re.fullmatch(r"/api/v1/jobs/[0-9a-f]{32}", target.path):
             job = self.server.service.get(target.path.rsplit("/", 1)[1])

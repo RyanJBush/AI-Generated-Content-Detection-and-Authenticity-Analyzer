@@ -4,6 +4,8 @@ const token = document.querySelector('meta[name="litmus-token"]').content;
 const fileInput = byId('file'), analyze = byId('analyze'), retry = byId('retry');
 const statusLine = byId('status'), results = byId('results'), content = byId('report-content');
 const switches = ['text-origin','quality','c2pa'].map(byId), storageKey = 'litmus-last-job';
+const textStackAvailable=document.querySelector('meta[name="litmus-text-stack"]').content==='true';
+if(!textStackAvailable){byId('text-origin').disabled=true;byId('text-availability').textContent='Unavailable in this environment — see INSTALL.md. ';}
 let chosen = null, running = false, report = null, pending = null;
 const labels = {supports_ai:'AI-generation signal',no_signal:'No signal above the calibrated threshold',inconclusive:'Inconclusive',not_supported:'Not supported',error:'Analysis error'};
 const reasons = {
@@ -31,8 +33,8 @@ function saveJob(value) {
 }
 function controls() {
   const locked = running || pending !== null;
-  fileInput.disabled=locked; switches.forEach(el=>el.disabled=locked);
-  analyze.disabled=locked || !chosen; analyze.textContent=running ? 'Analyzing…' : 'Analyze file →';
+  fileInput.disabled=locked; switches.forEach(el=>el.disabled=locked || (el.id==='text-origin'&&!textStackAvailable));
+  analyze.disabled=locked || !chosen; byId('analyze-label').textContent=running ? 'Analyzing…' : 'Analyze file';
   retry.hidden=!pending || running; byId('forget').hidden=!pending || running; analyze.setAttribute('aria-busy',String(running));
 }
 function selectFile(file) {
@@ -59,10 +61,12 @@ function list(parent,heading,values) {
   parent.append(node('h4',heading)); const ul=node('ul');
   values.forEach(value=>ul.append(node('li',String(value)))); parent.append(ul);
 }
-function readable(value){if(value.startsWith('numerical_error'))return 'The detector could not produce a valid numerical score. See the original evidence record.';return reasons[value] || value.replaceAll('_',' ');}
+function readable(value){if(value.startsWith('numerical_error'))return 'The detector could not produce a valid numerical score. See the original evidence record.';return reasons[value] || (/^[a-z0-9_]+$/.test(value)?value.replaceAll('_',' '):value);}
 function render(value) {
   report=value;content.replaceChildren();
-  byId('report-file').textContent=`${value.input.file_name} · ${value.input.detected_type||'unknown type'} · ${value.input.size_bytes} bytes`;
+  const hasErrors=value.segments.some(segment=>segment.origin.some(origin=>origin.result==='error')||segment.quality.some(observation=>observation.status==='error'));
+  byId('results-title').textContent=hasErrors?'Analysis finished with errors':'Analysis complete';
+  byId('report-file').textContent=`${value.input.file_name} · ${value.input.detected_type||'unknown type'} · ${new Intl.NumberFormat().format(value.input.size_bytes)} bytes`;
   if(!value.segments.length){const card=node('div',undefined,'evidence');card.append(node('h3','File not analyzed'));card.append(node('p',readable(value.input.ingestion.reason||value.input.ingestion.result)));content.append(card);}
   value.segments.forEach(segment=>{
     segment.origin.forEach(origin=>{
@@ -112,7 +116,7 @@ async function followJob(job) {
   if(!['completed','error'].includes(job.status))throw new Error('The job returned an unknown state.');
   const saved=pending;pending=null;
   if(job.status==='error'){saveJob(null);throw new Error(job.error);}
-  saveJob(null);render(job.report);saveJob(saved);say('Report ready. Review which checks ran, their reasons and limitations.');
+  saveJob(null);render(job.report);saveJob(saved);say(byId('results-title').textContent==='Analysis finished with errors'?'Report ready with analysis errors. Review the explanations below.':'Report ready. Review which checks ran, their reasons and limitations.',byId('results-title').textContent==='Analysis finished with errors');
 }
 function showFailure(error) {
   if(error.status===404||error.status===403){pending=null;saveJob(null);}
@@ -140,4 +144,4 @@ byId('download').addEventListener('click',()=>{
   const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)+'\n'],{type:'application/json'}));
   const link=node('a');link.href=url;link.download='litmus-report.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
-try{const saved=JSON.parse(sessionStorage.getItem(storageKey));if(saved&&/^[0-9a-f]{32}$/.test(saved.id)){pending=saved;if(saved.options){switches[0].checked=saved.options.text_origin==='on';switches[1].checked=saved.options.quality==='on';switches[2].checked=saved.options.c2pa==='on';}recover();}}catch{saveJob(null);}
+try{const saved=JSON.parse(sessionStorage.getItem(storageKey));if(saved&&/^[0-9a-f]{32}$/.test(saved.id)){pending=saved;if(saved.options){switches[0].checked=textStackAvailable&&saved.options.text_origin==='on';switches[1].checked=saved.options.quality==='on';switches[2].checked=saved.options.c2pa==='on';}recover();}}catch{saveJob(null);}
