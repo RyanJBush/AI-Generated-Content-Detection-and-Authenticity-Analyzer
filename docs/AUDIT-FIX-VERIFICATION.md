@@ -39,3 +39,7 @@ Preserved all untracked Claude outputs and docs/project-quality files. No frozen
 scientific sources, original evidence, calibration or dependency versions changed.
 No CI workflow or paid runner was enabled. Remaining audit backlog is not claimed
 complete by this patch.
+
+Follow-up browser verification used actual .venv-ui dependencies with current
+checkout source explicitly prepended (no installation change): unavailable text
+origin stayed disabled before and after a successful constructed quality report.

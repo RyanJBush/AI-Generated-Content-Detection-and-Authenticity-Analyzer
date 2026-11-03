@@ -156,7 +156,8 @@ for compatibility and scientific identity. The current UI explains disabled
 checks as "Not run" while preserving the original records verbatim.
 
 Ryan owns project scope, approvals and the recorded engineering decisions.
-Implementation and reviews used Codex and Claude Code assistance, as disclosed
+Implementation and reviews used Codex and Claude Code assistance; Copilot
+performed the dependency advisory triage, as disclosed
 in the decision log and review artifacts. This repository does not claim that
 all code was hand-written, that model reviews constitute independent human
 validation, or that a production user base exists. For an interview, the useful
