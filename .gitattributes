@@ -45,6 +45,7 @@ scripts/verify_wheel_r1.py text eol=lf
 scripts/smoke_local_ui.py text eol=lf
 eval/results/r1h/** -text
 Start-Litmus.cmd text eol=crlf
+Start-Litmus-Demo.cmd text eol=crlf
 # Publication checks are additive; historical scientific evidence is untouched.
 eval/results/publication/** text eol=lf
 scripts/verify_ui_engines.py text eol=lf
@@ -57,3 +58,4 @@ pyproject.toml text eol=lf
 tests/test_ui_readiness.py text eol=lf
 eval/results/release/** -text
 eval/results/issue-verification/** -text
+eval/results/security-candidate/** -text

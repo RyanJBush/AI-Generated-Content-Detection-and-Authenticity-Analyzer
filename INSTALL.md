@@ -34,8 +34,8 @@ All analysis options initially remain off. Leave text origin off until the model
 setup below is complete. A missing model or unsupported input is not evidence
 that content is human-made. Ctrl+C stops the server and waits for active work.
 Use `--port 8767` if 8765 is occupied. Never expose the service through a public
-proxy. `Start-Litmus.cmd` uses the research `.venv`; use the `.venv-ui` command
-above for the separate model-free demo.
+proxy. Double-click `Start-Litmus-Demo.cmd` for this model-free environment.
+`Start-Litmus.cmd` uses the separate research `.venv`.
 
 ## Optional text-origin setup
 
