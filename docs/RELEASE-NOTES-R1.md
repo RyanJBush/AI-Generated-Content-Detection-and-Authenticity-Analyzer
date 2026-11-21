@@ -1,6 +1,6 @@
 # Litmus R1 — local review candidate
 
-Private draft release. **Not security-cleared for a stable/public release.**
+Draft release. **Not security-cleared for a stable release.**
 The package's historical 0.0.0 version remains unchanged; this is a Git milestone
 snapshot, not a new PyPI distribution or a new scientific configuration.
 

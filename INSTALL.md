@@ -22,7 +22,7 @@ Use a new `.venv-ui` for this model-free demo; preserve the frozen research
 third-party packages returned no OSV advisory matches that day; this does not
 clear the optional model stack. See [verification](docs/ISSUE-VERIFICATION.md).
 
-The private repository requires access through your GitHub account. Installation
+The repository is public; no GitHub account is needed to clone it. Installation
 downloads the declared package dependencies from the configured package index.
 Open http://127.0.0.1:8765. Upload `tests/fixtures/inputs/quality.txt`, enable
 content observations, and analyze. Download JSON to retain the report. Image
@@ -76,11 +76,21 @@ recalibration or reuse of the held-out evaluation texts.
 
 The CLI prints JSON. Origin evidence and quality observations remain separate.
 To verify the saved scientific record from a full Git clone, without models or
-raw dataset texts:
+raw dataset texts, clone with line-ending conversion off. The verifier hashes
+source and evidence bytes; Git for Windows' default `core.autocrlf=true`
+rewrites some files to CRLF and makes it report `source_or_evidence_changed`.
+
+```powershell
+git clone -c core.autocrlf=false https://github.com/RyanJBush/litmus.git litmus-verify
+```
+
+From that clone, with an editable install (as above) or `$env:PYTHONPATH = "src"`:
 
 ```powershell
 .venv\Scripts\python.exe scripts\verify_r1_release.py --metrics
 ```
+
+A regular `pip install .` resolves evidence paths inside the environment instead.
 
 Do not use the retired evaluation scoring/recovery commands. A source ZIP lacks
 the Git history needed by the scientific verifier. The dataset and weights are

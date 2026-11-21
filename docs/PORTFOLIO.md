@@ -32,7 +32,7 @@ for intervals and denominators. Weaknesses are part of the result, not hidden.
 
 The UI readiness run passed 883 default tests with 21 slow tests excluded, plus
 browser and wheel checks. The subsequent dependency advisory audit found matches
-in four installed packages; the release remains a private draft pending security
+in four installed packages; the release remains a draft, not security-cleared, pending
 triage. No claim of production internet-service readiness is made.
 
 ## Five-minute demonstration

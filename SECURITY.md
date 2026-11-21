@@ -11,11 +11,10 @@ is presently advertised as security-cleared for public production use.
 
 ## Reporting a concern
 
-This repository is currently private. Authorized collaborators may open a
-minimal issue here, without credentials, private documents, model weights or
-raw dataset texts. If visibility changes, do not disclose sensitive exploit
-material in a public issue: use GitHub private vulnerability reporting if the
-Security tab offers it, or agree a private channel with the repository owner.
+This repository is public. Do not disclose sensitive exploit material in a
+public issue: use GitHub private vulnerability reporting from the Security tab.
+General bugs may be opened as minimal issues, without credentials, private
+documents, model weights or raw dataset texts.
 No response-time guarantee or staffed security team is claimed.
 
 Include the affected commit/version, relevant environment, a constructed
