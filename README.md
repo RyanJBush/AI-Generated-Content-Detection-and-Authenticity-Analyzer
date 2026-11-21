@@ -1,8 +1,9 @@
 # Litmus
 
 > **Release security status:** The 2026-11-02 advisory audit found unresolved
-> dependency matches. This is a private local review candidate, not a
-> security-cleared stable release. See [release readiness](docs/RELEASE-READINESS.md).
+> dependency matches. This public repository is a local review candidate, not a
+> security-cleared stable release. See [release readiness](docs/RELEASE-READINESS.md)
+> and the [public visibility audit](docs/PUBLIC-VISIBILITY-AUDIT.md).
 
 [Portfolio and demo narrative](docs/PORTFOLIO.md) · [Draft release notes](docs/RELEASE-NOTES-R1.md)
 
