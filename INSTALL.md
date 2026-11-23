@@ -9,7 +9,7 @@ Git is needed to clone the repository and verify the historical evidence.
 In PowerShell, from the directory where you keep projects:
 
 ```powershell
-git clone https://github.com/RyanJBush/litmus.git
+git clone https://github.com/RyanJBush/AI-Generated-Content-Detection-and-Authenticity-Analyzer.git litmus
 cd litmus
 py -3.13 -m venv .venv-ui
 .venv-ui\Scripts\python.exe -m pip install --only-binary=:all: pip==26.2.2
@@ -81,7 +81,7 @@ source and evidence bytes; Git for Windows' default `core.autocrlf=true`
 rewrites some files to CRLF and makes it report `source_or_evidence_changed`.
 
 ```powershell
-git clone -c core.autocrlf=false https://github.com/RyanJBush/litmus.git litmus-verify
+git clone -c core.autocrlf=false https://github.com/RyanJBush/AI-Generated-Content-Detection-and-Authenticity-Analyzer.git litmus-verify
 ```
 
 From that clone, with an editable install (as above) or `$env:PYTHONPATH = "src"`:

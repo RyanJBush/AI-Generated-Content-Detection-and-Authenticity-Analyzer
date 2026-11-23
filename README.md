@@ -7,7 +7,7 @@
 
 [Portfolio and demo narrative](docs/PORTFOLIO.md) · [Draft release notes](docs/RELEASE-NOTES-R1.md)
 
-[Release milestone](https://github.com/RyanJBush/litmus/milestone/1) · [Contributing](CONTRIBUTING.md) · [Security status](SECURITY.md)
+[Release milestone](https://github.com/RyanJBush/AI-Generated-Content-Detection-and-Authenticity-Analyzer/milestone/1) · [Contributing](CONTRIBUTING.md) · [Security status](SECURITY.md)
 
 **A local evidence workbench for text-origin signals, writing patterns, and image
 Content Credentials.** Upload a file, choose checks, inspect their reasons and

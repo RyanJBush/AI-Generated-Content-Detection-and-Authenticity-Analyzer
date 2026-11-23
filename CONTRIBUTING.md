@@ -2,7 +2,7 @@
 
 Start with [README.md](README.md), [installation](INSTALL.md) and the
 [release-readiness assessment](docs/RELEASE-READINESS.md). Current remaining work
-is tracked in the [R1 milestone](https://github.com/RyanJBush/litmus/milestone/1).
+is tracked in the [R1 milestone](https://github.com/RyanJBush/AI-Generated-Content-Detection-and-Authenticity-Analyzer/milestone/1).
 
 Open a focused issue before a substantial feature or dependency change. Use a
 branch and pull request; describe the user-visible problem, change and actual
