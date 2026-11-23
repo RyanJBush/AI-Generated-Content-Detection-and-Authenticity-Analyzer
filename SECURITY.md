@@ -5,7 +5,7 @@ hardened public web service. Keep its loopback server off public proxies.
 
 The current draft release has unresolved dependency advisory matches. See the
 [dated assessment](docs/RELEASE-READINESS.md) and
-[tracking issue](https://github.com/RyanJBush/litmus/issues/1). Passing tests or
+[tracking issue](https://github.com/RyanJBush/AI-Generated-Content-Detection-and-Authenticity-Analyzer/issues/1). Passing tests or
 pip check does not establish absence of vulnerabilities. No supported version
 is presently advertised as security-cleared for public production use.
 
